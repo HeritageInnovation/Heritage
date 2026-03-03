@@ -13,7 +13,7 @@ export function Footer() {
             </span>
           </div>
           <p className="text-muted-foreground text-xs leading-relaxed max-w-xs font-sans">
-            Institutional-grade Real World Asset auctions with sovereign
+            Institutional-grade Real World Asset tranding with sovereign
             custody and cryptographic proof of integrity.
           </p>
         </div>
@@ -83,7 +83,7 @@ export function Footer() {
           MMXXVI RICKY PARK. ALL RIGHTS RESERVED.
         </p>
         <p className="text-[10px] tracking-[0.2em] text-muted-foreground font-sans">
-          ZURICH / SINGAPORE / LONDON / DUBAI
+          ZURICH / SINGAPORE / LONDON / DUBAI / HONG KONG / BANGKOK
         </p>
       </div>
     </footer>
