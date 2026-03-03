@@ -27,7 +27,7 @@ export function HeroSection() {
           <div className="flex items-center gap-2">
             <Shield className="w-3.5 h-3.5 text-gold" />
             <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans">
-              51% Physical Integrity Protocol
+              Physical Integrity Protocol
             </span>
           </div>
         </div>
@@ -49,7 +49,7 @@ export function HeroSection() {
           <div className="lg:col-span-5 lg:pl-8">
             <div className="border-l border-gold/30 pl-6 lg:pl-8">
               <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md font-sans">
-                Institutional-grade Real World Asset auctions with sovereign custody,
+                Institutional-grade Real World Asset auctions & trades with sovereign custody,
                 multi-jurisdictional insurance, and cryptographic proof of physical
                 integrity.
               </p>
@@ -89,7 +89,7 @@ export function HeroSection() {
         <div className="mt-16 lg:mt-24 flex items-center gap-3">
           <ArrowDown className="w-4 h-4 text-gold animate-bounce" />
           <span className="text-[10px] tracking-[0.3em] text-muted-foreground uppercase font-sans">
-            Explore Curated Lots
+            Explore Curated Lots (Demo)
           </span>
         </div>
       </div>
