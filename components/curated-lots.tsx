@@ -171,7 +171,7 @@ export function CuratedLots() {
             </span>
           </div>
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
-            Curated Lots (DEMO)
+            Curated Lots
           </h2>
         </div>
         <div className="flex items-center gap-6">
