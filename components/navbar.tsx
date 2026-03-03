@@ -32,10 +32,10 @@ export function Navbar() {
         {/* Logo */}
         <a href="#" className="flex flex-col leading-none">
           <span className="font-serif text-lg tracking-[0.15em] text-ivory">
-            RICKY PARK
+            RICKY PARK (DEMO)
           </span>
           <span className="text-[10px] tracking-[0.35em] text-gold uppercase mt-0.5">
-            Auction House
+            RWA Auction & Trade House
           </span>
         </a>
 
