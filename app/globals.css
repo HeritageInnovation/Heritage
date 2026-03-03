@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #06060A;
+  --foreground: #E8E4DE;
+  --card: #0C0C12;
+  --card-foreground: #E8E4DE;
+  --popover: #0C0C12;
+  --popover-foreground: #E8E4DE;
+  --primary: #B8977E;
+  --primary-foreground: #06060A;
+  --secondary: #141419;
+  --secondary-foreground: #E8E4DE;
+  --muted: #10101A;
+  --muted-foreground: #6B6A72;
+  --accent: #B8977E;
+  --accent-foreground: #06060A;
+  --destructive: #7F1D1D;
+  --destructive-foreground: #FCA5A5;
+  --border: #1E1E28;
+  --input: #141419;
+  --ring: #B8977E;
+  --chart-1: #B8977E;
+  --chart-2: #E8E4DE;
+  --chart-3: #6B6A72;
+  --chart-4: #B8977E;
+  --chart-5: #E8E4DE;
+  --radius: 0rem;
+  --gold: #B8977E;
+  --gold-light: #CDAF96;
+  --gold-dark: #967A64;
+  --ivory: #E8E4DE;
+  --charcoal: #141419;
+}
+
+@theme inline {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: 'DM Mono', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-ivory: var(--ivory);
+  --color-charcoal: var(--charcoal);
+  --radius-sm: calc(var(--radius));
+  --radius-md: calc(var(--radius));
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius));
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::selection {
+    background-color: #C9A84C;
+    color: #000000;
+  }
+}
+
+@layer utilities {
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #C9A84C 0%, #D4B95E 50%, #A88B3A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
