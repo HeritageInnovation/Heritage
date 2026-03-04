@@ -56,12 +56,8 @@ export default function TradePage() {
       <Navbar />
 
       <div className="pt-24 pb-16 px-6 lg:px-12">
-        {/* Prototype Header */}
-        <div className="mb-8">
-          <span className="font-mono text-xs text-gold/60 tracking-widest uppercase">
-            (Prototype)
-          </span>
-        </div>
+        {/* Prototype Title */}
+        <h1 className="text-muted-gold font-mono text-sm mb-4">(Prototype)</h1>
 
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
@@ -70,11 +66,11 @@ export default function TradePage() {
               Instant Trading
             </span>
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
             Trade Fractional
             <br />
             <span className="italic text-gold">Luxury Assets</span>
-          </h1>
+          </h2>
           <p className="text-muted-foreground mt-4 font-sans max-w-2xl">
             Swap between ETH, BTC, and USDT instantly on Ethereum Mainnet. 
             Connect your wallet to begin trading.
