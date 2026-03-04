@@ -66,6 +66,17 @@ const ASSET_MAP = {
   }
 } as const
 
+// Asset configuration with real contract addresses
+const assetConfig = {
+  GOLD: '0x1234567890123456789012345678901234567890', // Mock Gold contract
+  PATEK: '0x2345678901234567890123456789012345678901234', // Mock Patek contract
+  DIAMOND: '0x3456789012345678901234567890123456789012345', // Mock Diamond contract
+  ROTHKO: '0x4567890123456789012345678901234567890123456', // Mock Rothko contract
+  ETH: 'NATIVE', // Native ETH
+  BTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // WBTC
+  USDT: USDT_ADDRESS // USDT
+} as const
+
 // Asset groups for navigation
 const CRYPTO_ASSETS = ['ETH', 'BTC', 'USDT'] as const
 const LUXURY_ASSETS = ['GOLD', 'PATEK', 'DIAMOND', 'ROTHKO'] as const
@@ -98,9 +109,9 @@ export default function TradePage() {
     setActiveAsset(assetKey)
     // Set output token based on selected asset
     if (assetKey === 'USDT') {
-      setOutputTokenAddress(ASSET_MAP.ETH.contractAddress)
+      setOutputTokenAddress(assetConfig.ETH)
     } else {
-      setOutputTokenAddress(USDT_ADDRESS)
+      setOutputTokenAddress(assetConfig.USDT)
     }
   }
 
@@ -251,7 +262,7 @@ export default function TradePage() {
               </div>
               
               <SwapReset
-                defaultInputTokenAddress={ASSET_MAP[activeAsset].contractAddress}
+                defaultInputTokenAddress={assetConfig[activeAsset]}
                 defaultOutputTokenAddress={outputTokenAddress}
                 key={activeAsset} // Force re-render on asset change
               />

@@ -3,27 +3,9 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { TrendingUp, Activity } from "lucide-react"
 
-// Mock data for luxury assets
-const luxuryAssets = [
-  { id: "GOLD", name: "Sovereign Gold Reserve", price: 1240.50, change: 2.4, symbol: "GOLD" },
-  { id: "PATEK", name: "Patek Philippe 5711", price: 892.30, change: -1.2, symbol: "PATEK" },
-  { id: "DIAMOND", name: "Cerulean Diamond", price: 3780.00, change: 5.6, symbol: "DIAMOND" },
-  { id: "ROTHKO", name: "Rothko Study", price: 5100.00, change: 3.8, symbol: "ROTHKO" },
-]
-
-// Standard crypto assets
-const cryptoAssets = [
-  { id: "ETH", name: "Ethereum", price: 2450.80, change: 1.8, symbol: "ETH", ticker: "BINANCE:ETHUSD" },
-  { id: "BTC", name: "Bitcoin", price: 43250.00, change: 2.1, symbol: "BTC", ticker: "BINANCE:BTCUSD" },
-  { id: "USDT", name: "Tether", price: 1.00, change: 0.0, symbol: "USDT", ticker: "BINANCE:USDTUSD" },
-]
-
-// Combined assets for unified navigation
-const allAssets = [...luxuryAssets, ...cryptoAssets]
-
 export function TradingViewChart({ 
   onAssetChange,
-  initialAsset = allAssets[0]
+  initialAsset
 }: {
   onAssetChange?: (asset: any) => void
   initialAsset?: any
@@ -182,63 +164,19 @@ export function TradingViewChart({
           </div>
         </div>
 
-        {/* Unified Asset Navigation */}
-        <div className="mt-6">
-          {/* Luxury Assets Section */}
-          <div className="mb-4">
-            <h3 className="text-xs font-sans uppercase tracking-[0.3em] text-gold mb-3">Luxury Assets</h3>
-            <div className="flex flex-wrap gap-2">
-              {luxuryAssets.map((asset) => (
-                <button
-                  key={asset.id}
-                  onClick={() => handleAssetSelect(asset)}
-                  className={`text-xs px-4 py-2 border transition-all duration-300 font-sans ${
-                    selectedAsset.id === asset.id
-                      ? "border-gold bg-gold/10 text-gold"
-                      : "border-border text-muted-foreground hover:border-gold/30"
-                  }`}
-                >
-                  {asset.symbol}
-                </button>
-              ))}
+        {/* Chart Container */}
+        <div className="relative" style={{ height: "600px" }}>
+          {isChartLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-background/80">
+              <div className="animate-pulse text-gold font-serif text-xl">Loading Chart...</div>
             </div>
-          </div>
-
-          {/* Crypto Assets Section */}
-          <div>
-            <h3 className="text-xs font-sans uppercase tracking-[0.3em] text-muted-foreground mb-3">Trading Pairs</h3>
-            <div className="flex flex-wrap gap-2">
-              {cryptoAssets.map((asset) => (
-                <button
-                  key={asset.id}
-                  onClick={() => handleAssetSelect(asset)}
-                  className={`text-xs px-4 py-2 border transition-all duration-300 font-sans ${
-                    selectedAsset.id === asset.id
-                      ? "border-gold bg-gold/10 text-gold"
-                      : "border-border text-muted-foreground hover:border-gold/30"
-                  }`}
-                >
-                  {asset.symbol}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
+          <div
+            id="tradingview_chart"
+            ref={chartContainerRef}
+            className="absolute inset-0"
+          />
         </div>
-      </div>
-
-      {/* Chart Container */}
-      <div className="relative" style={{ height: "600px" }}>
-        {isChartLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/80">
-            <div className="animate-pulse text-gold font-serif text-xl">Loading Chart...</div>
-          </div>
-        )}
-        <div
-          id="tradingview_chart"
-          ref={chartContainerRef}
-          className="absolute inset-0"
-        />
-      </div>
 
       {/* Market Statistics */}
       <div className="border-t border-border p-4 lg:p-6">
