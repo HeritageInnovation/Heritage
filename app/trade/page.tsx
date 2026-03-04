@@ -13,6 +13,13 @@ import { USDT_ADDRESS } from '@/constants/addresses'
 import { getUniswapProvider } from '@/lib/uniswap-bridge'
 import '@uniswap/widgets/fonts.css'
 
+// Supported assets for trading
+const SUPPORTED_ASSETS = [
+  { symbol: 'ETH', ticker: 'BINANCE:ETHUSD', address: 'NATIVE' },
+  { symbol: 'BTC', ticker: 'BINANCE:BTCUSD', address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599' },
+  { symbol: 'USDT', ticker: 'BINANCE:USDTUSD', address: USDT_ADDRESS },
+]
+
 // Dynamically import SwapWidget with SSR disabled
 const SwapWidget = dynamicImport(
   () => import("@uniswap/widgets").then((mod) => mod.SwapWidget),
@@ -66,9 +73,17 @@ function useUniswapProvider() {
 export default function TradePage() {
   const provider = useUniswapProvider()
   const [mounted, setMounted] = useState(false)
+  
+  // Centralized trade state
+  const [activeAsset, setActiveAsset] = useState(SUPPORTED_ASSETS[0]) // Default to ETH
+  const [isChartReady, setIsChartReady] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    // Re-apply window.Browser.T patch for stability
+    if (typeof window !== 'undefined') {
+      (window as any).Browser = (window as any).Browser || { T: () => {} };
+    }
   }, [])
 
   if (!mounted) {
@@ -98,17 +113,39 @@ export default function TradePage() {
           </p>
         </div>
 
+        {/* Asset Selection Buttons */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4">
+            {SUPPORTED_ASSETS.map((asset) => (
+              <button
+                key={asset.symbol}
+                onClick={() => setActiveAsset(asset)}
+                className={`px-6 py-3 rounded-lg border transition-all duration-300 font-sans text-sm tracking-[0.2em] uppercase ${
+                  activeAsset.symbol === asset.symbol
+                    ? 'border-gold bg-gold/10 text-gold shadow-lg shadow-gold/20'
+                    : 'border-border bg-card text-muted-foreground hover:border-gold/50 hover:text-gold'
+                }`}
+              >
+                {asset.symbol}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="lg:col-span-1">
-            <TradingViewChart />
+            <TradingViewChart 
+              key={activeAsset.ticker} 
+              symbol={activeAsset.ticker}
+            />
           </div>
 
           <div className="lg:col-span-1">
             <div className="border border-border bg-card p-6">
               <div className="mb-6">
-                <h2 className="font-serif text-2xl text-ivory mb-2">Swap</h2>
+                <h2 className="font-serif text-2xl text-ivory mb-2">Swap {activeAsset.symbol}</h2>
                 <p className="text-muted-foreground text-sm font-sans">
-                  ETH to USDT on Ethereum
+                  {activeAsset.symbol} to USDT on Ethereum
                 </p>
               </div>
               
@@ -116,10 +153,11 @@ export default function TradePage() {
                 <SwapWidget
                   theme={heritageTheme}
                   provider={provider || undefined}
-                  defaultInputTokenAddress="NATIVE"
+                  defaultInputTokenAddress={activeAsset.address}
                   defaultOutputTokenAddress={USDT_ADDRESS}
                   tokenList={filteredTokens}
                   width="100%"
+                  key={activeAsset.address} // Force re-render on asset change
                 />
               </div>
 

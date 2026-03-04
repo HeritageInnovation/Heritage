@@ -27,9 +27,10 @@ declare global {
 
 interface TradingViewChartProps {
   height?: number
+  symbol?: string
 }
 
-export function TradingViewChart({ height = 600 }: TradingViewChartProps) {
+export function TradingViewChart({ height = 600, symbol = "BINANCE:ETHUSD" }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export function TradingViewChart({ height = 600 }: TradingViewChartProps) {
         container_id: containerRef.current.id,
         width: "100%",
         height: height,
-        symbol: "BINANCE:ETHUSD",
+        symbol: symbol,
         interval: "D",
         theme: "dark",
         style: "1",
@@ -53,7 +54,7 @@ export function TradingViewChart({ height = 600 }: TradingViewChartProps) {
         locale: "en",
       })
     }
-  }, [height])
+  }, [height, symbol])
 
   return (
     <div 
