@@ -7,10 +7,10 @@ import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
 import { useActiveAccount } from "thirdweb/react"
-import dynamic from "next/dynamic"
+import dynamicImport from "next/dynamic"
 
 // Dynamically import SwapWidget with SSR disabled
-const SwapWidget = dynamic(
+const SwapWidget = dynamicImport(
   () => import("@uniswap/widgets").then((mod) => mod.SwapWidget),
   {
     ssr: false,
@@ -138,7 +138,7 @@ export default function TradePage() {
             <span className="italic text-gold">Luxury Assets</span>
           </h1>
           <p className="text-muted-foreground mt-4 font-sans max-w-2xl">
-            Swap between USDT and ETH instantly on Ethereum Mainnet. 
+            Swap between ETH and USDT instantly on Ethereum Mainnet. 
             Connect your wallet to begin trading.
           </p>
         </div>
@@ -153,15 +153,15 @@ export default function TradePage() {
               <div className="mb-6">
                 <h2 className="font-serif text-2xl text-ivory mb-2">Swap</h2>
                 <p className="text-muted-foreground text-sm font-sans">
-                  USDT to ETH on Ethereum
+                  ETH to USDT on Ethereum
                 </p>
               </div>
               
               <SwapWidget
                 theme={luxuryTheme}
                 provider={provider || undefined}
-                defaultInputTokenAddress={USDT_ADDRESS}
-                defaultOutputTokenAddress="NATIVE"
+                defaultInputTokenAddress="NATIVE"
+                defaultOutputTokenAddress={USDT_ADDRESS}
                 tokenList="https://cloudflare-ipfs.com/ipns/tokens.uniswap.org"
                 width="100%"
               />
