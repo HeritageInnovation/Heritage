@@ -3,22 +3,31 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { TrendingUp, Activity } from "lucide-react"
 
+interface Asset {
+  id: string
+  name: string
+  price: number
+  change: number
+  symbol: string
+  ticker: string
+}
+
 export function TradingViewChart({ 
   onAssetChange,
   initialAsset,
   timeframe = "1D"
 }: {
-  onAssetChange?: (asset: any) => void
-  initialAsset?: any
+  onAssetChange?: (asset: Asset) => void
+  initialAsset: Asset
   timeframe?: string
 }) {
   const chartContainerRef = useRef<HTMLDivElement>(null)
-  const [selectedAsset, setSelectedAsset] = useState(initialAsset)
+  const [selectedAsset, setSelectedAsset] = useState<Asset>(initialAsset)
   const [chartWidget, setChartWidget] = useState<any>(null)
   const [isChartLoading, setIsChartLoading] = useState(true)
 
   // Handle asset selection
-  const handleAssetSelect = useCallback((asset: any) => {
+  const handleAssetSelect = useCallback((asset: Asset) => {
     setSelectedAsset(asset)
     onAssetChange?.(asset)
   }, [onAssetChange])
@@ -146,8 +155,9 @@ export function TradingViewChart({
               </div>
             </div>
           </div>
+
+          </div>
         </div>
-      </div>
 
       {/* Chart Container */}
       <div className="relative" style={{ height: "600px" }}>
