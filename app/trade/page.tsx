@@ -11,12 +11,64 @@ import dynamicImport from "next/dynamic"
 import { USDT_ADDRESS } from '@/constants/addresses'
 import '@uniswap/widgets/fonts.css'
 
-// Supported assets for trading
-const SUPPORTED_ASSETS = [
-  { symbol: 'ETH', ticker: 'BINANCE:ETHUSD', address: 'NATIVE' },
-  { symbol: 'BTC', ticker: 'BINANCE:BTCUSD', address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599' },
-  { symbol: 'USDT', ticker: 'BINANCE:USDTUSD', address: USDT_ADDRESS },
-]
+// Unified asset map with all required data
+const ASSET_MAP = {
+  // Crypto Assets
+  ETH: {
+    fullName: 'Ethereum',
+    contractAddress: 'NATIVE',
+    currentPrice: 2450.80,
+    dailyChange: 1.8,
+    ticker: 'BINANCE:ETHUSD'
+  },
+  BTC: {
+    fullName: 'Bitcoin',
+    contractAddress: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+    currentPrice: 43250.00,
+    dailyChange: 2.1,
+    ticker: 'BINANCE:BTCUSD'
+  },
+  USDT: {
+    fullName: 'Tether',
+    contractAddress: USDT_ADDRESS,
+    currentPrice: 1.00,
+    dailyChange: 0.0,
+    ticker: 'BINANCE:USDTUSD'
+  },
+  // Luxury Assets
+  GOLD: {
+    fullName: 'Sovereign Gold Reserve',
+    contractAddress: '0x1234567890123456789012345678901234567890', // Mock luxury asset contract
+    currentPrice: 1240.50,
+    dailyChange: 2.4,
+    ticker: 'NASDAQ:AAPL' // Placeholder for luxury assets
+  },
+  PATEK: {
+    fullName: 'Patek Philippe 5711',
+    contractAddress: '0x2345678901234567890123456789012345678901234', // Mock luxury asset contract
+    currentPrice: 892.30,
+    dailyChange: -1.2,
+    ticker: 'NASDAQ:AAPL' // Placeholder for luxury assets
+  },
+  DIAMOND: {
+    fullName: 'Cerulean Diamond',
+    contractAddress: '0x3456789012345678901234567890123456789012345', // Mock luxury asset contract
+    currentPrice: 3780.00,
+    dailyChange: 5.6,
+    ticker: 'NASDAQ:AAPL' // Placeholder for luxury assets
+  },
+  ROTHKO: {
+    fullName: 'Rothko Study',
+    contractAddress: '0x4567890123456789012345678901234567890123456', // Mock luxury asset contract
+    currentPrice: 5100.00,
+    dailyChange: 3.8,
+    ticker: 'NASDAQ:AAPL' // Placeholder for luxury assets
+  }
+} as const
+
+// Asset groups for navigation
+const CRYPTO_ASSETS = ['ETH', 'BTC', 'USDT'] as const
+const LUXURY_ASSETS = ['GOLD', 'PATEK', 'DIAMOND', 'ROTHKO'] as const
 
 // Dynamically import SwapReset with SSR disabled
 const SwapReset = dynamicImport(
@@ -38,7 +90,19 @@ export default function TradePage() {
   const [userRole, setUserRole] = useState<"participant" | "professional" | "investor">("participant")
   
   // Centralized trade state
-  const [activeAsset, setActiveAsset] = useState(SUPPORTED_ASSETS[0]) // Default to ETH
+  const [activeAsset, setActiveAsset] = useState<keyof typeof ASSET_MAP>('ETH') // Default to ETH
+  const [outputTokenAddress, setOutputTokenAddress] = useState(USDT_ADDRESS)
+
+  // Handle asset selection
+  const handleAssetSelect = (assetKey: keyof typeof ASSET_MAP) => {
+    setActiveAsset(assetKey)
+    // Set output token based on selected asset
+    if (assetKey === 'USDT') {
+      setOutputTokenAddress(ASSET_MAP.ETH.contractAddress)
+    } else {
+      setOutputTokenAddress(USDT_ADDRESS)
+    }
+  }
 
   useLayoutEffect(() => {
     // Apply window.Browser patch immediately on load to kill Brotli crash
@@ -113,27 +177,44 @@ export default function TradePage() {
           </div>
         </div>
 
-        {/* Curated Lot Buttons */}
+        {/* Unified Asset Navigation Bar */}
         <div className="mb-8">
-          <div className="flex items-center gap-4">
-            {SUPPORTED_ASSETS.map((asset) => (
-              <button
-                key={asset.symbol}
-                onClick={() => setActiveAsset(asset)}
-                className={`px-6 py-3 rounded-xl border transition-all duration-300 font-sans text-sm tracking-[0.2em] uppercase backdrop-blur-md bg-white/5 border-white/10 ${
-                  activeAsset.symbol === asset.symbol
-                    ? 'border-gold-500 shadow-[0_0_15px_rgba(218,165,32,0.4)]'
-                    : 'border-white/20 hover:border-gold-500/50'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center">
-                    <span className="text-xs font-bold text-gold">{asset.symbol[0]}</span>
-                  </div>
-                  {asset.symbol}
-                </div>
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Crypto Assets */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-sans uppercase tracking-[0.3em] text-muted-foreground mr-2">Crypto:</span>
+              {CRYPTO_ASSETS.map((assetKey) => (
+                <button
+                  key={assetKey}
+                  onClick={() => handleAssetSelect(assetKey)}
+                  className={`px-4 py-2 rounded-lg border transition-all duration-300 font-sans text-sm tracking-[0.2em] uppercase backdrop-blur-md ${
+                    activeAsset === assetKey
+                      ? 'bg-gold/20 border-gold text-gold'
+                      : 'bg-white/5 border-white/20 text-muted-foreground hover:border-gold/50 hover:text-gold'
+                  }`}
+                >
+                  {assetKey}
+                </button>
+              ))}
+            </div>
+
+            {/* Luxury Assets */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-sans uppercase tracking-[0.3em] text-gold mr-2">Luxury:</span>
+              {LUXURY_ASSETS.map((assetKey) => (
+                <button
+                  key={assetKey}
+                  onClick={() => handleAssetSelect(assetKey)}
+                  className={`px-4 py-2 rounded-lg border transition-all duration-300 font-sans text-sm tracking-[0.2em] uppercase backdrop-blur-md ${
+                    activeAsset === assetKey
+                      ? 'bg-gold/20 border-gold text-gold'
+                      : 'bg-white/5 border-white/20 text-muted-foreground hover:border-gold/50 hover:text-gold'
+                  }`}
+                >
+                  {assetKey}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -141,10 +222,21 @@ export default function TradePage() {
           <div className="lg:col-span-1">
             <TradingViewChart 
               onAssetChange={(asset) => {
-                // Update the active asset for swap widget
-                if (asset.ticker) {
-                  setActiveAsset(asset)
+                // Update the active asset when chart changes
+                const assetKey = Object.keys(ASSET_MAP).find(
+                  key => ASSET_MAP[key as keyof typeof ASSET_MAP].ticker === asset.ticker
+                ) as keyof typeof ASSET_MAP
+                if (assetKey) {
+                  handleAssetSelect(assetKey)
                 }
+              }}
+              initialAsset={{
+                id: activeAsset,
+                name: ASSET_MAP[activeAsset].fullName,
+                price: ASSET_MAP[activeAsset].currentPrice,
+                change: ASSET_MAP[activeAsset].dailyChange,
+                symbol: activeAsset,
+                ticker: ASSET_MAP[activeAsset].ticker
               }}
             />
           </div>
@@ -152,16 +244,16 @@ export default function TradePage() {
           <div className="lg:col-span-1">
             <div className="border border-border bg-card p-6">
               <div className="mb-6">
-                <h2 className="font-serif text-2xl text-ivory mb-2">Swap {activeAsset.symbol}</h2>
+                <h2 className="font-serif text-2xl text-ivory mb-2">Swap {activeAsset}</h2>
                 <p className="text-muted-foreground text-sm font-sans">
-                  {activeAsset.symbol} to USDT on Ethereum
+                  {ASSET_MAP[activeAsset].fullName} to USDT on Ethereum
                 </p>
               </div>
               
               <SwapReset
-                defaultInputTokenAddress={activeAsset.address}
-                defaultOutputTokenAddress={USDT_ADDRESS}
-                key={activeAsset.address} // Force re-render on asset change
+                defaultInputTokenAddress={ASSET_MAP[activeAsset].contractAddress}
+                defaultOutputTokenAddress={outputTokenAddress}
+                key={activeAsset} // Force re-render on asset change
               />
 
               <div className="mt-6 pt-6 border-t border-border">
