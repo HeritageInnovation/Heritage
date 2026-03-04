@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <ThirdwebProvider client={client}>
+    <ThirdwebProvider>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </ThirdwebProvider>
   )

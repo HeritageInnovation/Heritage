@@ -6,10 +6,11 @@ import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
-import { useActiveAccount } from "thirdweb/react"
+import { useActiveAccount, useActiveWallet } from "thirdweb/react"
 import dynamicImport from "next/dynamic"
 import TOKEN_LIST from '@uniswap/default-token-list'
 import { USDT_ADDRESS } from '@/constants/addresses'
+import { getUniswapProvider } from '@/lib/uniswap-bridge'
 
 // Dynamically import SwapWidget with SSR disabled
 const SwapWidget = dynamicImport(
@@ -52,37 +53,19 @@ const luxuryTheme = {
   fontFamily: "\"Playfair Display\", Georgia, serif",
 }
 
-// Create a custom provider wrapper for Thirdweb wallet
+// Create a unified provider using the bridge
 function useUniswapProvider() {
-  const account = useActiveAccount()
+  const wallet = useActiveWallet()
   const [provider, setProvider] = useState<any>(null)
 
   useEffect(() => {
-    if (account && typeof window !== "undefined") {
-      const ethersProvider = {
-        getSigner: () => ({
-          getAddress: async () => account.address,
-          signMessage: async (message: string) => {
-            if (account.signMessage) {
-              return await account.signMessage({ message })
-            }
-            throw new Error("Signing not available")
-          },
-          signTransaction: async (tx: any) => {
-            if (account.sendTransaction) {
-              return await account.sendTransaction(tx)
-            }
-            throw new Error("Transaction signing not available")
-          },
-        }),
-        getNetwork: async () => ({ chainId: 1, name: "mainnet" }),
-        _isProvider: true,
-      }
-      setProvider(ethersProvider)
+    if (wallet && typeof window !== "undefined") {
+      const uniswapProvider = getUniswapProvider(wallet)
+      setProvider(uniswapProvider)
     } else {
       setProvider(null)
     }
-  }, [account])
+  }, [wallet])
 
   return provider
 }
