@@ -60,8 +60,13 @@ function useUniswapProvider() {
 
   useEffect(() => {
     if (wallet && typeof window !== "undefined") {
-      const uniswapProvider = getUniswapProvider(wallet)
-      setProvider(uniswapProvider)
+      try {
+        const uniswapProvider = getUniswapProvider(wallet)
+        setProvider(uniswapProvider)
+      } catch (error) {
+        console.error('Failed to get wallet provider:', error)
+        setProvider(null)
+      }
     } else {
       setProvider(null)
     }
@@ -79,30 +84,7 @@ export default function TradePage() {
   }, [])
 
   if (!mounted) {
-    return (
-      <main className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <div className="pt-24 pb-16 px-6 lg:px-12">
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-[1px] bg-gold" />
-              <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans">
-                Instant Trading
-              </span>
-            </div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
-              Trade Fractional
-              <br />
-              <span className="italic text-gold">Luxury Assets</span>
-            </h1>
-          </div>
-          <div className="h-[500px] flex items-center justify-center border border-border bg-card">
-            <div className="animate-pulse text-gold font-serif text-xl">Loading...</div>
-          </div>
-        </div>
-        <Footer />
-      </main>
-    )
+    return null
   }
 
   return (

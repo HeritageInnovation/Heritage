@@ -1,3 +1,8 @@
+// Brotli/Browser Patch: Fix ReferenceError: Browser is not defined
+if (typeof window !== 'undefined') {
+  (window as any).Browser = (window as any).Browser || { T: () => {} };
+}
+
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
@@ -56,11 +61,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Monkey patch for Uniswap widget compatibility
-  if (typeof window !== 'undefined') { 
-    (window as any).Browser = { T: () => {} }; 
-  }
-
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
