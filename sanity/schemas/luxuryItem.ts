@@ -41,7 +41,7 @@ export const luxuryItem = defineType({
       title: "Token Address",
       type: "string",
       description: "Ethereum contract address for this fractional asset token",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().regex(/^0x[a-fA-F0-9]{40}$/, { name: 'Ethereum Address', invert: false }),
     }),
     defineField({
       name: "currentBid",
