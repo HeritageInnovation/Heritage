@@ -1,0 +1,180 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { Navbar } from "@/components/navbar"
+import { TradingViewChart } from "@/components/trading-view-chart"
+import { Footer } from "@/components/footer"
+import { useActiveAccount } from "thirdweb/react"
+import dynamic from "next/dynamic"
+
+// Dynamically import SwapWidget with SSR disabled
+const SwapWidget = dynamic(
+  () => import("@uniswap/widgets").then((mod) => mod.SwapWidget),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] flex items-center justify-center border border-border bg-card">
+        <div className="animate-pulse text-gold font-serif text-xl">Loading Swap Interface...</div>
+      </div>
+    ),
+  }
+)
+
+// USDT Contract Address on Ethereum Mainnet
+const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+
+// Luxury Dark Theme for Uniswap Widget
+const luxuryTheme = {
+  primary: "#D4AF37",
+  secondary: "#B8977E",
+  container: "#050505",
+  module: "#0A0A0A",
+  accent: "#D4AF37",
+  outline: "#1E1E28",
+  dialog: "#0A0A0A",
+  scrim: "rgba(5, 5, 5, 0.8)",
+  onAccent: "#050505",
+  primaryDark: "#050505",
+  secondaryDark: "#7F1D1D",
+  onHover: "#1A1A1F",
+  deepShadow: "#000000",
+  chainBg: "#0A0A0A",
+  chainText: "#D4AF37",
+  active: "#D4AF37",
+  error: "#7F1D1D",
+  success: "#22C55E",
+  warning: "#EAB308",
+  info: "#3B82F6",
+  fontFamily: "\"Playfair Display\", Georgia, serif",
+}
+
+// Create a custom provider wrapper for Thirdweb wallet
+function useUniswapProvider() {
+  const account = useActiveAccount()
+  const [provider, setProvider] = useState<any>(null)
+
+  useEffect(() => {
+    if (account && typeof window !== "undefined") {
+      const ethersProvider = {
+        getSigner: () => ({
+          getAddress: async () => account.address,
+          signMessage: async (message: string) => {
+            if (account.signMessage) {
+              return await account.signMessage({ message })
+            }
+            throw new Error("Signing not available")
+          },
+          signTransaction: async (tx: any) => {
+            if (account.sendTransaction) {
+              return await account.sendTransaction(tx)
+            }
+            throw new Error("Transaction signing not available")
+          },
+        }),
+        getNetwork: async () => ({ chainId: 1, name: "mainnet" }),
+        _isProvider: true,
+      }
+      setProvider(ethersProvider)
+    } else {
+      setProvider(null)
+    }
+  }, [account])
+
+  return provider
+}
+
+export default function TradePage() {
+  const provider = useUniswapProvider()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <div className="pt-24 pb-16 px-6 lg:px-12">
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-[1px] bg-gold" />
+              <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans">
+                Instant Trading
+              </span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
+              Trade Fractional
+              <br />
+              <span className="italic text-gold">Luxury Assets</span>
+            </h1>
+          </div>
+          <div className="h-[500px] flex items-center justify-center border border-border bg-card">
+            <div className="animate-pulse text-gold font-serif text-xl">Loading...</div>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    )
+  }
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <Navbar />
+
+      <div className="pt-24 pb-16 px-6 lg:px-12">
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-[1px] bg-gold" />
+            <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans">
+              Instant Trading
+            </span>
+          </div>
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
+            Trade Fractional
+            <br />
+            <span className="italic text-gold">Luxury Assets</span>
+          </h1>
+          <p className="text-muted-foreground mt-4 font-sans max-w-2xl">
+            Swap between USDT and ETH instantly on Ethereum Mainnet. 
+            Connect your wallet to begin trading.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-8">
+            <TradingViewChart />
+          </div>
+
+          <div className="lg:col-span-4">
+            <div className="border border-border bg-card p-6">
+              <div className="mb-6">
+                <h2 className="font-serif text-2xl text-ivory mb-2">Swap</h2>
+                <p className="text-muted-foreground text-sm font-sans">
+                  USDT to ETH on Ethereum
+                </p>
+              </div>
+              
+              <SwapWidget
+                theme={luxuryTheme}
+                provider={provider || undefined}
+                defaultInputTokenAddress={USDT_ADDRESS}
+                defaultOutputTokenAddress="NATIVE"
+                width="100%"
+              />
+
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                  <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
+                  Powered by Uniswap Protocol
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  )
+}
