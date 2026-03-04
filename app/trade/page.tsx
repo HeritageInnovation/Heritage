@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer"
 import { useActiveAccount } from "thirdweb/react"
 import dynamicImport from "next/dynamic"
 import TOKEN_LIST from '@uniswap/default-token-list'
+import { USDT_ADDRESS } from '@/constants/addresses'
 
 // Dynamically import SwapWidget with SSR disabled
 const SwapWidget = dynamicImport(
