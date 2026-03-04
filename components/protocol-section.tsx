@@ -1,4 +1,6 @@
-import { Fingerprint, Lock, Scan, FileCheck } from "lucide-react"
+import { Fingerprint, Lock, Scan, FileCheck, ArrowRight } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 const steps = [
   {
@@ -77,6 +79,16 @@ export function ProtocolSection() {
             </p>
           </div>
         ))}
+      </div>
+
+      {/* CTA Button */}
+      <div className="mt-16 text-center">
+        <Link href="/protocol">
+          <Button className="bg-gold hover:bg-gold/90 text-black font-sans">
+            VIEW PROTOCOL
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </Link>
       </div>
     </section>
   )

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 import { 
   Shield, 
   Users, 
@@ -16,10 +17,11 @@ import {
   Lock, 
   Zap,
   ArrowDown,
-  Circle
+  Circle,
+  RefreshCw
 } from "lucide-react"
 
-export default function SystemPage() {
+export default function ProtocolPage() {
   const [activeLifecycleStep, setActiveLifecycleStep] = useState(0)
 
   const lifecycleSteps = [
@@ -156,7 +158,7 @@ export default function SystemPage() {
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 bg-gold/20 text-gold border-gold/30 text-sm">
               <Shield className="w-4 h-4 mr-2" />
-              Heritage Protocol
+              Heritage PROTOCOL
             </Badge>
             <h1 className="font-serif text-6xl lg:text-7xl text-ivory leading-[0.9] mb-6">
               The Future of
@@ -222,7 +224,7 @@ export default function SystemPage() {
         <div className="text-center mb-16">
           <h2 className="font-serif text-4xl text-ivory mb-4">Asset Lifecycle</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From submission to trading - the complete journey of a luxury asset
+            From submission to trading - complete journey of a luxury asset
           </p>
         </div>
 
@@ -431,6 +433,18 @@ export default function SystemPage() {
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Back to Top Button */}
+      <div className="container mx-auto px-6 py-12">
+        <div className="text-center">
+          <Link href="/protocol">
+            <Button className="bg-gold hover:bg-gold/90 text-black font-sans">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Back to Top
+            </Button>
+          </Link>
         </div>
       </div>
 

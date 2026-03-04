@@ -9,9 +9,7 @@ const navLinks = [
   { label: "LOTS", href: "/#lots" },
   { label: "TRADE", href: "/trade" },
   { label: "PORTFOLIO", href: "/portfolio" },
-  { label: "PROTOCOL", href: "/#protocol" },
-  { label: "SECURITY", href: "/#security" },
-  { label: "PROVENANCE", href: "/#provenance" },
+  { label: "PROTOCOL", href: "/protocol" },
   { label: "SUPPORT", href: "/support" },
 ]
 
