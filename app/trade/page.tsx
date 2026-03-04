@@ -23,8 +23,8 @@ const SwapWidget = dynamicImport(
   }
 )
 
-// USDT Contract Address on Ethereum Mainnet
-const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+// Filter tokens to only include valid Ethereum addresses
+const filteredTokens = TOKEN_LIST.tokens.filter(token => token.address.match(/^0x[a-fA-F0-9]{40}$/))
 
 // Luxury Dark Theme for Uniswap Widget
 const luxuryTheme = {
@@ -163,7 +163,7 @@ export default function TradePage() {
                 provider={provider || undefined}
                 defaultInputTokenAddress="NATIVE"
                 defaultOutputTokenAddress={USDT_ADDRESS}
-                tokenList={TOKEN_LIST.tokens}
+                tokenList={filteredTokens}
                 width="100%"
               />
 
