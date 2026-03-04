@@ -130,10 +130,9 @@ export default function TradePage() {
                 </div>
               </div>
             </div>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
-  )
-}
+            </div> {/* Close for the main content grid */}
+            <Footer />
+          </div> {/* Close for the inner container */}
+        </main>
+      );
+    }
