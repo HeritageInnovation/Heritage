@@ -8,6 +8,7 @@ import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
 import { useActiveAccount } from "thirdweb/react"
 import dynamicImport from "next/dynamic"
+import TOKEN_LIST from '@uniswap/default-token-list'
 
 // Dynamically import SwapWidget with SSR disabled
 const SwapWidget = dynamicImport(
@@ -162,7 +163,7 @@ export default function TradePage() {
                 provider={provider || undefined}
                 defaultInputTokenAddress="NATIVE"
                 defaultOutputTokenAddress={USDT_ADDRESS}
-                tokenList="https://cloudflare-ipfs.com/ipns/tokens.uniswap.org"
+                tokenList={TOKEN_LIST.tokens}
                 width="100%"
               />
 

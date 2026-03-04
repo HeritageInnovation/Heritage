@@ -1,16 +1,13 @@
 import { createThirdwebClient } from "thirdweb";
 import { defineChain } from "thirdweb";
 
-const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || "TEMP_ID";
+export const client = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || 'BUILD_TIME_ID_HOLDER',
+});
 
 if (!process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID) {
-  console.warn("NEXT_PUBLIC_THIRDWEB_CLIENT_ID is missing - using TEMP_ID for build safety");
+  console.warn('⚠️ Heritage Warning: NEXT_PUBLIC_THIRDWEB_CLIENT_ID is missing.');
 }
-
-export const client = createThirdwebClient({
-  clientId,
-  ...(process.env.THIRDWEB_SECRET_KEY ? { secretKey: process.env.THIRDWEB_SECRET_KEY } : {}),
-});
 
 // Example: Ethereum Mainnet
 export const ethereum = defineChain(1);
