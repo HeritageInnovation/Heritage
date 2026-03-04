@@ -6,6 +6,7 @@ import { useEffect, useState, useLayoutEffect } from "react"
 import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
+import { CurationDashboard } from "@/components/Curation/CurationDashboard"
 import dynamicImport from "next/dynamic"
 import { USDT_ADDRESS } from '@/constants/addresses'
 import '@uniswap/widgets/fonts.css'
@@ -32,6 +33,9 @@ const SwapReset = dynamicImport(
 
 export default function TradePage() {
   const [mounted, setMounted] = useState(false)
+  const [showCurationMatrix, setShowCurationMatrix] = useState(false)
+  const [userAddress, setUserAddress] = useState("0x1234567890123456789012345678901234567890") // Mock user address
+  const [userRole, setUserRole] = useState<"participant" | "professional" | "investor">("participant")
   
   // Centralized trade state
   const [activeAsset, setActiveAsset] = useState(SUPPORTED_ASSETS[0]) // Default to ETH
@@ -49,6 +53,10 @@ export default function TradePage() {
 
   if (!mounted) {
     return null
+  }
+
+  if (showCurationMatrix) {
+    return <CurationDashboard userAddress={userAddress} userRole={userRole} />
   }
 
   return (
@@ -75,6 +83,34 @@ export default function TradePage() {
             Swap between ETH, BTC, and USDT instantly on Ethereum Mainnet. 
             Connect your wallet to begin trading.
           </p>
+        </div>
+
+        {/* Curation Matrix Toggle */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowCurationMatrix(true)}
+              className="px-6 py-3 rounded-xl border transition-all duration-300 font-sans text-sm tracking-[0.2em] uppercase backdrop-blur-md bg-gold/10 border-gold/30 text-gold hover:bg-gold/20 hover:border-gold/50"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center">
+                  <span className="text-xs font-bold text-gold">C</span>
+                </div>
+                Curation Matrix
+              </div>
+            </button>
+            
+            {/* Role Selector for Demo */}
+            <select
+              value={userRole}
+              onChange={(e) => setUserRole(e.target.value as any)}
+              className="px-4 py-2 rounded-lg border border-border bg-background text-ivory text-sm"
+            >
+              <option value="participant">Participant</option>
+              <option value="professional">Professional</option>
+              <option value="investor">Investor</option>
+            </select>
+          </div>
         </div>
 
         {/* Curated Lot Buttons */}
