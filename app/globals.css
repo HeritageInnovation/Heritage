@@ -57,3 +57,38 @@
     background-clip: text;
   }
 }
+
+/* Uniswap Widget Heritage Overrides */
+@layer components {
+  /* Override Uniswap widget Connect Wallet button */
+  .uni-widget button[class*="connect"],
+  .uni-widget [class*="connect-wallet"],
+  .uni-widget [class*="button"]:has([class*="wallet"]) {
+    background: #DAA520 !important;
+    border-color: #DAA520 !important;
+    color: #000000 !important;
+  }
+  
+  .uni-widget button[class*="connect"]:hover,
+  .uni-widget [class*="connect-wallet"]:hover,
+  .uni-widget [class*="button"]:has([class*="wallet"]):hover {
+    background: #C9A84C !important;
+    border-color: #C9A84C !important;
+  }
+
+  /* Override Uniswap widget primary action buttons */
+  .uni-widget button[class*="primary"],
+  .uni-widget button[class*="submit"],
+  .uni-widget button[class*="swap"] {
+    background: #DAA520 !important;
+    border-color: #DAA520 !important;
+    color: #000000 !important;
+  }
+
+  .uni-widget button[class*="primary"]:hover,
+  .uni-widget button[class*="submit"]:hover,
+  .uni-widget button[class*="swap"]:hover {
+    background: #C9A84C !important;
+    border-color: #C9A84C !important;
+  }
+}

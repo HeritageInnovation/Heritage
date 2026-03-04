@@ -12,10 +12,26 @@ import '@uniswap/widgets/fonts.css'
 const filteredTokens = TOKEN_LIST.tokens.filter(token => token.address.match(/^0x[a-fA-F0-9]{40}$/))
 
 // Heritage Theme for Uniswap Widget
-const heritageTheme = {
+const HERITAGE_THEME = {
+  // Core colors
   container: '#000000',
   accent: '#DAA520',
   outline: '#1A1A1A',
+  
+  // Text and interactive elements
+  primary: '#FFFFFF',
+  secondary: '#A0A0A0',
+  interactive: '#DAA520',
+  
+  // Module and dialog backgrounds
+  module: '#111111',
+  dialog: '#000000',
+  
+  // Border and layout
+  borderRadius: 12,
+  
+  // Font family
+  fontFamily: "\"Playfair Display\", Georgia, serif",
 }
 
 // Create a unified provider using the bridge
@@ -63,7 +79,7 @@ export function SwapReset({
   return (
     <div className="mx-auto" style={{ maxWidth: '480px' }}>
       <SwapWidget
-        theme={heritageTheme}
+        theme={HERITAGE_THEME}
         provider={provider || undefined}
         defaultInputTokenAddress={defaultInputTokenAddress}
         defaultOutputTokenAddress={defaultOutputTokenAddress}
