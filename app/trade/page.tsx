@@ -68,10 +68,10 @@ const ASSET_MAP = {
 
 // Asset configuration with real contract addresses
 const assetConfig = {
-  GOLD: '0x1234567890123456789012345678901234567890', // Mock Gold contract
-  PATEK: '0x2345678901234567890123456789012345678901234', // Mock Patek contract
-  DIAMOND: '0x3456789012345678901234567890123456789012345', // Mock Diamond contract
-  ROTHKO: '0x4567890123456789012345678901234567890123456', // Mock Rothko contract
+  GOLD: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Mock Gold contract
+  PATEK: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Mock Patek contract
+  DIAMOND: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Mock Diamond contract
+  ROTHKO: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Mock Rothko contract
   ETH: 'NATIVE', // Native ETH
   BTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // WBTC
   USDT: USDT_ADDRESS // USDT
@@ -103,16 +103,34 @@ export default function TradePage() {
   // Centralized trade state
   const [activeAsset, setActiveAsset] = useState<keyof typeof ASSET_MAP>('ETH') // Default to ETH
   const [outputTokenAddress, setOutputTokenAddress] = useState(USDT_ADDRESS)
+  const [livePrice, setLivePrice] = useState<number>(ASSET_MAP.ETH.currentPrice)
+  const [timeframe, setTimeframe] = useState("1D")
 
   // Handle asset selection
   const handleAssetSelect = (assetKey: keyof typeof ASSET_MAP) => {
     setActiveAsset(assetKey)
+    setLivePrice(ASSET_MAP[assetKey].currentPrice)
     // Set output token based on selected asset
     if (assetKey === 'USDT') {
       setOutputTokenAddress(assetConfig.ETH)
     } else {
       setOutputTokenAddress(assetConfig.USDT)
     }
+  }
+
+  // Handle price updates from chart
+  const handlePriceUpdate = (newPrice: number) => {
+    setLivePrice(newPrice)
+  }
+
+  // Format price as Heritage Gold
+  const formatHeritagePrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: price < 1 ? 4 : 2,
+      maximumFractionDigits: price < 1 ? 4 : 2,
+    }).format(price)
   }
 
   useLayoutEffect(() => {
@@ -130,13 +148,28 @@ export default function TradePage() {
     return null
   }
 
-  if (showCurationMatrix) {
-    return <CurationDashboard userAddress={userAddress} userRole={userRole} />
-  }
-
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
+
+      {/* Curation Matrix Overlay */}
+      {showCurationMatrix && (
+        <div className="fixed inset-0 z-100 bg-background/95 backdrop-blur-2xl">
+          <div className="h-full overflow-y-auto">
+            <div className="relative">
+              <button
+                onClick={() => setShowCurationMatrix(false)}
+                className="absolute top-4 right-4 z-101 p-2 rounded-lg bg-gold/10 border border-gold/30 text-gold hover:bg-gold/20 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <CurationDashboard userAddress={userAddress} userRole={userRole} />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="pt-24 pb-16 px-6 lg:px-12">
         {/* Prototype Title */}
@@ -226,12 +259,31 @@ export default function TradePage() {
                 </button>
               ))}
             </div>
+
+            {/* Timeframe Selector */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-sans uppercase tracking-[0.3em] text-muted-foreground mr-2">Time:</span>
+              {["1H", "1D", "1W", "1M", "1Y"].map((tf) => (
+                <button
+                  key={tf}
+                  onClick={() => setTimeframe(tf)}
+                  className={`px-3 py-2 rounded-lg border transition-all duration-300 font-sans text-xs tracking-[0.2em] uppercase backdrop-blur-md ${
+                    timeframe === tf
+                      ? 'bg-gold/20 border-gold text-gold'
+                      : 'bg-white/5 border-white/20 text-muted-foreground hover:border-gold/50 hover:text-gold'
+                  }`}
+                >
+                  {tf}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="lg:col-span-1">
             <TradingViewChart 
+              key={activeAsset}
               onAssetChange={(asset) => {
                 // Update the active asset when chart changes
                 const assetKey = Object.keys(ASSET_MAP).find(
@@ -240,11 +292,15 @@ export default function TradePage() {
                 if (assetKey) {
                   handleAssetSelect(assetKey)
                 }
+                // Update live price from chart
+                if (asset.price) {
+                  handlePriceUpdate(asset.price)
+                }
               }}
               initialAsset={{
                 id: activeAsset,
                 name: ASSET_MAP[activeAsset].fullName,
-                price: ASSET_MAP[activeAsset].currentPrice,
+                price: livePrice,
                 change: ASSET_MAP[activeAsset].dailyChange,
                 symbol: activeAsset,
                 ticker: ASSET_MAP[activeAsset].ticker
@@ -264,7 +320,7 @@ export default function TradePage() {
               <SwapReset
                 defaultInputTokenAddress={assetConfig[activeAsset]}
                 defaultOutputTokenAddress={outputTokenAddress}
-                key={activeAsset} // Force re-render on asset change
+                key={`${activeAsset}-${livePrice}`} // Force re-render on asset or price change
               />
 
               <div className="mt-6 pt-6 border-t border-border">

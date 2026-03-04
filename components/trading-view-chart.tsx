@@ -5,14 +5,15 @@ import { TrendingUp, Activity } from "lucide-react"
 
 export function TradingViewChart({ 
   onAssetChange,
-  initialAsset
+  initialAsset,
+  timeframe = "1D"
 }: {
   onAssetChange?: (asset: any) => void
   initialAsset?: any
+  timeframe?: string
 }) {
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const [selectedAsset, setSelectedAsset] = useState(initialAsset)
-  const [timeframe, setTimeframe] = useState("1D")
   const [chartWidget, setChartWidget] = useState<any>(null)
   const [isChartLoading, setIsChartLoading] = useState(true)
 
@@ -144,23 +145,6 @@ export function TradingViewChart({
                 </span>
               </div>
             </div>
-          </div>
-
-          {/* Timeframe Selector */}
-          <div className="flex items-center gap-2">
-            {["1H", "1D", "1W", "1M", "1Y"].map((tf) => (
-              <button
-                key={tf}
-                onClick={() => setTimeframe(tf)}
-                className={`text-[10px] tracking-[0.2em] uppercase px-3 py-2 transition-colors duration-300 font-sans ${
-                  timeframe === tf
-                    ? "bg-gold text-background"
-                    : "text-muted-foreground hover:text-gold"
-                }`}
-              >
-                {tf}
-              </button>
-            ))}
           </div>
         </div>
       </div>
