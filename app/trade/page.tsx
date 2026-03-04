@@ -140,7 +140,12 @@ export default function TradePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="lg:col-span-1">
             <TradingViewChart 
-              key={activeAsset.ticker} 
+              onAssetChange={(asset) => {
+                // Update the active asset for swap widget
+                if (asset.ticker) {
+                  setActiveAsset(asset)
+                }
+              }}
             />
           </div>
 
@@ -166,10 +171,10 @@ export default function TradePage() {
                 </div>
               </div>
             </div>
-            </div> {/* Close for the main content grid */}
-            </div> {/* Close for the pt-24 container */}
-            <Footer />
-          </div> {/* Close for the inner container */}
-        </main>
-      );
-    }
+          </div>
+        </div> {/* Close for main content grid */}
+      </div> {/* Close for pt-24 container */}
+      <Footer />
+    </main>
+  )
+}

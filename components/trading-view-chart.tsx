@@ -1,69 +1,147 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { TrendingUp, Activity } from "lucide-react"
 
-const mockAssets = [
-  { id: "GOLD", name: "Sovereign Gold Reserve", price: 1240.50, change: 2.4 },
-  { id: "PATEK", name: "Patek Philippe 5711", price: 892.30, change: -1.2 },
-  { id: "DIAMOND", name: "Cerulean Diamond", price: 3780.00, change: 5.6 },
-  { id: "ROTHKO", name: "Rothko Study", price: 5100.00, change: 3.8 },
+// Mock data for luxury assets
+const luxuryAssets = [
+  { id: "GOLD", name: "Sovereign Gold Reserve", price: 1240.50, change: 2.4, symbol: "GOLD" },
+  { id: "PATEK", name: "Patek Philippe 5711", price: 892.30, change: -1.2, symbol: "PATEK" },
+  { id: "DIAMOND", name: "Cerulean Diamond", price: 3780.00, change: 5.6, symbol: "DIAMOND" },
+  { id: "ROTHKO", name: "Rothko Study", price: 5100.00, change: 3.8, symbol: "ROTHKO" },
 ]
 
-export function TradingViewChart() {
-  const chartContainerRef = useRef<HTMLDivElement>(null)
-  const [selectedAsset, setSelectedAsset] = useState(mockAssets[0])
-  const [timeframe, setTimeframe] = useState("1D")
+// Standard crypto assets
+const cryptoAssets = [
+  { id: "ETH", name: "Ethereum", price: 2450.80, change: 1.8, symbol: "ETH", ticker: "BINANCE:ETHUSD" },
+  { id: "BTC", name: "Bitcoin", price: 43250.00, change: 2.1, symbol: "BTC", ticker: "BINANCE:BTCUSD" },
+  { id: "USDT", name: "Tether", price: 1.00, change: 0.0, symbol: "USDT", ticker: "BINANCE:USDTUSD" },
+]
 
+// Combined assets for unified navigation
+const allAssets = [...luxuryAssets, ...cryptoAssets]
+
+export function TradingViewChart({ 
+  onAssetChange,
+  initialAsset = allAssets[0]
+}: {
+  onAssetChange?: (asset: any) => void
+  initialAsset?: any
+}) {
+  const chartContainerRef = useRef<HTMLDivElement>(null)
+  const [selectedAsset, setSelectedAsset] = useState(initialAsset)
+  const [timeframe, setTimeframe] = useState("1D")
+  const [chartWidget, setChartWidget] = useState<any>(null)
+  const [isChartLoading, setIsChartLoading] = useState(true)
+
+  // Handle asset selection
+  const handleAssetSelect = useCallback((asset: any) => {
+    setSelectedAsset(asset)
+    onAssetChange?.(asset)
+  }, [onAssetChange])
+
+  // Initialize or update chart
   useEffect(() => {
     if (!chartContainerRef.current) return
 
-    const script = document.createElement("script")
-    script.src = "https://s3.tradingview.com/tv.js"
-    script.async = true
-    script.onload = () => {
-      if (typeof window !== "undefined" && (window as any).TradingView) {
-        new (window as any).TradingView.widget({
-          container_id: chartContainerRef.current?.id,
-          autosize: true,
-          symbol: "NASDAQ:AAPL",
-          interval: "D",
-          timezone: "Etc/UTC",
-          theme: "dark",
-          style: "1",
-          locale: "en",
-          toolbar_bg: "#06060A",
-          enable_publishing: false,
-          hide_side_toolbar: false,
-          allow_symbol_change: true,
-          backgroundColor: "#06060A",
-          gridColor: "#1E1E28",
-          hide_top_toolbar: false,
-          hide_legend: false,
-          save_image: false,
-          studies: ["MASimple@tv-basicstudies"],
-          overrides: {
-            "mainSeriesProperties.candleStyle.upColor": "#B8977E",
-            "mainSeriesProperties.candleStyle.downColor": "#7F1D1D",
-            "mainSeriesProperties.candleStyle.borderUpColor": "#CDAF96",
-            "mainSeriesProperties.candleStyle.borderDownColor": "#7F1D1D",
-            "mainSeriesProperties.candleStyle.wickUpColor": "#B8977E",
-            "mainSeriesProperties.candleStyle.wickDownColor": "#7F1D1D",
-          },
-        })
+    const loadTradingView = () => {
+      setIsChartLoading(true)
+      
+      // Destroy existing widget if it exists
+      if (chartWidget && typeof chartWidget.remove === 'function') {
+        chartWidget.remove()
       }
+
+      // Create new widget
+      const widget = new (window as any).TradingView.widget({
+        container_id: chartContainerRef.current?.id,
+        autosize: true,
+        symbol: selectedAsset.ticker || "NASDAQ:AAPL",
+        interval: timeframe === "1H" ? "60" : timeframe === "1D" ? "D" : timeframe === "1W" ? "W" : "M",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#06060A",
+        enable_publishing: false,
+        hide_side_toolbar: false,
+        allow_symbol_change: false,
+        backgroundColor: "#06060A",
+        gridColor: "#1E1E28",
+        hide_top_toolbar: false,
+        hide_legend: false,
+        save_image: false,
+        studies: ["MASimple@tv-basicstudies"],
+        overrides: {
+          "mainSeriesProperties.candleStyle.upColor": "#B8977E",
+          "mainSeriesProperties.candleStyle.downColor": "#7F1D1D",
+          "mainSeriesProperties.candleStyle.borderUpColor": "#CDAF96",
+          "mainSeriesProperties.candleStyle.borderDownColor": "#7F1D1D",
+          "mainSeriesProperties.candleStyle.wickUpColor": "#B8977E",
+          "mainSeriesProperties.candleStyle.wickDownColor": "#7F1D1D",
+        },
+        onChartReady: () => {
+          setIsChartLoading(false)
+        },
+      })
+
+      setChartWidget(widget)
     }
-    document.head.appendChild(script)
+
+    // Load TradingView script if not already loaded
+    if (typeof window !== "undefined" && !(window as any).TradingView) {
+      const script = document.createElement("script")
+      script.src = "https://s3.tradingview.com/tv.js"
+      script.async = true
+      script.onload = loadTradingView
+      document.head.appendChild(script)
+    } else if (typeof window !== "undefined" && (window as any).TradingView) {
+      loadTradingView()
+    }
 
     return () => {
-      if (document.head.contains(script)) {
-        document.head.removeChild(script)
+      if (chartWidget && typeof chartWidget.remove === 'function') {
+        chartWidget.remove()
       }
     }
-  }, [selectedAsset])
+  }, [selectedAsset, timeframe])
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (chartWidget && typeof chartWidget.resize === 'function') {
+        setTimeout(() => {
+          chartWidget.resize()
+        }, 100)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [chartWidget])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (chartWidget && typeof chartWidget.remove === 'function') {
+        chartWidget.remove()
+      }
+    }
+  }, [])
+
+  // Format price display
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: price < 1 ? 4 : 2,
+      maximumFractionDigits: price < 1 ? 4 : 2,
+    }).format(price)
+  }
 
   return (
     <div className="border border-border bg-card">
+      {/* Asset Header */}
       <div className="border-b border-border p-4 lg:p-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -72,7 +150,7 @@ export function TradingViewChart() {
               <h2 className="font-serif text-xl text-ivory">{selectedAsset.name}</h2>
               <div className="flex items-center gap-3 mt-1">
                 <span className="text-2xl font-serif text-ivory">
-                  ${selectedAsset.price.toLocaleString()}
+                  {formatPrice(selectedAsset.price)}
                 </span>
                 <span
                   className={`text-sm font-sans ${
@@ -86,6 +164,7 @@ export function TradingViewChart() {
             </div>
           </div>
 
+          {/* Timeframe Selector */}
           <div className="flex items-center gap-2">
             {["1H", "1D", "1W", "1M", "1Y"].map((tf) => (
               <button
@@ -103,24 +182,57 @@ export function TradingViewChart() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-6">
-          {mockAssets.map((asset) => (
-            <button
-              key={asset.id}
-              onClick={() => setSelectedAsset(asset)}
-              className={`text-xs px-4 py-2 border transition-all duration-300 font-sans ${
-                selectedAsset.id === asset.id
-                  ? "border-gold bg-gold/10 text-gold"
-                  : "border-border text-muted-foreground hover:border-gold/30"
-              }`}
-            >
-              {asset.id}
-            </button>
-          ))}
+        {/* Unified Asset Navigation */}
+        <div className="mt-6">
+          {/* Luxury Assets Section */}
+          <div className="mb-4">
+            <h3 className="text-xs font-sans uppercase tracking-[0.3em] text-gold mb-3">Luxury Assets</h3>
+            <div className="flex flex-wrap gap-2">
+              {luxuryAssets.map((asset) => (
+                <button
+                  key={asset.id}
+                  onClick={() => handleAssetSelect(asset)}
+                  className={`text-xs px-4 py-2 border transition-all duration-300 font-sans ${
+                    selectedAsset.id === asset.id
+                      ? "border-gold bg-gold/10 text-gold"
+                      : "border-border text-muted-foreground hover:border-gold/30"
+                  }`}
+                >
+                  {asset.symbol}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Crypto Assets Section */}
+          <div>
+            <h3 className="text-xs font-sans uppercase tracking-[0.3em] text-muted-foreground mb-3">Trading Pairs</h3>
+            <div className="flex flex-wrap gap-2">
+              {cryptoAssets.map((asset) => (
+                <button
+                  key={asset.id}
+                  onClick={() => handleAssetSelect(asset)}
+                  className={`text-xs px-4 py-2 border transition-all duration-300 font-sans ${
+                    selectedAsset.id === asset.id
+                      ? "border-gold bg-gold/10 text-gold"
+                      : "border-border text-muted-foreground hover:border-gold/30"
+                  }`}
+                >
+                  {asset.symbol}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Chart Container */}
       <div className="relative" style={{ height: "600px" }}>
+        {isChartLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80">
+            <div className="animate-pulse text-gold font-serif text-xl">Loading Chart...</div>
+          </div>
+        )}
         <div
           id="tradingview_chart"
           ref={chartContainerRef}
@@ -128,31 +240,40 @@ export function TradingViewChart() {
         />
       </div>
 
+      {/* Market Statistics */}
       <div className="border-t border-border p-4 lg:p-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase mb-1 font-sans">
               24h Volume
             </p>
-            <p className="text-sm text-ivory font-sans">$2,847,392</p>
+            <p className="text-sm text-ivory font-sans">
+              ${(selectedAsset.price * 1000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
           </div>
           <div>
             <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase mb-1 font-sans">
               Market Cap
             </p>
-            <p className="text-sm text-ivory font-sans">$124.8M</p>
+            <p className="text-sm text-ivory font-sans">
+              ${(selectedAsset.price * 10000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
           </div>
           <div>
             <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase mb-1 font-sans">
               Liquidity
             </p>
-            <p className="text-sm text-gold font-sans">$8.4M</p>
+            <p className="text-sm text-gold font-sans">
+              ${(selectedAsset.price * 5000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
           </div>
           <div>
             <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase mb-1 font-sans">
               Integrity
             </p>
-            <p className="text-sm text-gold font-sans">99.8%</p>
+            <p className="text-sm text-gold font-sans">
+              {luxuryAssets.find(a => a.id === selectedAsset.id) ? "99.8%" : "N/A"}
+            </p>
           </div>
         </div>
       </div>
