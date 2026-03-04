@@ -163,20 +163,21 @@ export function TradingViewChart({
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Chart Container */}
-        <div className="relative" style={{ height: "600px" }}>
-          {isChartLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/80">
-              <div className="animate-pulse text-gold font-serif text-xl">Loading Chart...</div>
-            </div>
-          )}
-          <div
-            id="tradingview_chart"
-            ref={chartContainerRef}
-            className="absolute inset-0"
-          />
-        </div>
+      {/* Chart Container */}
+      <div className="relative" style={{ height: "600px" }}>
+        {isChartLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80">
+            <div className="animate-pulse text-gold font-serif text-xl">Loading Chart...</div>
+          </div>
+        )}
+        <div
+          id="tradingview_chart"
+          ref={chartContainerRef}
+          className="absolute inset-0"
+        />
+      </div>
 
       {/* Market Statistics */}
       <div className="border-t border-border p-4 lg:p-6">
@@ -209,9 +210,7 @@ export function TradingViewChart({
             <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase mb-1 font-sans">
               Integrity
             </p>
-            <p className="text-sm text-gold font-sans">
-              {luxuryAssets.find(a => a.id === selectedAsset.id) ? "99.8%" : "N/A"}
-            </p>
+            <p className="text-sm text-gold font-sans">99.8%</p>
           </div>
         </div>
       </div>
