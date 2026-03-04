@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useActiveAccount, useWalletBalance } from "thirdweb/react"
-import { ethereum } from "@/lib/client"
+import { client, ethereum } from "@/lib/client"
 import { Wallet, TrendingUp, Shield, Gem } from "lucide-react"
 
 interface Asset {
@@ -20,7 +20,7 @@ interface Asset {
 export default function ProfilePage() {
   const account = useActiveAccount()
   const { data: balance, isLoading: balanceLoading } = useWalletBalance({
-    client: ethereum.client,
+    client: client,
     address: account?.address,
     chain: ethereum,
     tokenAddress: undefined, // ETH
@@ -71,12 +71,18 @@ export default function ProfilePage() {
       <main className="min-h-screen bg-background text-foreground">
         <Navbar />
         <div className="pt-32 pb-16 px-6 lg:px-12 max-w-7xl mx-auto">
-          <div className="flex flex-col items-center justify-center min-h-[60vh] border border-border bg-card">
-            <Wallet className="w-12 h-12 text-gold mb-6" />
-            <h2 className="font-serif text-3xl text-ivory mb-4">Connect Wallet</h2>
-            <p className="text-muted-foreground font-sans text-center max-w-md">
-              Please connect your wallet to view your Heritage portfolio and assets.
-            </p>
+          <div className="text-center">
+            <div className="mb-8">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full border-2 border-gold/20 flex items-center justify-center">
+                <Wallet className="w-10 h-10 text-gold" />
+              </div>
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance mb-4">
+                Connect Your Wallet
+              </h1>
+              <p className="text-xl text-muted-foreground font-sans max-w-2xl mx-auto mb-8">
+                Connect your wallet to view your Heritage Assets and manage your fractional real world assets.
+              </p>
+            </div>
           </div>
         </div>
         <Footer />
@@ -156,7 +162,7 @@ export default function ProfilePage() {
             {heritageAssets.map((asset) => (
               <div
                 key={asset.id}
-                className="group border border-border bg-card overflow-hidden hover:border-gold/30 transition-all duration-500"
+                className="group border border-border bg-card/50 backdrop-blur-sm overflow-hidden hover:bg-card/70 transition-all duration-500 rounded-lg"
               >
                 <div className="flex">
                   {/* Image */}

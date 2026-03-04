@@ -6,6 +6,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  transpilePackages: ['@uniswap/widgets', '@uniswap/conedison'],
   webpack: (config, { isServer }) => {
     // Handle brotli and other node-specific modules
     if (!isServer) {

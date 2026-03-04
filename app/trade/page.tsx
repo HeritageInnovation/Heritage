@@ -11,6 +11,7 @@ import dynamicImport from "next/dynamic"
 import TOKEN_LIST from '@uniswap/default-token-list'
 import { USDT_ADDRESS } from '@/constants/addresses'
 import { getUniswapProvider } from '@/lib/uniswap-bridge'
+import '@uniswap/widgets/fonts.css'
 
 // Dynamically import SwapWidget with SSR disabled
 const SwapWidget = dynamicImport(
@@ -28,28 +29,15 @@ const SwapWidget = dynamicImport(
 // Filter tokens to only include valid Ethereum addresses
 const filteredTokens = TOKEN_LIST.tokens.filter(token => token.address.match(/^0x[a-fA-F0-9]{40}$/))
 
-// Luxury Dark Theme for Uniswap Widget
-const luxuryTheme = {
-  primary: "#D4AF37",
-  secondary: "#B8977E",
-  container: "#050505",
-  module: "#0A0A0A",
-  accent: "#D4AF37",
-  outline: "#1E1E28",
-  dialog: "#0A0A0A",
-  scrim: "rgba(5, 5, 5, 0.8)",
-  onAccent: "#050505",
-  primaryDark: "#050505",
-  secondaryDark: "#7F1D1D",
-  onHover: "#1A1A1F",
-  deepShadow: "#000000",
-  chainBg: "#0A0A0A",
-  chainText: "#D4AF37",
-  active: "#D4AF37",
-  error: "#7F1D1D",
-  success: "#22C55E",
-  warning: "#EAB308",
-  info: "#3B82F6",
+// Heritage Theme for Uniswap Widget
+const heritageTheme = {
+  primary: '#FFFFFF',
+  secondary: '#A0A0A0',
+  interactive: '#DAA520',
+  container: '#000000',
+  module: '#111111',
+  outline: '#333333',
+  dialog: '#000000',
   fontFamily: "\"Playfair Display\", Georgia, serif",
 }
 
@@ -124,14 +112,16 @@ export default function TradePage() {
                 </p>
               </div>
               
-              <SwapWidget
-                theme={luxuryTheme}
-                provider={provider || undefined}
-                defaultInputTokenAddress="NATIVE"
-                defaultOutputTokenAddress={USDT_ADDRESS}
-                tokenList={filteredTokens}
-                width="100%"
-              />
+              <div className="mx-auto" style={{ maxWidth: '480px' }}>
+                <SwapWidget
+                  theme={heritageTheme}
+                  provider={provider || undefined}
+                  defaultInputTokenAddress="NATIVE"
+                  defaultOutputTokenAddress={USDT_ADDRESS}
+                  tokenList={filteredTokens}
+                  width="100%"
+                />
+              </div>
 
               <div className="mt-6 pt-6 border-t border-border">
                 <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">

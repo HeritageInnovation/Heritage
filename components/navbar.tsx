@@ -8,6 +8,7 @@ import { LazyConnectButton } from "./lazy-connect-button"
 const navLinks = [
   { label: "LOTS", href: "/#lots" },
   { label: "TRADE", href: "/trade" },
+  { label: "PORTFOLIO", href: "/profile" },
   { label: "PROTOCOL", href: "/#protocol" },
   { label: "SECURITY", href: "/#security" },
   { label: "PROVENANCE", href: "/#provenance" },
