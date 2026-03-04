@@ -1,7 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "next build",
   "framework": "nextjs",
+  "buildCommand": "next build --webpack",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "env": {
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
   "headers": [
     {
       "source": "/(.*)",
@@ -28,8 +33,5 @@
   ],
   "rewrites": [
     { "source": "/trade", "destination": "/trade" }
-  ],
-  "env": {
-    "NEXT_TELEMETRY_DISABLED": "1"
-  }
+  ]
 }
