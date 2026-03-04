@@ -1,7 +1,11 @@
 import { createThirdwebClient } from "thirdweb";
 import { defineChain } from "thirdweb";
 
-const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || "dummy-client-id-for-build";
+const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || "TEMP_ID";
+
+if (!process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID) {
+  console.warn("NEXT_PUBLIC_THIRDWEB_CLIENT_ID is missing - using TEMP_ID for build safety");
+}
 
 export const client = createThirdwebClient({
   clientId,

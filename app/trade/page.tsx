@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
@@ -160,6 +162,7 @@ export default function TradePage() {
                 provider={provider || undefined}
                 defaultInputTokenAddress={USDT_ADDRESS}
                 defaultOutputTokenAddress="NATIVE"
+                tokenList="https://cloudflare-ipfs.com/ipns/tokens.uniswap.org"
                 width="100%"
               />
 
