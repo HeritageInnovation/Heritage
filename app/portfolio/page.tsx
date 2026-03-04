@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = 'force-dynamic';
+
 import { useActiveAccount, useWalletBalance } from "thirdweb/react"
 import { ethereum } from "@/lib/client"
 
