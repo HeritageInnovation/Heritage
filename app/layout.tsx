@@ -7,6 +7,7 @@ import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import Script from 'next/script'
 import './globals.css'
 import Providers from './providers'
 
@@ -65,6 +66,10 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <Providers>{children}</Providers>
+        <Script 
+          src="https://s3.tradingview.com/external-embedding/embed-widget-embed.js" 
+          strategy="afterInteractive" 
+        />
         <Analytics />
         <SpeedInsights />
       </body>

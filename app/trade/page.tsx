@@ -98,12 +98,12 @@ export default function TradePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="lg:col-span-1">
             <TradingViewChart />
           </div>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-1">
             <div className="border border-border bg-card p-6">
               <div className="mb-6">
                 <h2 className="font-serif text-2xl text-ivory mb-2">Swap</h2>
