@@ -117,7 +117,9 @@ export function ProvenanceSection() {
       {/* CTA */}
       <div className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
         <a
-          href="#"
+          href="https://etherscan.io/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="group inline-flex items-center gap-3 border border-gold/40 text-gold text-[10px] tracking-[0.35em] uppercase px-8 py-4 hover:bg-gold hover:text-background transition-all duration-500 font-sans"
         >
           <span>Explore Full Ledger</span>

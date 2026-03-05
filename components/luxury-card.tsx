@@ -92,7 +92,7 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
               </div>
               <div className="flex items-center gap-2">
                 <Link
-                  href={`/trade/${item.tokenAddress}`}
+                  href={`/exchange/${item.tokenAddress}`}
                   className="px-4 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans flex items-center gap-1"
                 >
                   <TrendingUp className="w-3 h-3" />
@@ -130,7 +130,7 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
             </p>
           </div>
           <Link
-            href={`/trade/${item.tokenAddress}`}
+            href={`/exchange/${item.tokenAddress}`}
             className="text-[10px] tracking-[0.2em] text-gold uppercase hover:text-gold-light transition-colors duration-300 font-sans flex items-center gap-1"
           >
             Trade Now
