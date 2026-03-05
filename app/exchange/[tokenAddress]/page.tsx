@@ -4,10 +4,11 @@ import { useParams } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState, useEffect } from "react"
+import { SwapReset } from "@/components/Trade/SwapReset"
 
 // Token metadata mapping for display
 const tokenMetadata: Record<string, { name: string; symbol: string }> = {
-  "0xGold": { name: "Sovereign Gold Reserve", symbol: "GOLD" },
+  "0x68749665FF8D2d112Fa859AA293F07A622782F38": { name: "Gold Reserve", symbol: "XAUT" },
   "0xPatek": { name: "Patek Philippe Ref. 5711", symbol: "PATEK" },
   "0xDiamond": { name: "The Cerulean Diamond", symbol: "DIAMOND" },
   "0xRothko": { name: "Rothko No. 14 Study", symbol: "ROTHKO" },
@@ -77,9 +78,11 @@ export default function TokenTradePage() {
               <div className="relative">
                 <div className="bg-card/30 backdrop-blur-md border border-white/10 p-6 lg:p-8 rounded-3xl text-center">
                   <div className="text-gold text-sm mb-2">Trading Interface</div>
-                  <div className="text-ivory/60 text-xs">
-                    Trading interface coming soon.
-                  </div>
+                  {/* The widget will now load dynamically based on the URL parameter */}
+                           <SwapReset 
+                     key={tokenAddress} 
+                          toTokenAddress={tokenAddress}
+                          ></SwapReset>
                   <div className="text-ivory/40 text-xs mt-2">
                     Please connect your wallet to continue.
                   </div>
