@@ -13,15 +13,15 @@ export function Footer() {
         <div className="lg:col-span-4">
           <Link href="/" className="flex flex-col leading-none mb-6 group">
             <span className="font-serif text-2xl tracking-[0.1em] text-ivory group-hover:text-gold transition-colors">
-              RICKY PARK
+              MMXXVI RICKY PARK
             </span>
-            <span className="text-[9px] tracking-[0.4em] text-gold uppercase mt-1.5 font-bold">
-              Heritage Protocol
+            <span className="text-[9px] tracking-[0.4em] text-gold uppercase mt-1.5">
+              Auction House
             </span>
           </Link>
-          <p className="text-muted-foreground text-[11px] leading-relaxed max-w-xs font-sans uppercase tracking-wider opacity-60">
+          <p className="text-muted-foreground text-xs leading-relaxed max-w-xs font-sans">
             Institutional-grade Real World Asset trading with sovereign
-            custody and cryptographic proof of integrity. 51/49 Mandate.
+            custody and cryptographic proof of integrity.
           </p>
         </div>
 
@@ -31,10 +31,10 @@ export function Footer() {
             Platform
           </h4>
           <div className="flex flex-col gap-4">
-            <Link href="/trade" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Exchange</Link>
+            <Link href="/exchange" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Exchange</Link>
             <Link href="/matrix" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Matrix</Link>
-            <Link href="/profile" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Vault</Link>
-            <Link href="/protocol" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Governance</Link>
+            <Link href="/vault" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Vault</Link>
+            <Link href="/governance" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Governance</Link>
           </div>
         </div>
 
@@ -64,26 +64,25 @@ export function Footer() {
             Network
           </h4>
           <div className="flex flex-col gap-4">
-            <Link href="/support" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Concierge</Link>
+            <Link href="/concierge" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Concierge</Link>
             <a href="#" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Institutional Desk</a>
             <a href="#" className="text-[10px] tracking-widest text-ivory/60 hover:text-gold transition-all uppercase">Press</a>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar - Global Presence */}
-      <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* Bottom Bar */}
+      <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-          <p className="text-[9px] tracking-[0.3em] text-muted-foreground font-sans uppercase">
-            © {currentYear} RICKY PARK. PROTOCOL STABLE.
+          <p className="text-[10px] tracking-[0.2em] text-muted-foreground font-sans">
+            MMXXVI RICKY PARK. ALL RIGHTS RESERVED.
           </p>
         </div>
-        
-        <p className="text-[9px] tracking-[0.4em] text-muted-foreground/50 font-sans text-center md:text-right leading-loose">
-          ZURICH / SINGAPORE / LONDON / DUBAI / HONG KONG / BANGKOK
-        </p>
-      </div>
+        <p className="text-[10px] tracking-[0.2em] text-muted-foreground font-sans">
+           ZURICH / SINGAPORE / LONDON / DUBAI / HONG KONG / BANGKOK
+         </p>
+       </div>
     </footer>
   )
 }

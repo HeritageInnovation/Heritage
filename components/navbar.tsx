@@ -15,11 +15,11 @@ export function Navbar() {
   useEffect(() => setMounted(true), [])
 
   const navLinks = [
-    { name: "EXCHANGE", href: "/trade" },
+    { name: "EXCHANGE", href: "/exchange" },
     { name: "MATRIX", href: "/matrix" },
-    { name: "VAULT", href: "/profile" },
-    { name: "GOVERNANCE", href: "/protocol" },
-    { name: "CONCIERGE", href: "/support" },
+    { name: "VAULT", href: "/vault" },
+    { name: "GOVERNANCE", href: "/governance" },
+    { name: "CONCIERGE", href: "/concierge" },
   ]
 
   if (!mounted) return null
@@ -28,10 +28,14 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/60 backdrop-blur-xl border-b border-white/5">
       <div className="max-w-[1600px] mx-auto px-6 h-20 flex items-center justify-between">
         
-        {/* Brand Identity */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Shield className="w-6 h-6 text-gold transition-all group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
-          <span className="font-serif text-2xl tracking-tighter text-ivory uppercase">Heritage</span>
+        {/* Logo */}
+        <Link href="/" className="flex flex-col leading-none">
+          <span className="font-serif text-lg tracking-[0.15em] text-ivory">
+            RICKY PARK (Prototype)
+          </span>
+          <span className="text-[10px] tracking-[0.35em] text-gold uppercase mt-0.5">
+            RWA Auction & Trade House
+          </span>
         </Link>
 
         {/* Desktop Navigation - Elite Naming */}
