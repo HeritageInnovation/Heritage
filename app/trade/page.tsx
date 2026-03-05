@@ -11,24 +11,26 @@ import dynamicImport from "next/dynamic"
 import { USDT_ADDRESS } from '@/constants/addresses'
 import '@uniswap/widgets/fonts.css'
 
+// 1. Fixed ASSET_MAP: Added dailyChange to satisfy chart props
 const ASSET_MAP = {
-  ETH: { fullName: 'Ethereum', ticker: 'BINANCE:ETHUSD', currentPrice: 2450.80 },
-  BTC: { fullName: 'Bitcoin', ticker: 'BINANCE:BTCUSD', currentPrice: 43250.00 },
-  USDT: { fullName: 'Tether', ticker: 'BINANCE:USDTUSD', currentPrice: 1.00 },
-  GOLD: { fullName: 'Sovereign Gold', ticker: 'OANDA:XAUUSD', currentPrice: 2040.50 },
-  PATEK: { fullName: 'Patek Philippe 5711', ticker: 'INDEX:WATCHES', currentPrice: 89200.00 },
-  DIAMOND: { fullName: 'Cerulean Diamond', ticker: 'INDEX:DIAMONDS', currentPrice: 37800.00 },
-  ROTHKO: { fullName: 'Rothko Study', ticker: 'INDEX:ART', currentPrice: 510000.00 }
+  ETH: { fullName: 'Ethereum', ticker: 'BINANCE:ETHUSD', currentPrice: 2450.80, dailyChange: 1.8 },
+  BTC: { fullName: 'Bitcoin', ticker: 'BINANCE:BTCUSD', currentPrice: 43250.00, dailyChange: 2.1 },
+  USDT: { fullName: 'Tether', ticker: 'BINANCE:USDTUSD', currentPrice: 1.00, dailyChange: 0.0 },
+  GOLD: { fullName: 'Sovereign Gold', ticker: 'OANDA:XAUUSD', currentPrice: 2040.50, dailyChange: 2.4 },
+  PATEK: { fullName: 'Patek Philippe 5711', ticker: 'INDEX:WATCHES', currentPrice: 89200.00, dailyChange: -1.2 },
+  DIAMOND: { fullName: 'Cerulean Diamond', ticker: 'INDEX:DIAMONDS', currentPrice: 37800.00, dailyChange: 5.6 },
+  ROTHKO: { fullName: 'Rothko Study', ticker: 'INDEX:ART', currentPrice: 510000.00, dailyChange: 3.8 }
 } as const;
 
 const assetConfig = {
   ETH: 'NATIVE',
-  BTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+  BTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Real WBTC
   USDT: USDT_ADDRESS,
-  GOLD: '0x123...GOLD',
-  PATEK: '0x234...PATEK',
-  DIAMOND: '0x345...DIAMOND',
-  ROTHKO: '0x456...ROTHKO'
+  // These are validly formatted "burn" addresses for testing
+  GOLD: '0x0000000000000000000000000000000000000001', 
+  PATEK: '0x0000000000000000000000000000000000000002',
+  DIAMOND: '0x0000000000000000000000000000000000000003',
+  ROTHKO: '0x0000000000000000000000000000000000000004'
 } as const;
 
 const CRYPTO_ASSETS = ['ETH', 'BTC', 'USDT'] as const;
@@ -46,13 +48,11 @@ export default function TradePage() {
   const [livePrice, setLivePrice] = useState<number>(ASSET_MAP.ETH.currentPrice);
   const [userRole, setUserRole] = useState<"participant" | "professional" | "investor">("participant");
 
-  // Handle asset selection
   const handleAssetSelect = (assetKey: keyof typeof ASSET_MAP) => {
     setActiveAsset(assetKey);
     setLivePrice(ASSET_MAP[assetKey].currentPrice);
   };
 
-  // Handle price updates from chart
   const handlePriceUpdate = (newPrice: number) => {
     setLivePrice(newPrice);
   };
@@ -71,40 +71,67 @@ export default function TradePage() {
     <main className="min-h-screen bg-background text-foreground relative">
       <Navbar />
 
-      {/* LUXURY LIGHTBOX OVERLAY */}
+      {/* LUXURY LIGHTBOX OVERLAY - Mobile Optimized */}
       {showCurationMatrix && (
-        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-3xl overflow-y-auto">
-          <div className="min-h-screen p-6 lg:p-12 relative">
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl overflow-y-auto">
+          {/* Sticky Header to prevent Exit button from scrolling away on mobile */}
+          <div className="sticky top-0 z-[110] w-full bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4 sm:px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            {/* View Switcher Buttons */}
+            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10 w-full sm:w-auto overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              {(['participant', 'professional', 'investor'] as const).map((role) => (
+                <button
+                  key={role}
+                  onClick={() => setUserRole(role)}
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[10px] tracking-widest uppercase transition-all whitespace-nowrap ${
+                    userRole === role 
+                      ? 'bg-gold text-black font-bold shadow-[0_0_15px_rgba(212,175,55,0.4)]' 
+                      : 'text-muted-foreground hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {role} View
+                </button>
+              ))}
+            </div>
+
             <button 
               onClick={() => setShowCurationMatrix(false)}
-              className="absolute top-8 right-8 z-[110] px-6 py-2 bg-gold/10 border border-gold/40 text-gold rounded-full hover:bg-gold/20 transition-all font-mono text-[10px] tracking-[0.3em] uppercase"
+              className="w-full sm:w-auto px-6 py-2 bg-gold/10 border border-gold/40 text-gold rounded-full hover:bg-gold/20 transition-all font-mono text-[10px] tracking-[0.3em] uppercase"
             >
               [ Exit Matrix ]
             </button>
+          </div>
+
+          <div className="p-4 sm:p-6 lg:p-12 min-h-screen">
             <CurationDashboard userAddress="0x123...7890" userRole={userRole} />
           </div>
         </div>
       )}
 
-      <div className="pt-24 pb-16 px-6 lg:px-12">
+      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-12 max-w-[1600px] mx-auto">
         <h1 className="text-muted-gold font-mono text-[10px] tracking-widest mb-4 uppercase opacity-50">(Heritage Prototype)</h1>
 
-        {/* CLEAN ASSET NAVIGATION (Timeframes Removed) */}
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-6 border-b border-white/5 pb-8">
-          <div className="flex flex-wrap items-center gap-8">
-            <div className="flex items-center gap-3">
+        {/* MOBILE RESPONSIVE ASSET NAVIGATION */}
+        <div className="mb-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 border-b border-white/5 pb-8">
+          
+          {/* Horizontal Swipe Container for Mobile */}
+          <div className="flex items-center gap-8 overflow-x-auto pb-4 -mx-4 px-4 xl:mx-0 xl:px-0 xl:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex items-center gap-3 shrink-0">
               <span className="text-[10px] tracking-[0.4em] text-muted-foreground uppercase font-sans">Crypto</span>
               <div className="flex gap-2">
                 {CRYPTO_ASSETS.map((key) => (
-                  <button key={key} onClick={() => setActiveAsset(key)} className={`px-4 py-1 rounded text-xs transition-all ${activeAsset === key ? 'bg-gold/20 text-gold border border-gold/50' : 'text-muted-foreground border border-transparent hover:border-white/20'}`}>{key}</button>
+                  <button key={key} onClick={() => setActiveAsset(key)} className={`px-4 py-2 rounded text-xs transition-all ${activeAsset === key ? 'bg-gold/20 text-gold border border-gold/50' : 'bg-white/5 text-muted-foreground border border-transparent hover:border-white/20'}`}>{key}</button>
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            
+            <div className="w-px h-8 bg-white/10 hidden sm:block shrink-0" />
+
+            <div className="flex items-center gap-3 shrink-0">
               <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans font-bold">Luxury</span>
               <div className="flex gap-2">
                 {LUXURY_ASSETS.map((key) => (
-                  <button key={key} onClick={() => setActiveAsset(key)} className={`px-4 py-1 rounded text-xs transition-all ${activeAsset === key ? 'bg-gold/20 text-gold border border-gold/50' : 'text-muted-foreground border border-transparent hover:border-white/20'}`}>{key}</button>
+                  <button key={key} onClick={() => setActiveAsset(key)} className={`px-4 py-2 rounded text-xs transition-all ${activeAsset === key ? 'bg-gold/20 text-gold border border-gold/50' : 'bg-white/5 text-muted-foreground border border-transparent hover:border-white/20'}`}>{key}</button>
                 ))}
               </div>
             </div>
@@ -112,16 +139,16 @@ export default function TradePage() {
 
           <button
             onClick={() => setShowCurationMatrix(true)}
-            className="group flex items-center gap-3 px-5 py-2 rounded-full border border-gold/30 bg-gold/5 hover:bg-gold/10 transition-all"
+            className="group flex items-center justify-center gap-3 px-6 py-3 rounded-full border border-gold/30 bg-gold/5 hover:bg-gold/10 transition-all w-full xl:w-auto shrink-0"
           >
             <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Curation Matrix</span>
+            <span className="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Open Curation Matrix</span>
           </button>
         </div>
 
         {/* CORE TRADE ENGINE */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+          <div className="lg:col-span-8 min-h-[400px]">
             <TradingViewChart 
               key={activeAsset} 
               onAssetChange={(asset: { id: string; name: string; price: number; change: number; symbol: string; ticker: string }) => {
@@ -139,7 +166,7 @@ export default function TradePage() {
                 id: activeAsset,
                 name: ASSET_MAP[activeAsset].fullName,
                 price: livePrice,
-                change: (ASSET_MAP[activeAsset] as any).dailyChange,
+                change: ASSET_MAP[activeAsset].dailyChange,
                 symbol: activeAsset,
                 ticker: ASSET_MAP[activeAsset].ticker
               }}
@@ -147,19 +174,21 @@ export default function TradePage() {
           </div>
 
           <div className="lg:col-span-4">
-            <div className="bg-card/30 backdrop-blur-md border border-white/10 p-8 rounded-3xl relative overflow-hidden">
+            <div className="bg-card/30 backdrop-blur-md border border-white/10 p-6 lg:p-8 rounded-3xl relative overflow-hidden h-full">
               <div className="mb-8">
                 <div className="text-[10px] tracking-[0.5em] text-gold uppercase mb-2">Live Valuation</div>
-                <div className="text-5xl font-serif text-ivory tracking-tighter">
+                <div className="text-4xl sm:text-5xl font-serif text-ivory tracking-tighter">
                   ${livePrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
               </div>
 
-              <SwapReset
-                key={`${activeAsset}-widget`}
-                defaultInputTokenAddress={assetConfig[activeAsset]}
-                defaultOutputTokenAddress={USDT_ADDRESS}
-              />
+              <div className="w-full">
+                <SwapReset
+                  key={`${activeAsset}-widget`}
+                  defaultInputTokenAddress={assetConfig[activeAsset]}
+                  defaultOutputTokenAddress={USDT_ADDRESS}
+                />
+              </div>
               
               <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-2">
                 <div className="text-[9px] tracking-[0.3em] text-muted-foreground uppercase">Liquidity via Uniswap V4</div>
