@@ -6,11 +6,11 @@ import { Menu, X } from "lucide-react"
 import { LazyConnectButton } from "./lazy-connect-button"
 
 const navLinks = [
-  { label: "LOTS", href: "/#lots" },
-  { label: "TRADE", href: "/trade" },
-  { label: "PORTFOLIO", href: "/portfolio" },
-  { label: "PROTOCOL", href: "/protocol" },
-  { label: "SUPPORT", href: "/support" },
+  { name: "LOTS", href: "/#lots" },
+  { name: "TRADE", href: "/trade" },
+  { name: "PORTFOLIO", href: "/portfolio" },
+  { name: "PROTOCOL", href: "/protocol" },
+  { name: "SUPPORT", href: "/support" },
 ]
 
 export function Navbar() {
@@ -35,7 +35,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col leading-none">
           <span className="font-serif text-lg tracking-[0.15em] text-ivory">
-            RICKY PARK (DEMO)
+            RICKY PARK (Pro)
           </span>
           <span className="text-[10px] tracking-[0.35em] text-gold uppercase mt-0.5">
             RWA Auction & Trade House
@@ -46,11 +46,11 @@ export function Navbar() {
         <div className="hidden lg:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link
-              key={link.label}
+              key={link.name}
               href={link.href}
               className="text-[11px] tracking-[0.3em] text-muted-foreground hover:text-gold transition-colors duration-300 font-sans"
             >
-              {link.label}
+              {link.name}
             </Link>
           ))}
         </div>
@@ -76,12 +76,12 @@ export function Navbar() {
           <div className="flex flex-col gap-6">
             {navLinks.map((link) => (
               <Link
-                key={link.label}
+                key={link.name}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className="text-[11px] tracking-[0.3em] text-muted-foreground hover:text-gold transition-colors duration-300 font-sans"
               >
-                {link.label}
+                {link.name}
               </Link>
             ))}
             <LazyConnectButton />
