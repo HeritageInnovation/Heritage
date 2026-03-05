@@ -1,89 +1,53 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import dynamicImport from "next/dynamic"
-import { useActiveAccount, useActiveWallet } from "thirdweb/react"
+import { useActiveWallet } from "thirdweb/react"
 import { getUniswapProvider } from '@/lib/uniswap-bridge'
 import TOKEN_LIST from '@uniswap/default-token-list'
 import { USDT_ADDRESS } from '@/constants/addresses'
-import '@uniswap/widgets/fonts.css'
+import { HERITAGE_THEME } from '@/constants/theme'
 
-// Filter tokens to only include valid Ethereum addresses
-const filteredTokens = TOKEN_LIST.tokens.filter(token => token.address.match(/^0x[a-fA-F0-9]{40}$/))
-
-// Heritage Theme for Uniswap Widget
-const HERITAGE_THEME = {
-  // Core colors
-  container: '#000000',
-  accent: '#DAA520',
-  outline: '#1A1A1A',
-  
-  // Text and interactive elements
-  primary: '#FFFFFF',
-  secondary: '#A0A0A0',
-  interactive: '#DAA520',
-  
-  // Module and dialog backgrounds
-  module: '#111111',
-  dialog: '#000000',
-  
-  // Border and layout
-  borderRadius: 12,
-  
-  // Font family
-  fontFamily: "\"Playfair Display\", Georgia, serif",
+// 1. Global Patch: Must run outside the component to catch early imports
+if (typeof window !== "undefined") {
+  (window as any).Browser = (window as any).Browser || { T: () => {} };
 }
 
-// Create a unified provider using the bridge
-function useUniswapProvider() {
-  const wallet = useActiveWallet()
-  const [provider, setProvider] = useState<any>(null)
-
-  // Apply window.Browser patch immediately on load
-  if (typeof window !== "undefined") {
-    (window as any).Browser = (window as any).Browser || { T: () => {} };
-  }
-
-  // Apply the patch in a useLayoutEffect to kill Brotli crash immediately
-  if (typeof window !== "undefined") {
-    (window as any).Browser = (window as any).Browser || { T: () => {} };
-  }
-
-  return provider
-}
-
-// Dynamically import SwapWidget with SSR disabled
-const SwapWidget = dynamicImport(
-  () => import("@uniswap/widgets").then((mod) => mod.SwapWidget),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[500px] flex items-center justify-center border border-border bg-card">
-        <div className="animate-pulse text-gold font-serif text-xl">Loading Swap Interface...</div>
-      </div>
-    ),
-  }
+// Filter tokens (Memoize this if possible to prevent re-renders)
+const filteredTokens = TOKEN_LIST.tokens.filter(token => 
+  token.address.match(/^0x[a-fA-F0-9]{40}$/)
 )
 
-interface SwapResetProps {
-  defaultInputTokenAddress?: string
-  defaultOutputTokenAddress?: string
-}
+const SwapWidget = dynamicImport(
+  () => import("@uniswap/widgets").then((mod) => mod.SwapWidget),
+  { ssr: false }
+)
 
-export function SwapReset({ 
-  defaultInputTokenAddress = "NATIVE", 
-  defaultOutputTokenAddress = USDT_ADDRESS 
-}: SwapResetProps) {
-  const provider = useUniswapProvider()
+export function SwapReset() {
+  const wallet = useActiveWallet()
+  const [uniswapProvider, setUniswapProvider] = useState<any>(undefined)
+
+  useEffect(() => {
+    async function syncProvider() {
+      if (wallet) {
+        // Ensure getUniswapProvider returns the internal 'provider' 
+        // or a wrapped EIP-1193 object
+        const p = await getUniswapProvider(wallet)
+        setUniswapProvider(p)
+      } else {
+        setUniswapProvider(undefined)
+      }
+    }
+    syncProvider()
+  }, [wallet])
 
   return (
-    <div className="mx-auto" style={{ maxWidth: '480px' }}>
+    <div className="mx-auto w-full max-w-[480px]">
       <SwapWidget
         theme={HERITAGE_THEME}
-        provider={provider || undefined}
-        defaultInputTokenAddress={defaultInputTokenAddress}
-        defaultOutputTokenAddress={defaultOutputTokenAddress}
+        provider={uniswapProvider} // Now actually populated
         tokenList={filteredTokens}
+        defaultOutputTokenAddress={USDT_ADDRESS}
         width="100%"
       />
     </div>
