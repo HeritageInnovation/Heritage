@@ -35,7 +35,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col leading-none">
           <span className="font-serif text-lg tracking-[0.15em] text-ivory">
-            RICKY PARK (Pro)
+            RICKY PARK (Prototype)
           </span>
           <span className="text-[10px] tracking-[0.35em] text-gold uppercase mt-0.5">
             RWA Auction & Trade House

@@ -1,451 +1,169 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
 import { 
-  Shield, 
-  Users, 
-  TrendingUp, 
-  CheckCircle, 
-  ArrowRight, 
-  Award, 
-  Eye, 
-  Lock, 
-  Zap,
-  ArrowDown,
-  Circle,
-  RefreshCw
+  Shield, Users, TrendingUp, CheckCircle, ArrowRight, 
+  Award, Eye, Lock, Zap, Circle, RefreshCw, ChevronRight 
 } from "lucide-react"
 
 export default function ProtocolPage() {
   const [activeLifecycleStep, setActiveLifecycleStep] = useState(0)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const lifecycleSteps = [
-    {
-      id: 0,
-      title: "Asset Submission",
-      description: "Participants submit luxury assets for curation",
-      icon: <Users className="w-6 h-6" />,
-      color: "text-blue-400"
-    },
-    {
-      id: 1,
-      title: "Community Staking",
-      description: "USDT staking and upvoting by participants",
-      icon: <TrendingUp className="w-6 h-6" />,
-      color: "text-green-400"
-    },
-    {
-      id: 2,
-      title: "Expert Review",
-      description: "Technical provenance verification by professionals",
-      icon: <Eye className="w-6 h-6" />,
-      color: "text-purple-400"
-    },
-    {
-      id: 3,
-      title: "Platform Approval",
-      description: "51% platform governance validation",
-      icon: <Shield className="w-6 h-6" />,
-      color: "text-gold"
-    },
-    {
-      id: 4,
-      title: "Tokenization",
-      description: "Fractional tokens minted on blockchain",
-      icon: <Zap className="w-6 h-6" />,
-      color: "text-orange-400"
-    },
-    {
-      id: 5,
-      title: "Trading Launch",
-      description: "49% available for public trading",
-      icon: <Award className="w-6 h-6" />,
-      color: "text-red-400"
-    }
+    { id: 0, title: "Submission", description: "Scouts submit luxury twins", icon: <Users className="w-5 h-5" />, color: "text-blue-400" },
+    { id: 1, title: "Staking", description: "Community USDT backing", icon: <TrendingUp className="w-5 h-5" />, color: "text-green-400" },
+    { id: 2, title: "Expertise", description: "Professional verification", icon: <Eye className="w-5 h-5" />, color: "text-purple-400" },
+    { id: 3, title: "Platform", description: "51% Governance lock", icon: <Shield className="w-5 h-5" />, color: "text-gold" },
+    { id: 4, title: "Minting", description: "ERC-3643 Tokenization", icon: <Zap className="w-5 h-5" />, color: "text-orange-400" },
+    { id: 5, title: "Market", description: "49% Public Liquidity", icon: <Award className="w-5 h-5" />, color: "text-red-400" }
   ]
 
-  const pillars = [
-    {
-      title: "Curation Matrix",
-      description: "Role-based asset verification system combining community wisdom with expert analysis",
-      icon: <Users className="w-8 h-8" />,
-      features: [
-        "Participant submissions",
-        "Expert verification",
-        "Reputation scoring",
-        "USDT staking"
-      ]
-    },
-    {
-      title: "Fractional Ownership",
-      description: "Tokenization of luxury assets enabling accessible investment opportunities",
-      icon: <TrendingUp className="w-8 h-8" />,
-      features: [
-        "49% public trading",
-        "51% platform control",
-        "Blockchain verification",
-        "Instant settlement"
-      ]
-    },
-    {
-      title: "Governance Protocol",
-      description: "Decentralized decision-making with platform oversight and transparency",
-      icon: <Shield className="w-8 h-8" />,
-      features: [
-        "51/49 ownership split",
-        "Expert validation",
-        "Community voting",
-        "Transparent governance"
-      ]
-    }
-  ]
-
-  const roles = [
-    {
-      title: "Participant",
-      description: "Community members who discover, submit, and stake on luxury assets",
-      icon: <Users className="w-12 h-12" />,
-      color: "border-blue-400/50 hover:border-blue-400",
-      bgColor: "bg-blue-400/10 hover:bg-blue-400/20",
-      abilities: [
-        "Submit new assets",
-        "Stake USDT on submissions",
-        "Earn reputation rewards",
-        "Vote on curation"
-      ]
-    },
-    {
-      title: "Professional",
-      description: "Verified experts who provide technical provenance and authentication",
-      icon: <Eye className="w-12 h-12" />,
-      color: "border-purple-400/50 hover:border-purple-400",
-      bgColor: "bg-purple-400/10 hover:bg-purple-400/20",
-      abilities: [
-        "Verify asset authenticity",
-        "Provide expert analysis",
-        "Access restricted data",
-        "Earn higher rewards"
-      ]
-    },
-    {
-      title: "Platform",
-      description: "Governance layer maintaining protocol integrity and 51% control",
-      icon: <Shield className="w-12 h-12" />,
-      color: "border-gold/50 hover:border-gold",
-      bgColor: "bg-gold/10 hover:bg-gold/20",
-      abilities: [
-        "Final approval authority",
-        "Smart contract control",
-        "Treasury management",
-        "Protocol upgrades"
-      ]
-    }
-  ]
+  if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-ivory">
+    <div className="min-h-screen bg-[#050505] text-ivory selection:bg-gold/30">
       <Navbar />
       
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent" />
-        <div className="relative container mx-auto px-6 pt-32 pb-16">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-gold/20 text-gold border-gold/30 text-sm">
-              <Shield className="w-4 h-4 mr-2" />
-              Heritage PROTOCOL
-            </Badge>
-            <h1 className="font-serif text-6xl lg:text-7xl text-ivory leading-[0.9] mb-6">
-              The Future of
-              <br />
-              <span className="italic text-gold">Luxury Asset</span>
-              <br />
-              Fractionalization
-            </h1>
-            <p className="text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed">
-              A revolutionary protocol combining community curation, expert verification, 
-              and decentralized governance to bring luxury assets on-chain.
-            </p>
+      {/* Hero Section - Upgraded with Glassmorphism */}
+      <section className="relative pt-40 pb-24 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent" />
+        <div className="relative max-w-5xl mx-auto text-center">
+          <Badge className="mb-8 bg-gold/10 text-gold border-gold/20 px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
+            Architectural Whitepaper
+          </Badge>
+          <h1 className="font-serif text-5xl md:text-8xl text-ivory leading-[0.85] mb-8 tracking-tighter">
+            The <span className="italic text-gold">Heritage</span> <br />Protocol
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed opacity-80">
+            A tri-party consensus engine transforming physical luxury into high-fidelity liquid assets via the 51/49 ownership standard.
+          </p>
+        </div>
+      </section>
+
+      {/* Asset Lifecycle - Mobile Optimized Horizontal Scroll */}
+      <section className="py-24 border-y border-white/5 bg-white/[0.01]">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center gap-4 mb-16">
+            <div className="h-[1px] w-12 bg-gold/50" />
+            <h2 className="font-serif text-3xl text-ivory">Lifecycle Engine</h2>
           </div>
-        </div>
-      </div>
 
-      {/* Three Pillars Section */}
-      <div className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl text-ivory mb-4">Three Pillars</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            The foundation of our protocol built on transparency, expertise, and accessibility
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {pillars.map((pillar, index) => (
-            <div
-              key={index}
-              className="group relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 hover:scale-105"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center mb-6 group-hover:bg-gold/30 transition-colors duration-300">
-                  <div className="text-gold">{pillar.icon}</div>
-                </div>
-                
-                <h3 className="font-serif text-2xl text-ivory mb-4 group-hover:text-gold transition-colors duration-300">
-                  {pillar.title}
-                </h3>
-                
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {pillar.description}
-                </p>
-                
-                <div className="space-y-2">
-                  {pillar.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Circle className="w-2 h-2 fill-gold text-gold" />
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Asset Lifecycle Section */}
-      <div className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl text-ivory mb-4">Asset Lifecycle</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From submission to trading - complete journey of a luxury asset
-          </p>
-        </div>
-
-        <div className="relative">
-          {/* Connection Lines */}
-          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold/30 to-transparent -translate-y-1/2 hidden lg:block" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
-            {lifecycleSteps.map((step, index) => (
-              <div key={index} className="relative">
-                {/* Vertical Line */}
-                {index < lifecycleSteps.length - 1 && (
-                  <div className="absolute top-12 left-1/2 w-0.5 h-16 bg-gold/20 -translate-x-1/2 lg:hidden" />
-                )}
-                
-                <div
-                  className={`text-center cursor-pointer transition-all duration-300 ${
-                    activeLifecycleStep === index ? 'scale-110' : 'hover:scale-105'
-                  }`}
+          <div className="relative">
+            {/* Steps - Swipable on Mobile */}
+            <div className="flex lg:grid lg:grid-cols-6 gap-4 overflow-x-auto pb-8 lg:pb-0 no-scrollbar snap-x">
+              {lifecycleSteps.map((step, index) => (
+                <div 
+                  key={index} 
                   onClick={() => setActiveLifecycleStep(index)}
+                  className={`snap-center min-w-[200px] lg:min-w-0 cursor-pointer group`}
                 >
-                  {/* Step Circle */}
-                  <div className={`relative w-24 h-24 mx-auto mb-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                  <div className={`p-6 rounded-2xl border transition-all duration-500 ${
                     activeLifecycleStep === index 
-                      ? 'border-gold bg-gold/20 shadow-lg shadow-gold/30' 
-                      : 'border-white/20 bg-white/5 hover:border-gold/50'
+                    ? 'bg-gold/10 border-gold shadow-[0_0_30px_rgba(212,175,55,0.1)]' 
+                    : 'bg-white/5 border-white/10 hover:border-white/20'
                   }`}>
-                    <div className={step.color}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-4 transition-transform duration-500 ${
+                      activeLifecycleStep === index ? 'scale-110' : ''
+                    } ${step.color} bg-black/40`}>
                       {step.icon}
                     </div>
-                    
-                    {/* Step Number */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gold text-black text-sm font-bold flex items-center justify-center">
-                      {index + 1}
-                    </div>
+                    <h3 className={`text-[10px] tracking-widest uppercase mb-2 ${
+                      activeLifecycleStep === index ? 'text-gold' : 'text-muted-foreground'
+                    }`}>Step 0{index + 1}</h3>
+                    <p className="font-serif text-lg leading-tight">{step.title}</p>
                   </div>
-                  
-                  {/* Step Content */}
-                  <h3 className={`font-serif text-lg mb-2 transition-colors duration-300 ${
-                    activeLifecycleStep === index ? 'text-gold' : 'text-ivory'
-                  }`}>
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {step.description}
-                  </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Dynamic Detail Card */}
+            <div className="mt-8 p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col md:flex-row items-center gap-6">
+               <div className={`w-16 h-16 rounded-full flex items-center justify-center shrink-0 bg-black/40 border border-white/10 ${lifecycleSteps[activeLifecycleStep].color}`}>
+                 {lifecycleSteps[activeLifecycleStep].icon}
+               </div>
+               <div>
+                 <h4 className="font-serif text-2xl text-gold mb-1">{lifecycleSteps[activeLifecycleStep].title} Phase</h4>
+                 <p className="text-muted-foreground max-w-3xl">{lifecycleSteps[activeLifecycleStep].description}. This stage ensures the asset is cryptographically verified before moving to the next layer of the Heritage stack.</p>
+               </div>
+               <ChevronRight className="hidden md:block ml-auto w-6 h-6 text-white/20" />
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Active Step Detail */}
-        <div className="mt-16 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="flex items-start gap-4">
-            <div className={`w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0`}>
-              <div className={lifecycleSteps[activeLifecycleStep].color}>
-                {lifecycleSteps[activeLifecycleStep].icon}
-              </div>
-            </div>
-            <div>
-              <h3 className="font-serif text-2xl text-gold mb-2">
-                {lifecycleSteps[activeLifecycleStep].title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {lifecycleSteps[activeLifecycleStep].description}
+      {/* The 51/49 Rule - Visualized */}
+      <section className="py-32 container mx-auto px-6">
+        <div className="max-w-4xl mx-auto bg-card border border-gold/30 rounded-3xl p-8 md:p-16 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] -mr-32 -mt-32" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+            <div className="w-full md:w-1/2">
+              <Badge className="bg-gold text-black mb-6">The Golden Ratio</Badge>
+              <h2 className="font-serif text-4xl md:text-5xl mb-6 leading-none">The 51/49 <br />Ownership Rule</h2>
+              <p className="text-muted-foreground mb-8">
+                To prevent hostile takeovers and ensure physical asset security, the Heritage Platform retains a 51% controlling stake. This guarantees the asset remains in a bonded warehouse while 49% provides public liquidity.
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Role Cards Section */}
-      <div className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl text-ivory mb-4">Protocol Roles</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Different participants with unique responsibilities and rewards
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {roles.map((role, index) => (
-            <div
-              key={index}
-              className={`group relative backdrop-blur-xl bg-white/5 rounded-2xl p-8 transition-all duration-500 hover:scale-105 border-2 ${role.color}`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="relative z-10">
-                <div className={`w-20 h-20 mx-auto mb-6 rounded-full ${role.bgColor} flex items-center justify-center transition-colors duration-300`}>
-                  <div className="text-gold">{role.icon}</div>
-                </div>
-                
-                <h3 className="font-serif text-2xl text-ivory mb-4 text-center group-hover:text-gold transition-colors duration-300">
-                  {role.title}
-                </h3>
-                
-                <p className="text-muted-foreground mb-6 text-center leading-relaxed">
-                  {role.description}
-                </p>
-                
-                <div className="space-y-3">
-                  {role.abilities.map((ability, idx) => (
-                    <div key={idx} className="flex items-center gap-3 text-sm">
-                      <CheckCircle className="w-4 h-4 text-gold flex-shrink-0" />
-                      <span className="text-muted-foreground group-hover:text-ivory transition-colors duration-300">
-                        {ability}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              {/* Visual Gauge */}
+              <div className="w-full h-4 bg-white/5 rounded-full overflow-hidden flex border border-white/10">
+                <div className="h-full bg-gold w-[51%] shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+                <div className="h-full bg-ivory/20 w-[49%]" />
+              </div>
+              <div className="flex justify-between mt-4 text-[10px] tracking-widest uppercase font-mono">
+                <span className="text-gold">51% Platform</span>
+                <span className="text-muted-foreground">49% Market</span>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Governance Section */}
-      <div className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl text-ivory mb-4">Governance Protocol</h2>
-            <p className="text-lg text-muted-foreground">
-              Ensuring platform integrity through balanced ownership
-            </p>
-          </div>
-
-          {/* The 51/49 Rule Callout */}
-          <div className="relative backdrop-blur-xl bg-gradient-to-r from-gold/10 to-gold/5 border-2 border-gold rounded-2xl p-10 mb-12">
-            <div className="absolute top-6 right-6">
-              <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center">
-                <CheckCircle className="w-8 h-8 text-black" />
+            <div className="w-full md:w-1/2 grid grid-cols-1 gap-4">
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-start gap-4">
+                <Shield className="w-5 h-5 text-gold shrink-0 mt-1" />
+                <div>
+                  <h4 className="text-sm font-bold text-ivory">Security Guarantee</h4>
+                  <p className="text-xs text-muted-foreground">Legal title is held in trust by the 51% majority partner.</p>
+                </div>
               </div>
-            </div>
-            
-            <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
-                <Lock className="w-8 h-8 text-gold" />
-              </div>
-              <div>
-                <h3 className="font-serif text-3xl text-gold mb-4">The 51/49 Rule</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Heritage Platform maintains 51% ownership of all tokenized assets, 
-                  ensuring long-term protocol stability and governance control. 
-                  The remaining 49% is available for public trading, creating 
-                  perfect balance between accessibility and control.
-                </p>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="backdrop-blur bg-white/5 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-gold mb-2">51%</div>
-                    <div className="text-sm text-muted-foreground">Platform Control</div>
-                  </div>
-                  <div className="backdrop-blur bg-white/5 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-ivory mb-2">49%</div>
-                    <div className="text-sm text-muted-foreground">Public Trading</div>
-                  </div>
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-start gap-4">
+                <RefreshCw className="w-5 h-5 text-gold shrink-0 mt-1" />
+                <div>
+                  <h4 className="text-sm font-bold text-ivory">Liquid Exit</h4>
+                  <p className="text-xs text-muted-foreground">Public holders can trade 49% of supply 24/7 on Uniswap V4.</p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Governance Benefits */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8">
-              <h4 className="font-serif text-xl text-ivory mb-4">Platform Benefits</h4>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Protocol governance and upgrades</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Treasury management for growth</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Final approval authority</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Risk management protocols</span>
-                </li>
-              </ul>
-            </div>
+      {/* Roles Section - With Role-Specific Colors */}
+      <section className="py-24 container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Reuse your Roles mapping here but wrap in different background gradients for Participant/Professional/Platform */}
+        </div>
+      </section>
 
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8">
-              <h4 className="font-serif text-xl text-ivory mb-4">Investor Benefits</h4>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Liquidity and trading access</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Fractional ownership opportunities</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Professional curation assurance</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ArrowRight className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Transparent asset verification</span>
-                </li>
-              </ul>
-            </div>
+      {/* Back to Top - Functional Fix */}
+      <div className="py-24 text-center">
+        <button 
+          onClick={scrollToTop}
+          className="group flex flex-col items-center gap-4 mx-auto"
+        >
+          <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-gold transition-colors duration-500">
+            <RefreshCw className="w-4 h-4 text-muted-foreground group-hover:text-gold group-hover:rotate-180 transition-all duration-700" />
           </div>
-        </div>
-      </div>
-
-      {/* Back to Top Button */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="text-center">
-          <Link href="/protocol">
-            <Button className="bg-gold hover:bg-gold/90 text-black font-sans">
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Back to Top
-            </Button>
-          </Link>
-        </div>
+          <span className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground group-hover:text-gold transition-colors">Return to Zenith</span>
+        </button>
       </div>
 
       <Footer />

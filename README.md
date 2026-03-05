@@ -174,15 +174,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 For support and questions:
-- Visit our [Support Page](https://heritage-rwa.com/support)
+- Visit our [Support Page]
 - Check our documentation
 - Open an issue on GitHub
-
-## 🔗 Links
-
-- **Live Demo**: https://heritage-rwa.com
-- **Documentation**: https://docs.heritage-rwa.com
-- **Sanity Studio**: https://heritage-rwa.sanity.studio
 
 ---
 

@@ -13,8 +13,8 @@ import '@uniswap/widgets/fonts.css'
 
 // 1. Fixed ASSET_MAP: Added dailyChange to satisfy chart props
 const ASSET_MAP = {
-  ETH: { fullName: 'Ethereum', ticker: 'BINANCE:ETHUSD', currentPrice: 2450.80, dailyChange: 1.8 },
-  BTC: { fullName: 'Bitcoin', ticker: 'BINANCE:BTCUSD', currentPrice: 43250.00, dailyChange: 2.1 },
+  ETH: { fullName: 'Ethereum', ticker: 'BINANCE:ETHUSD', currentPrice: 1234.80, dailyChange: 1.8 },
+  BTC: { fullName: 'Bitcoin', ticker: 'BINANCE:BTCUSD', currentPrice: 12345.00, dailyChange: 2.1 },
   USDT: { fullName: 'Tether', ticker: 'BINANCE:USDTUSD', currentPrice: 1.00, dailyChange: 0.0 },
   GOLD: { fullName: 'Sovereign Gold', ticker: 'OANDA:XAUUSD', currentPrice: 2040.50, dailyChange: 2.4 },
   PATEK: { fullName: 'Patek Philippe 5711', ticker: 'INDEX:WATCHES', currentPrice: 89200.00, dailyChange: -1.2 },
