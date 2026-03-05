@@ -103,7 +103,7 @@ export default function ProtocolPage() {
       </section>
 
       {/* The 51/49 Rule - Visualized */}
-      <section className="py-32 container mx-auto px-6">
+      <section className="py-24 container mx-auto px-6">
         <div className="max-w-4xl mx-auto bg-card border border-gold/30 rounded-3xl p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] -mr-32 -mt-32" />
           

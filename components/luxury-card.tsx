@@ -2,7 +2,8 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Clock, ArrowUpRight, TrendingUp } from "lucide-react"
+import { useState } from "react"
+import { Clock, ArrowUpRight } from "lucide-react"
 import { urlFor } from "@/lib/sanity.image"
 
 interface LuxuryItem {
@@ -49,6 +50,8 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
 
   const reserveDisplay = item.currentBid || formatCurrency(item.reserve)
 
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <div className="group relative bg-card overflow-hidden border border-border hover:border-gold/30 transition-all duration-700">
       {/* Image Container */}
@@ -91,13 +94,12 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Link
-                  href={`/exchange/${item.tokenAddress}`}
-                  className="px-4 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans flex items-center gap-1"
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="px-4 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans"
                 >
-                  <TrendingUp className="w-3 h-3" />
                   Trade
-                </Link>
+                </button>
                 <button
                   className="w-10 h-10 border border-gold/40 flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all duration-300"
                   aria-label={`Place bid on ${item.title}`}
@@ -131,13 +133,57 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
           </div>
           <Link
             href={`/exchange/${item.tokenAddress}`}
-            className="text-[10px] tracking-[0.2em] text-gold uppercase hover:text-gold-light transition-colors duration-300 font-sans flex items-center gap-1"
+            className="text-[10px] tracking-[0.2em] text-gold uppercase hover:text-gold-light transition-colors duration-300 font-sans"
           >
             Trade Now
-            <ArrowUpRight className="w-3 h-3" />
           </Link>
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
+          <div className="bg-background p-6 rounded-lg max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-serif text-xl text-ivory mb-4">{item.title}</h3>
+            <p className="text-[9px] tracking-[0.3em] text-gold uppercase mb-2 font-sans">{item.category}</p>
+            <div className="space-y-2 mb-4">
+              <div>
+                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Lot Number</p>
+                <p className="text-sm text-ivory">{item.lotNumber}</p>
+              </div>
+              <div>
+                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Reserve</p>
+                <p className="text-sm text-ivory">{formatCurrency(item.reserve)}</p>
+              </div>
+              <div>
+                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Current Bid</p>
+                <p className="text-sm text-ivory">{reserveDisplay}</p>
+              </div>
+              {item.timeLeft && (
+                <div>
+                  <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Time Left</p>
+                  <p className="text-sm text-ivory">{item.timeLeft}</p>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Link
+                href={`/exchange/${item.tokenAddress}`}
+                className="px-4 py-2 bg-gold text-background text-[10px] tracking-[0.2em] uppercase font-sans hover:bg-gold-light transition-colors"
+                onClick={() => setShowModal(false)}
+              >
+                Trade Now
+              </Link>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
