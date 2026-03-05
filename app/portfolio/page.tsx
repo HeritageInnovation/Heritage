@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { useActiveAccount, useWalletBalance } from "thirdweb/react"
+import { useActiveAccount, useWalletBalance, ConnectButton } from "thirdweb/react"
 import { client, ethereum } from "@/lib/client"
 import { Wallet, TrendingUp, Shield, Gem } from "lucide-react"
 
@@ -15,6 +15,8 @@ interface Asset {
   value: string
   image: string
   tokenAddress: string
+  yield: number // APY percentage
+  share: number // Ownership percentage
 }
 
 export default function ProfilePage() {
@@ -42,6 +44,8 @@ export default function ProfilePage() {
       value: "$1,240,000",
       image: "/images/lot-01.jpg",
       tokenAddress: "0xGold",
+      yield: 12.4,
+      share: 2.5
     },
     {
       id: "2",
@@ -51,6 +55,8 @@ export default function ProfilePage() {
       value: "$892,000",
       image: "/images/lot-02.jpg",
       tokenAddress: "0xPatek",
+      yield: 8.7,
+      share: 1.8
     },
   ]
 
@@ -77,11 +83,16 @@ export default function ProfilePage() {
                 <Wallet className="w-10 h-10 text-gold" />
               </div>
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance mb-4">
-                Connect Your Wallet
+                Enter the Vault
               </h1>
               <p className="text-xl text-muted-foreground font-sans max-w-2xl mx-auto mb-8">
                 Connect your wallet to view your Heritage Assets and manage your fractional real world assets.
               </p>
+              <div className="flex justify-center">
+                <div className="bg-gold/10 border border-gold/30 rounded-lg p-1">
+                  <ConnectButton theme="dark" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +123,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Wallet Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
           <div className="border border-border bg-card p-6">
             <div className="flex items-center gap-3 mb-4">
               <Wallet className="w-5 h-5 text-gold" />
@@ -146,6 +157,21 @@ export default function ProfilePage() {
             </div>
             <p className="text-2xl font-serif text-gold">$2,132,000</p>
           </div>
+
+          <div className="border border-border bg-card p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <TrendingUp className="w-5 h-5 text-gold" />
+              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                Accrued Rewards
+              </p>
+            </div>
+            <p className="text-2xl font-serif text-gold animate-pulse">
+              ${heritageAssets.reduce((total, asset) => {
+                const assetValue = parseFloat(asset.value.replace(/[$,]/g, ''));
+                return total + (assetValue * asset.yield / 100);
+              }, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+          </div>
         </div>
 
         {/* Heritage Assets */}
@@ -162,7 +188,7 @@ export default function ProfilePage() {
             {heritageAssets.map((asset) => (
               <div
                 key={asset.id}
-                className="group border border-border bg-card/50 backdrop-blur-sm overflow-hidden hover:bg-card/70 transition-all duration-500 rounded-lg"
+                className="group border border-gold/20 bg-card/50 backdrop-blur-sm overflow-hidden hover:bg-card/70 hover:shadow-[0_0_20px_rgba(212,175,55,0.1)] transition-all duration-500 rounded-lg"
               >
                 <div className="flex">
                   {/* Image */}
@@ -181,18 +207,38 @@ export default function ProfilePage() {
                       {asset.name}
                     </h3>
                     
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                          Tokens
-                        </p>
-                        <p className="text-sm text-ivory font-sans">{asset.tokenAmount}</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                            Tokens
+                          </p>
+                          <p className="text-sm text-ivory font-sans">{asset.tokenAmount}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                            Value
+                          </p>
+                          <p className="text-sm text-gold font-sans">{asset.value}</p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                          Value
-                        </p>
-                        <p className="text-sm text-gold font-sans">{asset.value}</p>
+
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                            Current Yield
+                          </p>
+                          <p className="text-sm text-green-400 font-sans flex items-center gap-1">
+                            <TrendingUp className="w-3 h-3" />
+                            <span className="animate-pulse">+{asset.yield}% APY</span>
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                            Ownership
+                          </p>
+                          <p className="text-sm text-gold font-sans">{asset.share}%</p>
+                        </div>
                       </div>
                     </div>
                   </div>
