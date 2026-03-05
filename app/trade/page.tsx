@@ -46,6 +46,17 @@ export default function TradePage() {
   const [livePrice, setLivePrice] = useState<number>(ASSET_MAP.ETH.currentPrice);
   const [userRole, setUserRole] = useState<"participant" | "professional" | "investor">("participant");
 
+  // Handle asset selection
+  const handleAssetSelect = (assetKey: keyof typeof ASSET_MAP) => {
+    setActiveAsset(assetKey);
+    setLivePrice(ASSET_MAP[assetKey].currentPrice);
+  };
+
+  // Handle price updates from chart
+  const handlePriceUpdate = (newPrice: number) => {
+    setLivePrice(newPrice);
+  };
+
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
       (window as any).Browser = (window as any).Browser || { T: () => {} };
