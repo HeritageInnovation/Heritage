@@ -136,14 +136,6 @@ export default function TradePage() {
               </div>
             </div>
           </div>
-
-          <button
-            onClick={() => setShowCurationMatrix(true)}
-            className="group flex items-center justify-center gap-3 px-6 py-3 rounded-full border border-gold/30 bg-gold/5 hover:bg-gold/10 transition-all w-full xl:w-auto shrink-0"
-          >
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[10px] tracking-[0.2em] text-gold uppercase font-bold">Open Curation Matrix</span>
-          </button>
         </div>
 
         {/* CORE TRADE ENGINE */}
