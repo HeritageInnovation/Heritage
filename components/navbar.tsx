@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { client } from "@/lib/client" 
 import { ConnectButton } from "thirdweb/react"
-import { Shield, Menu, X } from "lucide-react"
+import { client } from "@/lib/client"
+import { Menu, X } from "lucide-react"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -25,7 +25,7 @@ export function Navbar() {
   if (!mounted) return null
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/60 backdrop-blur-xl border-b border-white/5">
+    <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/80 backdrop-blur-sm border-b border-white/5">
       <div className="max-w-[1600px] mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
@@ -82,7 +82,7 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="lg:hidden bg-black/95 backdrop-blur-2xl border-b border-white/10 p-8 flex flex-col gap-8 animate-in fade-in slide-in-from-top-4">
+        <div className="lg:hidden bg-black/90 backdrop-blur-sm border-b border-white/10 p-8 flex flex-col gap-8 animate-in fade-in slide-in-from-top-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -95,9 +95,6 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <div className="pt-6 border-t border-white/10">
-            <ConnectButton client={client} theme="dark" />
-          </div>
         </div>
       )}
     </nav>

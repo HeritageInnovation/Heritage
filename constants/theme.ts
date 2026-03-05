@@ -1,6 +1,4 @@
-import { Theme } from '@uniswap/widgets'
-
-export const HERITAGE_THEME: Theme = {
+export const HERITAGE_THEME = {
   // Primary accent colors - sophisticated deep blues and golds for heritage luxury feel
   accent: '#D4AF37', // Heritage gold
   accentSoft: '#F4E5C2', // Soft gold

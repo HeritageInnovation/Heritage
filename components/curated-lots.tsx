@@ -89,7 +89,7 @@ const mockLuxuryItems: LuxuryItem[] = [
   },
 ]
 
-export function PrimaryMarkets() {
+export function CuratedLots() {
   const [items, setItems] = useState<LuxuryItem[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -129,7 +129,7 @@ export function PrimaryMarkets() {
             </span>
           </div>
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance tracking-tighter">
-            Primary Markets
+            Curated Lots
           </h2>
         </div>
         
@@ -143,8 +143,8 @@ export function PrimaryMarkets() {
           </div>
           <div className="w-px h-8 bg-white/10 hidden sm:block" />
           <Link 
-            href="/trade" 
-            className="group flex items-center gap-2 text-[10px] tracking-[0.3em] text-ivory uppercase hover:text-gold transition-colors duration-300 font-sans"
+            href="/exchange" 
+            className="group flex items-center gap-2 px-4 py-2 border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans rounded-sm"
           >
             <span>View Exchange</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

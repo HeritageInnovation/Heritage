@@ -1,7 +1,5 @@
 import { createThirdwebClient, getContract } from "thirdweb"
 import { defineChain, ethereum } from "thirdweb/chains"
-import { stake } from "thirdweb/extensions/modular"
-import { USDT_ADDRESS } from "@/constants/addresses"
 
 // Create Thirdweb client
 const client = createThirdwebClient({
@@ -62,15 +60,8 @@ export async function stakeUSDT(params: StakeParams): Promise<{ success: boolean
     // Convert USDT amount to wei/smallest unit
     const amountInWei = params.amount * 10 ** 6 // USDT has 6 decimals
 
-    // Prepare the stake transaction
-    const transaction = stake({
-      contract,
-      amount: amountInWei.toString(),
-    })
-
-    // In a real implementation, you would execute this transaction
-    // For now, we'll simulate the transaction
-    console.log("Staking transaction prepared:", transaction)
+    // Mock transaction preparation (removed stake function call)
+    console.log("Staking transaction prepared for amount:", amountInWei)
     
     // Simulate transaction success
     const mockTransactionHash = `0x${Math.random().toString(16).substr(2, 64)}`
@@ -96,14 +87,8 @@ export async function unstakeUSDT(params: UnstakeParams): Promise<{ success: boo
     // Convert USDT amount to wei/smallest unit
     const amountInWei = params.amount * 10 ** 6
 
-    // Prepare the unstake transaction
-    const transaction = stake({
-      contract,
-      amount: amountInWei.toString(),
-    })
-
-    // In a real implementation, you would execute this transaction
-    console.log("Unstaking transaction prepared:", transaction)
+    // Mock transaction preparation (removed stake function call)
+    console.log("Unstaking transaction prepared for amount:", amountInWei)
     
     // Simulate transaction success
     const mockTransactionHash = `0x${Math.random().toString(16).substr(2, 64)}`

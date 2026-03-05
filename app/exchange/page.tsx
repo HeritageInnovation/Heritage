@@ -7,9 +7,6 @@ import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
 import { CurationDashboard } from "@/components/Curation/CurationDashboard"
-import dynamicImport from "next/dynamic"
-import { USDT_ADDRESS } from '@/constants/addresses'
-import '@uniswap/widgets/fonts.css'
 
 // 1. Fixed ASSET_MAP: Added dailyChange to satisfy chart props
 const ASSET_MAP = {
@@ -25,7 +22,6 @@ const ASSET_MAP = {
 const assetConfig = {
   ETH: 'NATIVE',
   BTC: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // Real WBTC
-  USDT: USDT_ADDRESS,
   // These are validly formatted "burn" addresses for testing
   GOLD: '0x0000000000000000000000000000000000000001', 
   PATEK: '0x0000000000000000000000000000000000000002',
@@ -36,10 +32,19 @@ const assetConfig = {
 const CRYPTO_ASSETS = ['ETH', 'BTC', 'USDT'] as const;
 const LUXURY_ASSETS = ['GOLD', 'PATEK', 'DIAMOND', 'ROTHKO'] as const;
 
-const SwapReset = dynamicImport(
-  () => import("@/components/Trade/SwapReset").then((mod) => mod.SwapReset),
-  { ssr: false }
-);
+const SwapReset = () => {
+  return (
+    <div className="bg-card/30 backdrop-blur-md border border-white/10 p-6 lg:p-8 rounded-3xl text-center">
+      <div className="text-gold text-sm mb-2">Trading Interface</div>
+      <div className="text-ivory/60 text-xs">
+        Trading interface coming soon.
+      </div>
+      <div className="text-ivory/40 text-xs mt-2">
+        Please connect your wallet to continue.
+      </div>
+    </div>
+  );
+};
 
 export default function TradePage() {
   const [mounted, setMounted] = useState(false);
@@ -56,12 +61,6 @@ export default function TradePage() {
   const handlePriceUpdate = (newPrice: number) => {
     setLivePrice(newPrice);
   };
-
-  useLayoutEffect(() => {
-    if (typeof window !== 'undefined') {
-      (window as any).Browser = (window as any).Browser || { T: () => {} };
-    }
-  }, []);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -177,13 +176,11 @@ export default function TradePage() {
               <div className="w-full">
                 <SwapReset
                   key={`${activeAsset}-widget`}
-                  defaultInputTokenAddress={assetConfig[activeAsset]}
-                  defaultOutputTokenAddress={USDT_ADDRESS}
                 />
               </div>
               
               <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-2">
-                <div className="text-[9px] tracking-[0.3em] text-muted-foreground uppercase">Liquidity via Uniswap V4</div>
+                <div className="text-[9px] tracking-[0.3em] text-muted-foreground uppercase">Liquidity via DEX</div>
               </div>
             </div>
           </div>

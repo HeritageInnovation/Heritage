@@ -138,7 +138,7 @@ export default function ProtocolPage() {
                 <RefreshCw className="w-5 h-5 text-gold shrink-0 mt-1" />
                 <div>
                   <h4 className="text-sm font-bold text-ivory">Liquid Exit</h4>
-                  <p className="text-xs text-muted-foreground">Public holders can trade 49% of supply 24/7 on Uniswap V4.</p>
+                  <p className="text-xs text-muted-foreground">Public holders can trade 49% of supply 24/7 on decentralized exchanges.</p>
                 </div>
               </div>
             </div>
