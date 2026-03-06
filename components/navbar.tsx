@@ -95,6 +95,18 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
+          
+          {/* Connect Button in Mobile Menu */}
+          <div className="pt-4 border-t border-white/10">
+            <ConnectButton 
+              client={client}
+              theme="dark"
+              connectButton={{
+                className: "!bg-gold/10 !border !border-gold/30 !text-gold !rounded-full !px-6 !py-2 !text-[10px] !uppercase !tracking-widest hover:!bg-gold/20 transition-all w-full",
+                label: "Connect Identity"
+              }}
+            />
+          </div>
         </div>
       )}
     </nav>

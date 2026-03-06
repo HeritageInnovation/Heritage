@@ -50,69 +50,51 @@ export default function MatrixPage() {
             </span>
           </div>
           
-          <div className="bg-black/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl flex items-center gap-1">
+          <div className="bg-black/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
             {(['participant', 'professional', 'investor'] as const).map((role) => (
               <button
                 key={role}
                 onClick={() => setUserRole(role)}
-                className={`px-6 py-3 rounded-xl text-[10px] tracking-[0.3em] uppercase transition-all duration-300 whitespace-nowrap ${
+                className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-xl text-[10px] tracking-[0.2em] sm:tracking-[0.3em] uppercase transition-all duration-300 truncate ${
                   userRole === role 
                     ? 'bg-gold/10 border border-gold/30 text-gold font-bold shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
                     : 'text-muted-foreground border border-transparent hover:text-ivory hover:bg-white/5'
                 }`}
               >
-                {role}
+                <span className="truncate max-w-[60px] sm:max-w-none">{role}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Matrix Dashboard Body */}
-        <div className="relative">
-          {!userAddress ? (
-            // Gated View if wallet is not connected
-            <div className="border border-white/10 bg-card/30 p-16 text-center rounded-2xl">
-              <Lock className="w-12 h-12 text-muted-foreground/30 mx-auto mb-6" />
-              <h3 className="font-serif text-2xl text-ivory mb-3">Identity Verification Required</h3>
-              <p className="text-muted-foreground font-sans text-sm mb-8 max-w-md mx-auto">
-                Please connect your wallet to access the Matrix, stake USDT, and review active provenance mandates.
-              </p>
-              <div className="max-w-xs mx-auto">
-                <div className="p-[1px] bg-gradient-to-b from-gold/50 to-transparent rounded-xl shadow-lg">
-                  <div className="bg-background rounded-xl p-1">
-                    <ConnectButton 
-                      client={client}
-                      theme="dark"
-                      connectButton={{
-                        label: "Connect Heritage Wallet",
-                        style: {
-                          width: "100%",
-                          height: "48px",
-                          fontSize: "14px",
-                          fontWeight: "600",
-                          letterSpacing: "0.05em",
-                          textTransform: "uppercase",
-                          borderRadius: "8px",
-                          background: "linear-gradient(to bottom, rgba(212, 175, 55, 0.1), transparent)",
-                          border: "1px solid rgba(212, 175, 55, 0.3)",
-                          color: "#D4AF37"
-                        }
-                      }}
-                      connectModal={{
-                        title: "Matrix Access",
-                        showThirdwebBranding: false,
-                      }}
-                    />
-                  </div>
-                </div>
+        <div className="flex-1 pt-32 pb-16 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+          <div className="mb-8 flex flex-col items-center">
+            <div className="w-20 h-20 mb-6 rounded-full border-2 border-gold/20 flex items-center justify-center bg-gold/5 shadow-[0_0_30px_rgba(212,175,55,0.1)]">
+              <Lock className="w-10 h-10 text-gold" />
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance mb-4">
+              Access Matrix
+            </h1>
+            <p className="text-xl text-muted-foreground font-sans max-w-2xl mx-auto mb-10">
+              Connect your wallet to access the Matrix, stake USDT, and review active provenance mandates.
+            </p>
+            
+            <div className="p-[1px] bg-gradient-to-b from-gold/50 to-transparent rounded-xl shadow-lg">
+              <div className="bg-background rounded-xl p-1">
+                <ConnectButton 
+                  client={client}
+                  theme="dark"
+                  connectButton={{
+                    label: "Connect Heritage Wallet",
+                  }}
+                  connectModal={{
+                    title: "Matrix Access",
+                    showThirdwebBranding: false,
+                  }}
+                />
               </div>
             </div>
-          ) : (
-            // Connected View
-            <div className="animate-in fade-in duration-1000">
-              <CurationDashboard userAddress={userAddress} userRole={userRole} />
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Protocol Footer Note */}
