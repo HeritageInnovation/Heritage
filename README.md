@@ -81,7 +81,7 @@ Visit `http://localhost:3000` to view the application.
 Heritage/
 ├── app/                    # Next.js App Router pages
 │   ├── portfolio/         # Portfolio management
-│   ├── trade/             # Trading interface
+│   ├── exchange/             # Trading interface
 │   ├── protocol/          # Protocol information
 │   └── support/           # Support pages
 ├── components/            # React components
