@@ -8,6 +8,8 @@ interface ToastProps {
   description?: string
   variant?: "default" | "destructive"
   duration?: number
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 interface ToastActionElement {
