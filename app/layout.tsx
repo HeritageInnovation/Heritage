@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 import './globals.css'
 import Providers from './providers'
+import { ErrorBoundary } from '@/components/error-boundary'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -60,7 +61,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
-        <Providers>{children}</Providers>
+        <ErrorBoundary>
+          <Providers>{children}</Providers>
+        </ErrorBoundary>
         <Script 
           src="https://s3.tradingview.com/external-embedding/embed-widget-embed.js" 
           strategy="afterInteractive" 

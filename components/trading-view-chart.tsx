@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import { TrendingUp, Activity } from "lucide-react"
+import { FINANCIAL_MULTIPLIERS, CHART_CONFIG, ASSET_PRICING } from "@/constants/chart"
 
 interface Asset {
   id: string
@@ -32,6 +33,17 @@ export function TradingViewChart({
     onAssetChange?.(asset)
   }, [onAssetChange])
 
+  // Cleanup function for TradingView widget
+  const cleanupWidget = useCallback((widget: any) => {
+    if (widget && typeof widget.remove === 'function') {
+      try {
+        widget.remove()
+      } catch (error) {
+        console.warn('Failed to remove TradingView widget:', error)
+      }
+    }
+  }, [])
+
   // Initialize or update chart
   useEffect(() => {
     if (!chartContainerRef.current) return
@@ -39,9 +51,9 @@ export function TradingViewChart({
     const loadTradingView = () => {
       setIsChartLoading(true)
       
-      // Destroy existing widget if it exists
-      if (chartWidget && typeof chartWidget.remove === 'function') {
-        chartWidget.remove()
+      // Cleanup existing widget if it exists
+      if (chartWidget) {
+        cleanupWidget(chartWidget)
       }
 
       // Create new widget
@@ -86,25 +98,35 @@ export function TradingViewChart({
       script.src = "https://s3.tradingview.com/tv.js"
       script.async = true
       script.onload = loadTradingView
+      script.onerror = () => {
+        console.error('Failed to load TradingView script')
+        setIsChartLoading(false)
+      }
       document.head.appendChild(script)
     } else if (typeof window !== "undefined" && (window as any).TradingView) {
       loadTradingView()
     }
 
     return () => {
-      if (chartWidget && typeof chartWidget.remove === 'function') {
-        chartWidget.remove()
+      if (chartWidget) {
+        cleanupWidget(chartWidget)
       }
     }
-  }, [selectedAsset, timeframe])
+  }, [selectedAsset, timeframe, cleanupWidget])
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       if (chartWidget && typeof chartWidget.resize === 'function') {
-        setTimeout(() => {
-          chartWidget.resize()
-        }, 100)
+        try {
+          // Debounce resize to prevent excessive calls
+          const timeoutId = setTimeout(() => {
+            chartWidget.resize()
+          }, CHART_CONFIG.RESIZE_DELAY)
+          return () => clearTimeout(timeoutId)
+        } catch (error) {
+          console.warn('Failed to resize TradingView widget:', error)
+        }
       }
     }
 
@@ -115,19 +137,19 @@ export function TradingViewChart({
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (chartWidget && typeof chartWidget.remove === 'function') {
-        chartWidget.remove()
+      if (chartWidget) {
+        cleanupWidget(chartWidget)
       }
     }
-  }, [])
+  }, [cleanupWidget, chartWidget])
 
   // Format price display
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: price < 1 ? 4 : 2,
-      maximumFractionDigits: price < 1 ? 4 : 2,
+      minimumFractionDigits: price < ASSET_PRICING.SMALL_ASSET_THRESHOLD ? ASSET_PRICING.MAX_DECIMALS : ASSET_PRICING.MIN_DECIMALS,
+      maximumFractionDigits: price < ASSET_PRICING.SMALL_ASSET_THRESHOLD ? ASSET_PRICING.MAX_DECIMALS : ASSET_PRICING.MIN_DECIMALS,
     }).format(price)
   }
 
@@ -181,7 +203,7 @@ export function TradingViewChart({
               24h Volume
             </p>
             <p className="text-sm text-ivory font-sans">
-              ${(selectedAsset.price * 1000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              ${(selectedAsset.price * FINANCIAL_MULTIPLIERS.VOLUME).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div>
@@ -189,7 +211,7 @@ export function TradingViewChart({
               Market Cap
             </p>
             <p className="text-sm text-ivory font-sans">
-              ${(selectedAsset.price * 10000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              ${(selectedAsset.price * FINANCIAL_MULTIPLIERS.MARKET_CAP).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div>
@@ -197,7 +219,7 @@ export function TradingViewChart({
               Liquidity
             </p>
             <p className="text-sm text-gold font-sans">
-              ${(selectedAsset.price * 5000000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              ${(selectedAsset.price * FINANCIAL_MULTIPLIERS.LIQUIDITY).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div>

@@ -1,8 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { sanityClient } from "@/lib/sanity"
 import { LuxuryCard } from "@/components/luxury-card"
 import { ArrowUpRight } from "lucide-react"
 
@@ -90,32 +89,11 @@ const mockLuxuryItems: LuxuryItem[] = [
 ]
 
 export function CuratedLots() {
-  const [items, setItems] = useState<LuxuryItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const [items] = useState<LuxuryItem[]>(mockLuxuryItems) // Only use placeholder data
+  const [loading] = useState(false)
+  const [sanityConnected] = useState(false) // Sanity disconnected
 
-  useEffect(() => {
-    async function fetchItems() {
-      try {
-        const query = `*[_type == "luxuryItem"] | order(featured desc, _createdAt desc) {
-          _id, title, category, reserve, lotNumber, timeLeft, tokenAddress, currentBid, image, featured
-        }`
-        const data = await sanityClient.fetch(query)
-        
-        if (!data || data.length === 0) {
-          setItems(mockLuxuryItems)
-        } else {
-          setItems(data)
-        }
-      } catch (err) {
-        console.error("Matrix Sync Error: Cannot fetch sanity data.", err)
-        setItems(mockLuxuryItems)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchItems()
-  }, [])
+  // No useEffect - no Sanity connection attempt
 
   return (
     <section id="markets" className="py-24 lg:py-40 px-6 lg:px-12 max-w-[1600px] mx-auto bg-[#050505]">
@@ -141,14 +119,14 @@ export function CuratedLots() {
               {loading ? "--" : items.length} Active Assets
             </span>
           </div>
-          <div className="w-px h-8 bg-white/10 hidden sm:block" />
-          <Link 
-            href="/exchange" 
-            className="group flex items-center gap-2 px-4 py-2 border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans rounded-sm"
-          >
-            <span>View Exchange</span>
-            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
+          {sanityConnected && (
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              <span className="text-[10px] tracking-[0.3em] text-green-400 uppercase font-sans">
+                Live Data
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

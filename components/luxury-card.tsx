@@ -2,8 +2,8 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
-import { Clock, ArrowUpRight } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { Clock, ArrowUpRight, Share2, Copy, MessageCircle } from "lucide-react"
 import { urlFor } from "@/lib/sanity.image"
 
 interface LuxuryItem {
@@ -34,6 +34,21 @@ function formatCurrency(value: number): string {
 }
 
 export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: LuxuryCardProps) {
+  const [showShareMenu, setShowShareMenu] = useState(false)
+  const shareMenuRef = useRef<HTMLDivElement>(null)
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (shareMenuRef.current && !shareMenuRef.current.contains(event.target as Node)) {
+        setShowShareMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+  
   // Generate image URL from Sanity or use local fallback image
   const localFallbackImages = [
     "/images/lot-01.jpg",
@@ -50,8 +65,6 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
 
   const reserveDisplay = item.currentBid || formatCurrency(item.reserve)
 
-  const [showModal, setShowModal] = useState(false)
-
   return (
     <div className="group relative bg-card overflow-hidden border border-border hover:border-gold/30 transition-all duration-700">
       {/* Image Container */}
@@ -65,8 +78,8 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Glassmorphism Overlay on Hover */}
-        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-0 group-hover:backdrop-blur-sm transition-all duration-700" />
+        {/* Zoom Overlay on Hover */}
+        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-all duration-700" />
 
         {/* Top Info Bar */}
         <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start">
@@ -93,19 +106,69 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
                   {reserveDisplay}
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowModal(true)}
-                  className="px-4 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans"
-                >
-                  Trade
-                </button>
-                <button
-                  className="w-10 h-10 border border-gold/40 flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all duration-300"
-                  aria-label={`Place bid on ${item.title}`}
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+              <div className="flex items-center gap-2 relative">
+                {/* Share Dropdown */}
+                <div className="relative" ref={shareMenuRef}>
+                  <button
+                    onClick={() => setShowShareMenu(!showShareMenu)}
+                    className="px-3 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans flex items-center gap-1"
+                  >
+                    <Share2 className="w-3 h-3" />
+                    Share
+                  </button>
+                  
+                  {showShareMenu && (
+                    <div className="absolute bottom-full right-0 mb-1 bg-background border border-gold/30 rounded-lg shadow-xl z-50 min-w-[140px]">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.origin + `/exchange/${item.tokenAddress}`)
+                          alert('Link copied to clipboard!')
+                          setShowShareMenu(false)
+                        }}
+                        className="w-full px-3 py-2 text-left text-[9px] tracking-[0.1em] text-ivory hover:text-gold hover:bg-gold/10 transition-colors duration-200 font-sans flex items-center gap-2"
+                      >
+                        <Copy className="w-3 h-3" />
+                        Copy Link
+                      </button>
+                      <button
+                        onClick={() => {
+                          const text = `Check out this amazing ${item.title} from ${item.category} - Reserve: ${formatCurrency(item.reserve)} - Current Bid: ${reserveDisplay}`
+                          const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin + `/exchange/${item.tokenAddress}`)}`
+                          window.open(url, '_blank')
+                          setShowShareMenu(false)
+                        }}
+                        className="w-full px-3 py-2 text-left text-[9px] tracking-[0.1em] text-ivory hover:text-gold hover:bg-gold/10 transition-colors duration-200 font-sans flex items-center gap-2"
+                      >
+                        <Share2 className="w-3 h-3" />
+                        Twitter
+                      </button>
+                      <button
+                        onClick={() => {
+                          const text = `Check out this amazing ${item.title} from ${item.category} - Reserve: ${formatCurrency(item.reserve)} - Current Bid: ${reserveDisplay}`
+                          const url = `https://reddit.com/submit?url=${encodeURIComponent(window.location.origin + `/exchange/${item.tokenAddress}`)}&title=${encodeURIComponent(text)}`
+                          window.open(url, '_blank')
+                          setShowShareMenu(false)
+                        }}
+                        className="w-full px-3 py-2 text-left text-[9px] tracking-[0.1em] text-ivory hover:text-gold hover:bg-gold/10 transition-colors duration-200 font-sans flex items-center gap-2"
+                      >
+                        <MessageCircle className="w-3 h-3" />
+                        Reddit
+                      </button>
+                      <button
+                        onClick={() => {
+                          const text = `Check out this amazing ${item.title} from ${item.category} - Reserve: ${formatCurrency(item.reserve)} - Current Bid: ${reserveDisplay}`
+                          const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + `/exchange/${item.tokenAddress}`)}`
+                          window.open(url, '_blank')
+                          setShowShareMenu(false)
+                        }}
+                        className="w-full px-3 py-2 text-left text-[9px] tracking-[0.1em] text-ivory hover:text-gold hover:bg-gold/10 transition-colors duration-200 font-sans flex items-center gap-2"
+                      >
+                        <Share2 className="w-3 h-3" />
+                        Facebook
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -133,57 +196,17 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
           </div>
           <Link
             href={`/exchange/${item.tokenAddress}`}
-            className="text-[10px] tracking-[0.2em] text-gold uppercase hover:text-gold-light transition-colors duration-300 font-sans"
+            className="group relative inline-flex items-center justify-center px-3 py-2 bg-black border border-gold/50 text-gold text-[10px] tracking-[0.15em] uppercase font-sans font-medium rounded-sm hover:bg-gold hover:text-black hover:border-gold hover:shadow-lg transition-all duration-500 ease-out overflow-hidden"
           >
-            Trade Now
+            <span className="relative z-10 flex items-center gap-1.5">
+              <span>Enter Auction</span>
+              <ArrowUpRight className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-gold/20 to-gold/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
           </Link>
         </div>
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
-          <div className="bg-background p-6 rounded-lg max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-            <h3 className="font-serif text-xl text-ivory mb-4">{item.title}</h3>
-            <p className="text-[9px] tracking-[0.3em] text-gold uppercase mb-2 font-sans">{item.category}</p>
-            <div className="space-y-2 mb-4">
-              <div>
-                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Lot Number</p>
-                <p className="text-sm text-ivory">{item.lotNumber}</p>
-              </div>
-              <div>
-                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Reserve</p>
-                <p className="text-sm text-ivory">{formatCurrency(item.reserve)}</p>
-              </div>
-              <div>
-                <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Current Bid</p>
-                <p className="text-sm text-ivory">{reserveDisplay}</p>
-              </div>
-              {item.timeLeft && (
-                <div>
-                  <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans">Time Left</p>
-                  <p className="text-sm text-ivory">{item.timeLeft}</p>
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <Link
-                href={`/exchange/${item.tokenAddress}`}
-                className="px-4 py-2 bg-gold text-background text-[10px] tracking-[0.2em] uppercase font-sans hover:bg-gold-light transition-colors"
-                onClick={() => setShowModal(false)}
-              >
-                Trade Now
-              </Link>
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

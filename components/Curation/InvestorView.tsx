@@ -134,7 +134,7 @@ export function InvestorView({ userAddress }: { userAddress: string }) {
       }
 
       // In a real implementation, this would integrate with thirdweb to handle the actual purchase
-      console.log("Processing purchase:", purchaseOrder)
+      // TODO: Implement thirdweb integration for purchase processing
 
       // Reset form
       setPurchaseAmount("1000")

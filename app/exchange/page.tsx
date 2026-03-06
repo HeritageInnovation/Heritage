@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState, useLayoutEffect } from "react"
+import { useEffect, useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { TradingViewChart } from "@/components/trading-view-chart"
 import { Footer } from "@/components/footer"
@@ -56,6 +56,13 @@ export default function TradePage() {
   const handleAssetSelect = (assetKey: keyof typeof ASSET_MAP) => {
     setActiveAsset(assetKey);
     setLivePrice(ASSET_MAP[assetKey].currentPrice);
+  };
+
+  // Safe asset lookup with validation
+  const findAssetByTicker = (ticker: string): keyof typeof ASSET_MAP | null => {
+    const assetEntries = Object.entries(ASSET_MAP) as [keyof typeof ASSET_MAP, typeof ASSET_MAP[keyof typeof ASSET_MAP]][];
+    const found = assetEntries.find(([, asset]) => asset.ticker === ticker);
+    return found ? found[0] : null;
   };
 
   const handlePriceUpdate = (newPrice: number) => {
@@ -143,14 +150,12 @@ export default function TradePage() {
             <TradingViewChart 
               key={activeAsset} 
               onAssetChange={(asset: { id: string; name: string; price: number; change: number; symbol: string; ticker: string }) => {
-                const assetKey = Object.keys(ASSET_MAP).find(
-                  key => ASSET_MAP[key as keyof typeof ASSET_MAP].ticker === asset.ticker
-                ) as keyof typeof ASSET_MAP
+                const assetKey = findAssetByTicker(asset.ticker);
                 if (assetKey) {
-                  handleAssetSelect(assetKey)
+                  handleAssetSelect(assetKey);
                 }
-                if (asset.price) {
-                  handlePriceUpdate(asset.price)
+                if (asset.price && !isNaN(asset.price)) {
+                  handlePriceUpdate(asset.price);
                 }
               }}
               initialAsset={{
@@ -166,13 +171,6 @@ export default function TradePage() {
 
           <div className="lg:col-span-4">
             <div className="bg-card/30 backdrop-blur-md border border-white/10 p-6 lg:p-8 rounded-3xl relative overflow-hidden h-full">
-              <div className="mb-8">
-                <div className="text-[10px] tracking-[0.5em] text-gold uppercase mb-2">Live Valuation</div>
-                <div className="text-4xl sm:text-5xl font-serif text-ivory tracking-tighter">
-                  ${livePrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </div>
-              </div>
-
               <div className="w-full">
                 <SwapReset
                   key={`${activeAsset}-widget`}

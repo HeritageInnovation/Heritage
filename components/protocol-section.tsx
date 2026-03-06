@@ -80,16 +80,6 @@ export function ProtocolSection() {
           </div>
         ))}
       </div>
-
-      {/* CTA Button */}
-      <div className="mt-16 text-center">
-        <Link href="/governance">
-          <Button className="bg-gold hover:bg-gold/90 text-black font-sans">
-            VIEW GOVERNANCE
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </Link>
-      </div>
     </section>
   )
 }

@@ -13,16 +13,16 @@ export default function SupportPage() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-8 h-[1px] bg-gold" />
             <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans">
-              Assistance
+              Client Relations
             </span>
             <div className="w-8 h-[1px] bg-gold" />
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance mb-6">
-            Support Center
+            Concierge & Advisory
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto font-sans text-sm leading-relaxed">
-            Dedicated assistance for collectors, traders, and asset holders. 
-            Our concierge team is available to guide you through every step of your journey.
+            Personalized stewardship for global collectors and institutional partners. 
+            Our specialists are available to facilitate your transactions and asset management.
           </p>
         </div>
 
@@ -31,37 +31,37 @@ export default function SupportPage() {
           {[
             {
               icon: Mail,
-              title: "Email Support",
-              description: "Detailed inquiries and documentation requests",
-              contact: "support@heritage.demo",
-              hours: "24-48 hour response",
+              title: "Private Correspondence",
+              description: "For formal inquiries, documentation, and institutional requests",
+              contact: "relations@heritage.luxury",
+              hours: "Next business day response",
             },
             {
               icon: MessageCircle,
-              title: "Live Chat",
-              description: "Real-time assistance for urgent matters",
-              contact: "Available 9AM-6PM EST",
-              hours: "Instant response",
+              title: "Direct Desk",
+              description: "Real-time facilitation for active trading and platform navigation",
+              contact: "09:00—18:00 EST",
+              hours: "Immediate connectivity",
             },
             {
               icon: Shield,
-              title: "Security Team",
-              description: "Account security and verification issues",
-              contact: "security@heritage.demo",
-              hours: "Priority handling",
+              title: "Asset Security",
+              description: "Protocol for vaulting, verification, and account protection",
+              contact: "security@heritage.luxury",
+              hours: "Priority 4-hour protocol",
             },
           ].map((channel, i) => (
             <div
               key={i}
               className="border border-border bg-card p-8 hover:border-gold/40 transition-colors duration-500"
             >
-              <channel.icon className="w-6 h-6 text-gold mb-4" />
+              <channel.icon className="w-5 h-5 text-gold mb-6 stroke-[1.5px]" />
               <h3 className="font-serif text-xl text-ivory mb-2">{channel.title}</h3>
-              <p className="text-muted-foreground text-sm font-sans mb-4">
+              <p className="text-muted-foreground text-sm font-sans mb-4 leading-relaxed">
                 {channel.description}
               </p>
-              <p className="text-gold text-sm font-sans">{channel.contact}</p>
-              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans mt-2">
+              <p className="text-gold text-sm font-sans font-medium tracking-tight">{channel.contact}</p>
+              <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans mt-3 border-t border-border pt-3">
                 {channel.hours}
               </p>
             </div>
@@ -71,36 +71,36 @@ export default function SupportPage() {
         {/* FAQ Section */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-8">
-            <HelpCircle className="w-5 h-5 text-gold" />
-            <h2 className="font-serif text-2xl text-ivory">Frequently Asked Questions</h2>
+            <HelpCircle className="w-4 h-4 text-gold" />
+            <h2 className="font-serif text-2xl text-ivory tracking-tight">Platform Intelligence</h2>
           </div>
 
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {[
               {
-                question: "How does fractional ownership work?",
+                question: "The Mechanics of Fractional Ownership",
                 answer:
-                  "Fractional ownership allows multiple investors to collectively own a high-value asset. Each share represents a percentage of ownership, entitling holders to proportional benefits including potential appreciation and revenue streams.",
+                  "Assets are legally structured into discrete fractional interests. Each unit represents a verifiable claim on the underlying physical asset, documented via immutable ledger entries and legally binding frameworks.",
               },
               {
-                question: "What is the Physical Integrity Protocol?",
+                question: "The Physical Integrity Protocol",
                 answer:
-                  "Our proprietary protocol ensures every asset is authenticated, insured, and stored in world-class facilities. Blockchain verification provides immutable provenance records, while regular third-party audits maintain 99.8% integrity assurance.",
+                  "Every asset undergoes rigorous authentication and appraisal by certified specialists before being secured in Tier-IV climate-controlled vaults. We maintain an audited 99.8% integrity assurance across the portfolio.",
               },
               {
-                question: "How do I verify my identity for trading?",
+                question: "Identity Verification & Compliance",
                 answer:
-                  "Complete KYC verification through your profile settings. You'll need a government-issued ID and proof of address. Verification typically completes within 24 hours, unlocking full trading capabilities.",
+                  "To maintain the security of our private marketplace, all participants must complete institutional-grade KYC/AML screening. Onboarding typically concludes within one business cycle.",
               },
               {
-                question: "What are the trading fees?",
+                question: "Brokerage & Protocol Surcharges",
                 answer:
-                  "Heritage charges a 0.3% protocol fee per trade. Network gas fees apply for blockchain transactions. No hidden charges or withdrawal fees for verified accounts.",
+                  "Heritage maintains a transparent 0.3% brokerage fee per execution. This covers global custody, multi-risk insurance, and ledger maintenance. We operate with zero hidden carry costs.",
               },
               {
-                question: "How is asset custody handled?",
+                question: "Custodial Safeguards",
                 answer:
-                  "All physical assets are stored in specialized facilities with climate control, security systems, and comprehensive insurance. Digital assets are held in institutional-grade cold storage with multi-signature protection.",
+                  "Physical holdings are protected by comprehensive insurance and specialized security. Digital positions are secured via institutional cold storage with multi-signature authorization protocols.",
               },
             ].map((faq, i) => (
               <div key={i} className="border border-border bg-card p-6">
@@ -117,19 +117,19 @@ export default function SupportPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div className="border border-border bg-card p-8">
             <div className="flex items-center gap-3 mb-4">
-              <FileText className="w-5 h-5 text-gold" />
-              <h3 className="font-serif text-xl text-ivory">Documentation</h3>
+              <FileText className="w-4 h-4 text-gold" />
+              <h3 className="font-serif text-xl text-ivory">Institutional Resources</h3>
             </div>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {[
-                "Platform Overview",
-                "Trading Guide",
-                "Wallet Setup Tutorial",
-                "Asset Verification Process",
-                "API Documentation",
+                "Protocol Whitepaper",
+                "Asset Valuation Framework",
+                "Custodial Standards",
+                "Legal & Regulatory Overview",
+                "API Technical Documentation",
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-2 text-muted-foreground text-sm font-sans">
-                  <div className="w-1 h-1 bg-gold rounded-full" />
+                <li key={i} className="flex items-center gap-3 text-muted-foreground text-sm font-sans">
+                  <div className="w-1 h-[1px] bg-gold" />
                   <a href="#" className="hover:text-gold transition-colors duration-300">
                     {item}
                   </a>
@@ -140,85 +140,89 @@ export default function SupportPage() {
 
           <div className="border border-border bg-card p-8">
             <div className="flex items-center gap-3 mb-4">
-              <Clock className="w-5 h-5 text-gold" />
-              <h3 className="font-serif text-xl text-ivory">Response Times</h3>
+              <Clock className="w-4 h-4 text-gold" />
+              <h3 className="font-serif text-xl text-ivory">Service Standards</h3>
             </div>
-            <ul className="space-y-3 text-sm font-sans">
-              <li className="flex justify-between text-muted-foreground">
-                <span>General Inquiries</span>
-                <span className="text-ivory">24-48 hours</span>
+            <ul className="space-y-4 text-sm font-sans">
+              <li className="flex justify-between border-b border-border pb-2 text-muted-foreground">
+                <span>Advisory Inquiries</span>
+                <span className="text-ivory">24—48 Hours</span>
+              </li>
+              <li className="flex justify-between border-b border-border pb-2 text-muted-foreground">
+                <span>Account Stewardship</span>
+                <span className="text-ivory">12—24 Hours</span>
+              </li>
+              <li className="flex justify-between border-b border-border pb-2 text-muted-foreground">
+                <span>Security Escalations</span>
+                <span className="text-gold font-medium">4-Hour Priority</span>
               </li>
               <li className="flex justify-between text-muted-foreground">
-                <span>Account Issues</span>
-                <span className="text-ivory">12-24 hours</span>
-              </li>
-              <li className="flex justify-between text-muted-foreground">
-                <span>Security Concerns</span>
-                <span className="text-gold">4 hours priority</span>
-              </li>
-              <li className="flex justify-between text-muted-foreground">
-                <span>Live Chat</span>
-                <span className="text-ivory">Instant</span>
+                <span>Digital Concierge</span>
+                <span className="text-ivory">Immediate</span>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Contact Form */}
-        <div className="border border-border bg-card p-8 lg:p-12">
-          <h2 className="font-serif text-2xl text-ivory mb-8 text-center">Submit a Request</h2>
-          <form className="max-w-2xl mx-auto space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2 font-sans">
-                  Name
+        <div className="border border-border bg-card p-8 lg:p-16">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="font-serif text-3xl text-ivory mb-2 text-center tracking-tight">Formal Request</h2>
+            <p className="text-center text-muted-foreground text-[10px] uppercase tracking-[0.3em] mb-12 font-sans">Submit for Executive Review</p>
+            
+            <form className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="group">
+                  <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-3 font-sans group-focus-within:text-gold transition-colors">
+                    Legal Full Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full bg-transparent border-b border-border py-2 text-ivory outline-none focus:border-gold transition-colors duration-500 font-sans text-sm"
+                    placeholder="Enter your name"
+                  />
+                </div>
+                <div className="group">
+                  <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-3 font-sans group-focus-within:text-gold transition-colors">
+                    Institutional Email
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full bg-transparent border-b border-border py-2 text-ivory outline-none focus:border-gold transition-colors duration-500 font-sans text-sm"
+                    placeholder="email@example.com"
+                  />
+                </div>
+              </div>
+              <div className="group">
+                <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-3 font-sans group-focus-within:text-gold transition-colors">
+                  Inquiry Classification
                 </label>
-                <input
-                  type="text"
-                  className="w-full bg-background border border-border px-4 py-3 text-ivory outline-none focus:border-gold transition-colors duration-300 font-sans"
-                  placeholder="Your name"
+                <select className="w-full bg-transparent border-b border-border py-2 text-ivory outline-none focus:border-gold transition-colors duration-500 font-sans text-sm appearance-none cursor-pointer">
+                  <option className="bg-card">General Portfolio Advisory</option>
+                  <option className="bg-card">High-Value Trade Execution</option>
+                  <option className="bg-card">Custodial & Security Protocol</option>
+                  <option className="bg-card">Regulatory & Compliance Inquiry</option>
+                  <option className="bg-card">Asset Liquidation Request</option>
+                </select>
+              </div>
+              <div className="group">
+                <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-3 font-sans group-focus-within:text-gold transition-colors">
+                  Detailed Briefing
+                </label>
+                <textarea
+                  rows={4}
+                  className="w-full bg-transparent border-b border-border py-2 text-ivory outline-none focus:border-gold transition-colors duration-500 font-sans resize-none text-sm leading-relaxed"
+                  placeholder="Describe your inquiry..."
                 />
               </div>
-              <div>
-                <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2 font-sans">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full bg-background border border-border px-4 py-3 text-ivory outline-none focus:border-gold transition-colors duration-300 font-sans"
-                  placeholder="your@email.com"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2 font-sans">
-                Subject
-              </label>
-              <select className="w-full bg-background border border-border px-4 py-3 text-ivory outline-none focus:border-gold transition-colors duration-300 font-sans">
-                <option>General Inquiry</option>
-                <option>Account Issue</option>
-                <option>Trading Question</option>
-                <option>Security Concern</option>
-                <option>Asset Verification</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2 font-sans">
-                Message
-              </label>
-              <textarea
-                rows={5}
-                className="w-full bg-background border border-border px-4 py-3 text-ivory outline-none focus:border-gold transition-colors duration-300 font-sans resize-none"
-                placeholder="Describe your inquiry in detail..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-gold hover:bg-gold-light text-background text-sm tracking-[0.3em] uppercase py-4 transition-colors duration-300 font-sans"
-            >
-              Submit Request
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="w-full bg-gold hover:bg-gold-light text-background text-[10px] tracking-[0.5em] uppercase py-5 transition-all duration-500 font-sans font-bold"
+              >
+                Dispatch Request
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

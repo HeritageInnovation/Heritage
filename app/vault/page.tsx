@@ -68,7 +68,20 @@ export default function ProfilePage() {
       <main className="min-h-screen bg-background text-foreground flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <div className="animate-pulse text-gold font-serif text-xl tracking-widest uppercase text-[10px]">Authenticating Vault...</div>
+          <div className="text-center">
+            <div className="w-16 h-16 mb-6 mx-auto rounded-full border-2 border-gold/20 flex items-center justify-center bg-gold/5 shadow-[0_0_30px_rgba(212,175,55,0.1)]">
+              <Wallet className="w-8 h-8 text-gold animate-pulse" />
+            </div>
+            <h2 className="font-serif text-2xl text-ivory mb-3">Initializing Vault</h2>
+            <p className="text-muted-foreground text-sm font-sans max-w-md mx-auto">
+              Authenticating your Heritage identity and preparing secure access...
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+              <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+          </div>
         </div>
         <Footer />
       </main>

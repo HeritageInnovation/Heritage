@@ -36,7 +36,7 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end">
           {/* Left - Headline */}
           <div className="lg:col-span-7">
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.9] tracking-tight text-ivory text-balance">
+            <h1 className="font-serif text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl leading-[0.9] tracking-tight text-ivory text-balance">
               Where Physical
               <br />
               <span className="text-gold-gradient italic">Meets</span>
