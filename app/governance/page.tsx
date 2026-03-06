@@ -36,7 +36,7 @@ export default function ProtocolPage() {
       <Navbar />
       
       {/* Hero Section - Upgraded with Glassmorphism */}
-      <section className="relative pt-40 pb-24 px-6 overflow-hidden">
+      <section className="relative pt-32 pb-16 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent" />
         <div className="relative max-w-5xl mx-auto text-center">
           <Badge className="mb-8 bg-gold/10 text-gold border-gold/20 px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
@@ -52,7 +52,7 @@ export default function ProtocolPage() {
       </section>
 
       {/* Asset Lifecycle - Mobile Optimized Horizontal Scroll */}
-      <section className="py-24 border-y border-white/5 bg-white/[0.01]">
+      <section className="py-16 border-y border-white/5 bg-white/[0.01]">
         <div className="container mx-auto px-6">
           <div className="flex items-center gap-4 mb-16">
             <div className="h-[1px] w-12 bg-gold/50" />
@@ -103,7 +103,7 @@ export default function ProtocolPage() {
       </section>
 
       {/* The 51/49 Rule - Visualized */}
-      <section className="py-24 container mx-auto px-6">
+      <section className="py-16 container mx-auto px-6">
         <div className="max-w-4xl mx-auto bg-card border border-gold/30 rounded-3xl p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] -mr-32 -mt-32" />
           
@@ -146,15 +146,8 @@ export default function ProtocolPage() {
         </div>
       </section>
 
-      {/* Roles Section - With Role-Specific Colors */}
-      <section className="py-24 container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Reuse your Roles mapping here but wrap in different background gradients for Participant/Professional/Platform */}
-        </div>
-      </section>
-
       {/* Back to Top - Functional Fix */}
-      <div className="py-24 text-center">
+      <div className="py-16 text-center">
         <button 
           onClick={scrollToTop}
           className="group flex flex-col items-center gap-4 mx-auto"
