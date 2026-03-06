@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useActiveAccount, ConnectButton } from "thirdweb/react"
 import { client } from "@/lib/client"
-import { Wallet, TrendingUp, Shield, Gem } from "lucide-react"
+import { Shield, Wallet, TrendingUp, Landmark, Gem } from "lucide-react"
 
 // 1. "Super Smart" Asset Interface with Yield and Share
 interface Asset {
@@ -168,7 +168,7 @@ export default function ProfilePage() {
               </p>
             </div>
             <p className="text-2xl font-serif text-ivory">
-              2.45 <span className="text-sm text-muted-foreground font-sans">ETH</span>
+              2.4500 <span className="text-sm text-muted-foreground font-sans">ETH</span>
             </p>
           </div>
           
@@ -227,9 +227,11 @@ export default function ProfilePage() {
                   {/* Image/Visualizer Container */}
                   <div className="relative w-full sm:w-48 h-48 sm:h-auto flex-shrink-0 bg-black border-b sm:border-b-0 sm:border-r border-white/10 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-tr from-gold/20 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-sans text-xs tracking-[0.2em] uppercase z-10">
-                      [ {asset.category} ]
-                    </div>
+                    <img 
+                      src={asset.image} 
+                      alt={asset.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   
                   {/* Ledger Details */}

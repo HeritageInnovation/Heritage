@@ -24,49 +24,70 @@ export default function MatrixPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <div className="pt-32 pb-16 px-6 lg:px-12 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-[1px] bg-gold" />
-            <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans font-bold">
-              Protocol Layer
-            </span>
+      {/* Connected State - Show Main Content */}
+      {userAddress ? (
+        <div className="flex-1 pt-32 pb-16 px-6 lg:px-12 max-w-7xl mx-auto">
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-[1px] bg-gold" />
+              <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans font-bold">
+                Protocol Layer
+              </span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
+              Curation Matrix
+            </h1>
+            <p className="text-muted-foreground mt-4 font-sans max-w-2xl">
+              The 51/49 Governance engine. Authenticate assets, verify provenance, and participate in community-led luxury curation.
+            </p>
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory leading-[0.95] text-balance">
-            Curation Matrix
-          </h1>
-          <p className="text-muted-foreground mt-4 font-sans max-w-2xl">
-            The 51/49 Governance engine. Authenticate assets, verify provenance, and participate in community-led luxury curation.
-          </p>
-        </div>
 
-        {/* User Role Selector */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
-          <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-gold" />
-            <span className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-              Select Your Role
-            </span>
+          {/* User Role Selector */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
+            <div className="flex items-center gap-3">
+              <Shield className="w-5 h-5 text-gold" />
+              <span className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                Select Your Role
+              </span>
+            </div>
+            
+            <div className="bg-black/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
+              {(['participant', 'professional', 'investor'] as const).map((role) => (
+                <button
+                  key={role}
+                  onClick={() => setUserRole(role)}
+                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-xl text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.3em] uppercase transition-all duration-300 ${
+                    userRole === role 
+                      ? 'bg-gold/10 border border-gold/30 text-gold font-bold shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
+                      : 'text-muted-foreground border border-transparent hover:text-ivory hover:bg-white/5'
+                  }`}
+                >
+                  <span className="whitespace-nowrap">{role}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          
-          <div className="bg-black/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
-            {(['participant', 'professional', 'investor'] as const).map((role) => (
-              <button
-                key={role}
-                onClick={() => setUserRole(role)}
-                className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-xl text-[10px] tracking-[0.2em] sm:tracking-[0.3em] uppercase transition-all duration-300 truncate ${
-                  userRole === role 
-                    ? 'bg-gold/10 border border-gold/30 text-gold font-bold shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
-                    : 'text-muted-foreground border border-transparent hover:text-ivory hover:bg-white/5'
-                }`}
-              >
-                <span className="truncate max-w-[60px] sm:max-w-none">{role}</span>
-              </button>
-            ))}
+
+          {/* Main Matrix Content */}
+          <div className="flex-1">
+            <CurationDashboard userAddress={userAddress} userRole={userRole} />
+          </div>
+
+          {/* Protocol Footer Note */}
+          <div className="mt-12 border border-white/10 bg-card/30 p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-gold/30">
+            <Info className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-2">
+                <span className="text-ivory font-bold">Mandate Protocol:</span>
+              </p>
+              <p className="text-muted-foreground text-sm leading-relaxed font-sans">
+                All submissions in the Matrix are subject to the Heritage 51% Governance mandate. Assets must pass Participant staking (USDT) and Professional provenance verification before being admitted to the secondary market.
+              </p>
+            </div>
           </div>
         </div>
-
+      ) : (
+        /* Disconnected State - Show Lock Screen */
         <div className="flex-1 pt-32 pb-16 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
           <div className="mb-8 flex flex-col items-center">
             <div className="w-20 h-20 mb-6 rounded-full border-2 border-gold/20 flex items-center justify-center bg-gold/5 shadow-[0_0_30px_rgba(212,175,55,0.1)]">
@@ -78,7 +99,6 @@ export default function MatrixPage() {
             <p className="text-xl text-muted-foreground font-sans max-w-2xl mx-auto mb-10">
               Connect your wallet to access the Matrix, stake USDT, and review active provenance mandates.
             </p>
-            
             <div className="p-[1px] bg-gradient-to-b from-gold/50 to-transparent rounded-xl shadow-lg">
               <div className="bg-background rounded-xl p-1">
                 <ConnectButton 
@@ -96,21 +116,7 @@ export default function MatrixPage() {
             </div>
           </div>
         </div>
-
-        {/* Protocol Footer Note */}
-        <div className="mt-12 border border-white/10 bg-card/30 p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-gold/30">
-          <Info className="w-5 h-5 text-gold shrink-0 mt-0.5" />
-          <div>
-            <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-2">
-              <span className="text-ivory font-bold">Mandate Protocol:</span>
-            </p>
-            <p className="text-muted-foreground text-sm leading-relaxed font-sans">
-              All submissions in the Matrix are subject to the Heritage 51% Governance mandate. Assets must pass Participant staking (USDT) and Professional provenance verification before being admitted to the secondary market.
-            </p>
-          </div>
-        </div>
-      </div>
-
+      )}
       <Footer />
     </main>
   )
