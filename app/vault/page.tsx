@@ -146,87 +146,89 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        {/* Wealth Engine Stats - Optimized */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <div className="border border-white/10 bg-card/30 p-6 rounded-xl hover:border-gold/30 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <Wallet className="w-4 h-4 text-gold" />
-              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                Identity
+        {/* Wealth Engine Stats - Mobile Optimized */}
+        <div className="space-y-3 mb-8">
+          {/* Identity Card - Full Width */}
+          <div className="border border-white/10 bg-card/30 p-3 rounded-xl hover:border-gold/30 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Wallet className="w-3 h-3 text-gold" />
+                <p className="text-[8px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                  Identity
+                </p>
+              </div>
+              <p className="text-xs sm:text-sm font-mono text-ivory truncate">
+                {account?.address ? `${account.address.slice(0, 4)}...${account.address.slice(-4)}` : "0x1234...5678"}
               </p>
             </div>
-            <p className="text-lg font-mono text-ivory truncate">
-              {account?.address ? `${account.address.slice(0, 8)}...${account.address.slice(-6)}` : "0x1234...5678"}
-            </p>
           </div>
           
-          <div className="border border-white/10 bg-card/30 p-6 rounded-xl hover:border-gold/30 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-4 h-4 rounded-full bg-blue-500" />
-              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                Liquid Balance
-              </p>
+          {/* Stats Grid - Compact 3 cards */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="border border-white/10 bg-card/30 p-3 rounded-xl hover:border-gold/30 transition-colors">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-muted-foreground uppercase font-sans mb-1">
+                  Balance
+                </p>
+                <p className="text-base sm:text-lg font-serif text-ivory">2.45</p>
+                <p className="text-xs text-muted-foreground font-sans">ETH</p>
+              </div>
             </div>
-            <p className="text-2xl font-serif text-ivory">
-              2.4500 <span className="text-sm text-muted-foreground font-sans">ETH</span>
-            </p>
-          </div>
-          
-          <div className="border border-gold/20 bg-card/30 p-6 rounded-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full blur-3xl -mr-10 -mt-10" />
-            <div className="flex items-center gap-3 mb-4 relative z-10">
-              <Shield className="w-4 h-4 text-gold" />
-              <p className="text-[10px] tracking-[0.2em] text-gold uppercase font-sans font-bold">
-                Vaulted Value
-              </p>
+            
+            <div className="border border-gold/20 bg-card/30 p-3 rounded-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-12 h-12 bg-gold/5 rounded-full blur-2xl -mr-4 -mt-4" />
+              <div className="flex flex-col items-center text-center relative z-10">
+                <Shield className="w-3 h-3 text-gold mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-gold uppercase font-sans font-bold mb-1">
+                  Vaulted
+                </p>
+                <p className="text-base sm:text-lg font-serif text-ivory">$2.13M</p>
+              </div>
             </div>
-            <p className="text-3xl font-serif text-ivory tracking-tight relative z-10">$2,132,000</p>
-          </div>
 
-          <div className="border border-green-500/20 bg-card/30 p-6 rounded-xl relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl -mr-10 -mt-10" />
-            <div className="flex items-center gap-3 mb-4 relative z-10">
-              <TrendingUp className="w-4 h-4 text-green-400" />
-              <p className="text-[10px] tracking-[0.2em] text-green-400 uppercase font-sans font-bold">
-                Accrued Yield
-              </p>
+            <div className="border border-green-500/20 bg-card/30 p-3 rounded-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-12 h-12 bg-green-500/5 rounded-full blur-2xl -mr-4 -mt-4" />
+              <div className="flex flex-col items-center text-center relative z-10">
+                <TrendingUp className="w-3 h-3 text-green-400 mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-green-400 uppercase font-sans font-bold mb-1">
+                  Yield
+                </p>
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  <p className="text-base sm:text-lg font-serif text-green-400">${(totalYield / 1000).toFixed(1)}k</p>
+                </div>
+              </div>
             </div>
-            <p className="text-3xl font-serif text-green-400 tracking-tight relative z-10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              ${totalYield.toLocaleString(undefined, { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-              })}
-            </p>
           </div>
         </div>
 
-        {/* Heritage Asset Ledger - Simplified */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
-            <Gem className="w-5 h-5 text-gold" />
-            <h2 className="font-serif text-2xl text-ivory">Secured Holdings</h2>
-            <span className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans ml-auto bg-white/5 px-3 py-1 rounded-full">
-              {heritageAssets.length} Active Lots
+        {/* Heritage Asset Ledger - Mobile Simplified */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-3">
+            <Gem className="w-4 h-4 text-gold" />
+            <h2 className="font-serif text-lg sm:text-xl text-ivory">Holdings</h2>
+            <span className="text-[8px] tracking-[0.2em] text-muted-foreground uppercase font-sans ml-auto bg-white/5 px-2 py-1 rounded-full">
+              {heritageAssets.length} Assets
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-3">
             {heritageAssets.map((asset) => (
               <div
                 key={asset.id}
-                className="group border border-white/10 bg-card/40 overflow-hidden hover:border-gold/40 hover:bg-card/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-all duration-500 rounded-2xl relative"
+                className="border border-white/10 bg-card/40 overflow-hidden hover:border-gold/40 hover:bg-card/60 transition-all duration-500 rounded-xl relative"
               >
-                {/* 51/49 Authenticity Badge */}
-                <div className="absolute top-4 right-4 z-20 bg-black/60 border border-gold/30 px-3 py-1 rounded-full flex items-center gap-2">
-                  <Shield className="w-3 h-3 text-gold" />
-                  <span className="text-[8px] tracking-widest text-gold uppercase font-bold">Verified Vaulted</span>
+                {/* Compact Badge */}
+                <div className="absolute top-2 right-2 z-20 bg-black/60 border border-gold/30 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <Shield className="w-2 h-2 text-gold" />
+                  <span className="text-[6px] tracking-widest text-gold uppercase font-bold">Vaulted</span>
                 </div>
 
-                <div className="flex flex-col sm:flex-row h-full">
-                  {/* Image/Visualizer Container */}
-                  <div className="relative w-full sm:w-48 h-48 sm:h-auto flex-shrink-0 bg-black border-b sm:border-b-0 sm:border-r border-white/10 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-gold/20 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="flex items-center gap-3 p-3">
+                  {/* Image */}
+                  <div className="relative w-16 h-16 flex-shrink-0 bg-black rounded-lg overflow-hidden border border-white/10">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-gold/20 via-transparent to-transparent opacity-50" />
                     <img 
                       src={asset.image} 
                       alt={asset.name}
@@ -234,46 +236,39 @@ export default function ProfilePage() {
                     />
                   </div>
                   
-                  {/* Ledger Details */}
-                  <div className="p-6 flex-1 flex flex-col justify-between relative z-10">
-                    <div>
-                      <h3 className="font-serif text-xl text-ivory mb-6 leading-tight group-hover:text-gold transition-colors duration-300">
-                        {asset.name}
-                      </h3>
-                      
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between pb-3 border-b border-white/5">
-                          <div>
-                            <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-1">
-                              Fractions Held
-                            </p>
-                            <p className="text-sm text-ivory font-mono">{asset.tokenAmount}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-1">
-                              Current Value
-                            </p>
-                            <p className="text-sm text-ivory font-mono">{asset.value}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-1">
-                              Live Yield
-                            </p>
-                            <p className="text-sm text-green-400 font-mono flex items-center gap-1">
-                              <TrendingUp className="w-3 h-3" />
-                              +{asset.yield}% APY
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-[9px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-1">
-                              Syndicate Share
-                            </p>
-                            <p className="text-sm text-gold font-mono">{asset.share}%</p>
-                          </div>
-                        </div>
+                  {/* Details */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-serif text-sm text-ivory mb-2 leading-tight truncate group-hover:text-gold transition-colors duration-300">
+                      {asset.name}
+                    </h3>
+                    
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <p className="text-[7px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-0.5">
+                          Fractions
+                        </p>
+                        <p className="text-ivory font-mono">{asset.tokenAmount}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[7px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-0.5">
+                          Value
+                        </p>
+                        <p className="text-ivory font-mono">{asset.value}</p>
+                      </div>
+                      <div>
+                        <p className="text-[7px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-0.5">
+                          Yield
+                        </p>
+                        <p className="text-green-400 font-mono flex items-center gap-0.5">
+                          <TrendingUp className="w-2 h-2" />
+                          +{asset.yield}%
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[7px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-0.5">
+                          Share
+                        </p>
+                        <p className="text-gold font-mono">{asset.share}%</p>
                       </div>
                     </div>
                   </div>

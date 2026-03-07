@@ -13,7 +13,7 @@ export function Footer() {
         <div className="lg:col-span-4">
           <Link href="/" className="flex flex-col leading-none mb-6 group">
             <span className="font-serif text-2xl tracking-[0.1em] text-ivory group-hover:text-gold transition-colors">
-              MMXXVI RICKY PARK
+              RICKY PARK PROTOTYPE
             </span>
             <span className="text-[9px] tracking-[0.4em] text-gold uppercase mt-1.5">
               Auction House

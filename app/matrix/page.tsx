@@ -103,113 +103,106 @@ export default function MatrixPage() {
           </p>
         </div>
 
-        {/* Matrix Stats - Consistent with Vault */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <div className="border border-white/10 bg-card/30 p-6 rounded-xl hover:border-gold/30 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <Wallet className="w-4 h-4 text-gold" />
-              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                Identity
+        {/* Matrix Stats - Ultra Mobile Optimized */}
+        <div className="space-y-3 mb-8">
+          {/* Identity Card - Full Width */}
+          <div className="border border-white/10 bg-card/30 p-3 rounded-xl hover:border-gold/30 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Wallet className="w-3 h-3 text-gold" />
+                <p className="text-[8px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
+                  Identity
+                </p>
+              </div>
+              <p className="text-xs sm:text-sm font-mono text-ivory truncate">
+                {account?.address ? `${account.address.slice(0, 4)}...${account.address.slice(-4)}` : "0x1234...5678"}
               </p>
             </div>
-            <p className="text-lg font-mono text-ivory truncate">
-              {account?.address ? `${account.address.slice(0, 8)}...${account.address.slice(-6)}` : "0x1234...5678"}
-            </p>
           </div>
           
-          <div className="border border-white/10 bg-card/30 p-6 rounded-xl hover:border-gold/30 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <Grid3x3 className="w-4 h-4 text-blue-400" />
-              <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans">
-                Total Assets
-              </p>
+          {/* Stats Grid - Compact 3 cards */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="border border-white/10 bg-card/30 p-3 rounded-xl hover:border-gold/30 transition-colors">
+              <div className="flex flex-col items-center text-center">
+                <Grid3x3 className="w-3 h-3 text-blue-400 mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-muted-foreground uppercase font-sans mb-1">
+                  Assets
+                </p>
+                <p className="text-base sm:text-lg font-serif text-ivory">47</p>
+              </div>
             </div>
-            <p className="text-2xl font-serif text-ivory">
-              47 <span className="text-sm text-muted-foreground font-sans">Lots</span>
-            </p>
-          </div>
-          
-          <div className="border border-gold/20 bg-card/30 p-6 rounded-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full blur-3xl -mr-10 -mt-10" />
-            <div className="flex items-center gap-3 mb-4 relative z-10">
-              <Shield className="w-4 h-4 text-gold" />
-              <p className="text-[10px] tracking-[0.2em] text-gold uppercase font-sans font-bold">
-                Verified
-              </p>
+            
+            <div className="border border-gold/20 bg-card/30 p-3 rounded-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-12 h-12 bg-gold/5 rounded-full blur-2xl -mr-4 -mt-4" />
+              <div className="flex flex-col items-center text-center relative z-10">
+                <Shield className="w-3 h-3 text-gold mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-gold uppercase font-sans font-bold mb-1">
+                  Verified
+                </p>
+                <p className="text-base sm:text-lg font-serif text-ivory">23</p>
+              </div>
             </div>
-            <p className="text-3xl font-serif text-ivory tracking-tight relative z-10">23</p>
-          </div>
 
-          <div className="border border-green-500/20 bg-card/30 p-6 rounded-xl relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl -mr-10 -mt-10" />
-            <div className="flex items-center gap-3 mb-4 relative z-10">
-              <TrendingUp className="w-4 h-4 text-green-400" />
-              <p className="text-[10px] tracking-[0.2em] text-green-400 uppercase font-sans font-bold">
-                Active Stakes
-              </p>
+            <div className="border border-green-500/20 bg-card/30 p-3 rounded-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-12 h-12 bg-green-500/5 rounded-full blur-2xl -mr-4 -mt-4" />
+              <div className="flex flex-col items-center text-center relative z-10">
+                <TrendingUp className="w-3 h-3 text-green-400 mb-2" />
+                <p className="text-[8px] tracking-[0.1em] text-green-400 uppercase font-sans font-bold mb-1">
+                  Stakes
+                </p>
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  <p className="text-base sm:text-lg font-serif text-green-400">12</p>
+                </div>
+              </div>
             </div>
-            <p className="text-3xl font-serif text-green-400 tracking-tight relative z-10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              12
-            </p>
           </div>
         </div>
 
-        {/* Curation Dashboard Content */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
-            <Gem className="w-5 h-5 text-gold" />
-            <h2 className="font-serif text-2xl text-ivory">Active Curation</h2>
-            <span className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans ml-auto bg-white/5 px-3 py-1 rounded-full">
-              Governance Mode
-            </span>
+        {/* Curation Dashboard Content - Simplified */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-3">
+            <Gem className="w-4 h-4 text-gold" />
+            <h2 className="font-serif text-lg sm:text-xl text-ivory">Curation</h2>
           </div>
 
           <CurationDashboard userAddress={account?.address || ""} />
         </div>
 
-        {/* Protocol Information - Consistent with Vault styling */}
-        <div className="border border-white/10 bg-card/30 p-8 rounded-2xl">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
-              <Info className="w-5 h-5 text-gold" />
+        {/* Protocol Information - Mobile Simplified */}
+        <div className="border border-white/10 bg-card/30 p-4 rounded-xl">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
+              <Info className="w-4 h-4 text-gold" />
             </div>
             <div className="flex-1">
-              <p className="text-[10px] tracking-[0.2em] text-gold uppercase font-sans mb-4">
-                Protocol Mandate
+              <p className="text-[8px] tracking-[0.2em] text-gold uppercase font-sans mb-3">
+                Protocol
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <p className="text-sm text-ivory font-medium">Governance Requirements</p>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      51% community approval for asset entry
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs text-ivory font-medium mb-2">Governance</p>
+                  <ul className="space-y-1 text-xs text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1 h-1 bg-gold rounded-full flex-shrink-0" />
+                      51% community approval
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      Professional verification ensures authenticity
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      USDT staking required for participation
+                    <li className="flex items-center gap-2">
+                      <div className="w-1 h-1 bg-gold rounded-full flex-shrink-0" />
+                      Professional verification
                     </li>
                   </ul>
                 </div>
-                <div className="space-y-3">
-                  <p className="text-sm text-ivory font-medium">Trading Protocol</p>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      Fractional trading post-verification
+                <div>
+                  <p className="text-xs text-ivory font-medium mb-2">Trading</p>
+                  <ul className="space-y-1 text-xs text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1 h-1 bg-gold rounded-full flex-shrink-0" />
+                      Fractional trading
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      Liquidity pools enable seamless exchange
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
-                      Real-time provenance tracking
+                    <li className="flex items-center gap-2">
+                      <div className="w-1 h-1 bg-gold rounded-full flex-shrink-0" />
+                      Liquidity pools
                     </li>
                   </ul>
                 </div>

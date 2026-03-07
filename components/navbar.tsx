@@ -15,6 +15,7 @@ export function Navbar() {
   useEffect(() => setMounted(true), [])
 
   const navLinks = [
+    { name: "LOTS", href: "/#lots" },
     { name: "EXCHANGE", href: "/exchange" },
     { name: "MATRIX", href: "/matrix" },
     { name: "VAULT", href: "/vault" },

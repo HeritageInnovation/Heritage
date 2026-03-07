@@ -96,7 +96,7 @@ export function CuratedLots() {
   // No useEffect - no Sanity connection attempt
 
   return (
-    <section id="markets" className="py-24 lg:py-40 px-6 lg:px-12 max-w-[1600px] mx-auto bg-[#050505]">
+    <section id="lots" className="py-24 lg:py-40 px-6 lg:px-12 max-w-[1600px] mx-auto bg-[#050505]">
       {/* Section Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 lg:mb-24">
         <div>

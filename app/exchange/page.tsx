@@ -61,50 +61,44 @@ export default function TradePage() {
                 Execute institutional-grade allocations across sovereign protocols and verified heritage assets.
               </p>
               
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="mt-6 space-y-4">
                 <div>
-                  <p className="text-[10px] tracking-[0.2em] text-gold uppercase font-sans font-bold mb-4">
-                    Heritage Selections
+                  <p className="text-[8px] tracking-[0.2em] text-gold uppercase font-sans font-bold mb-3">
+                    Heritage Assets
                   </p>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     {LUXURY_ASSETS.map((key) => (
                       <button
                         key={key}
                         onClick={() => { setActiveAsset(key); setLivePrice(ASSET_MAP[key].currentPrice); }}
-                        className={`relative px-4 py-2 text-[10px] tracking-[0.4em] uppercase transition-all duration-500 ${
+                        className={`relative px-3 py-2 text-[9px] tracking-[0.3em] uppercase transition-all duration-500 rounded-lg border ${
                           activeAsset === key
-                            ? 'text-gold font-medium'
-                            : 'text-muted-foreground hover:text-ivory'
+                            ? 'text-gold border-gold/30 bg-gold/5 font-medium'
+                            : 'text-muted-foreground border-white/10 hover:text-ivory'
                         }`}
                       >
                         {key}
-                        {activeAsset === key && (
-                          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent" />
-                        )}
                       </button>
                     ))}
                   </div>
                 </div>
                 
                 <div>
-                  <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-sans font-bold mb-4">
-                    Sovereign Protocols
+                  <p className="text-[8px] tracking-[0.2em] text-muted-foreground uppercase font-sans font-bold mb-3">
+                    Protocol Assets
                   </p>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="grid grid-cols-3 gap-2">
                     {CRYPTO_ASSETS.map((key) => (
                       <button
                         key={key}
                         onClick={() => { setActiveAsset(key); setLivePrice(ASSET_MAP[key].currentPrice); }}
-                        className={`relative px-4 py-2 text-[10px] tracking-[0.4em] uppercase transition-all duration-500 ${
+                        className={`relative px-3 py-2 text-[9px] tracking-[0.3em] uppercase transition-all duration-500 rounded-lg border ${
                           activeAsset === key
-                            ? 'text-gold font-medium'
-                            : 'text-muted-foreground hover:text-ivory'
+                            ? 'text-gold border-gold/30 bg-gold/5 font-medium'
+                            : 'text-muted-foreground border-white/10 hover:text-ivory'
                         }`}
                       >
                         {key}
-                        {activeAsset === key && (
-                          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent" />
-                        )}
                       </button>
                     ))}
                   </div>
@@ -113,7 +107,7 @@ export default function TradePage() {
             </div>
 
             {/* Right - Asset Context */}
-            <div className="lg:col-span-4 lg:border-l lg:border-gold/20 lg:pl-8">
+            <div className="hidden lg:block lg:col-span-4 lg:border-l lg:border-gold/20 lg:pl-8">
               <div className="space-y-6">
                 <p className="text-muted-foreground text-sm leading-relaxed font-sans">
                   This is a prototype demonstration. All market data, prices, and trading functionalities are simulated for visualization purposes only.
@@ -141,6 +135,24 @@ export default function TradePage() {
         </div>
       </section>
 
+        {/* Mobile Stats Bar */}
+        <div className="lg:hidden px-6 py-4 bg-card/30 border-b border-white/10">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <p className="text-[8px] tracking-[0.2em] text-gold uppercase font-sans mb-1">Valuation</p>
+              <p className="text-lg font-serif text-ivory">${livePrice.toLocaleString()}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[8px] tracking-[0.2em] text-muted-foreground uppercase font-sans mb-1">Momentum</p>
+              <p className={`text-lg font-serif ${
+                ASSET_MAP[activeAsset].dailyChange >= 0 ? 'text-green-400' : 'text-red-400'
+              }`}>
+                {ASSET_MAP[activeAsset].dailyChange > 0 ? '+' : ''}{ASSET_MAP[activeAsset].dailyChange}%
+              </p>
+            </div>
+          </div>
+        </div>
+
       {/* Architectural Divider */}
       <div className="px-6 lg:px-12 opacity-30">
         <div className="h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent" />
@@ -166,16 +178,16 @@ export default function TradePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-white/5 border border-white/10 shadow-2xl overflow-hidden rounded-2xl">
           
           {/* Intelligence Interface */}
-          <div className="lg:col-span-8 bg-card/40 p-8 lg:p-12">
-            <div className="flex items-center justify-between mb-12">
+          <div className="lg:col-span-8 bg-card/40 p-4 lg:p-12">
+            <div className="flex items-center justify-between mb-6 lg:mb-12">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-1 bg-gold rounded-full shadow-[0_0_8px_#D4AF37]" />
-                <span className="text-[10px] tracking-[0.4em] text-gold uppercase font-sans font-bold">
+                <span className="text-[8px] lg:text-[10px] tracking-[0.4em] text-gold uppercase font-sans font-bold">
                   Technical Intelligence
                 </span>
               </div>
             </div>
-            <div className="h-[500px] lg:h-[650px] grayscale-[0.5] hover:grayscale-0 transition-all duration-1000">
+            <div className="h-[400px] lg:h-[650px] grayscale-[0.5] hover:grayscale-0 transition-all duration-1000">
               <TradingViewChart 
                 key={activeAsset} 
                 initialAsset={{
@@ -188,73 +200,73 @@ export default function TradePage() {
           </div>
 
           {/* Allocation Panel */}
-          <div className="lg:col-span-4 bg-card/30 p-8 lg:p-12 flex flex-col justify-between">
-            <div className="space-y-12">
+          <div className="lg:col-span-4 bg-card/30 p-4 lg:p-12">
+            <div className="space-y-6 lg:space-y-12">
               <div className="flex items-center gap-3">
-                <Zap className="w-4 h-4 text-gold" />
-                <span className="text-[10px] tracking-[0.2em] text-gold uppercase font-sans font-bold">Capital Allocation</span>
+                <Zap className="w-3 h-3 lg:w-4 lg:h-4 text-gold" />
+                <span className="text-[8px] lg:text-[10px] tracking-[0.2em] text-gold uppercase font-sans font-bold">Capital Allocation</span>
               </div>
               
-              <div className="space-y-8">
+              <div className="space-y-4 lg:space-y-8">
                 <div className="group">
-                  <label className="text-[9px] tracking-[0.3em] text-muted-foreground uppercase font-sans block mb-3 group-focus-within:text-gold transition-colors">
-                    Deployment Amount (USDT)
+                  <label className="text-[8px] lg:text-[9px] tracking-[0.3em] text-muted-foreground uppercase font-sans block mb-2 lg:mb-3 group-focus-within:text-gold transition-colors">
+                    Amount (USDT)
                   </label>
-                  <div className="flex items-center border-b border-white/10 pb-4 group-focus-within:border-gold transition-all">
+                  <div className="flex items-center border-b border-white/10 pb-3 lg:pb-4 group-focus-within:border-gold transition-all">
                     <input 
                       type="text" 
                       placeholder="0.00" 
-                      className="bg-transparent text-3xl font-serif text-ivory outline-none flex-1 tracking-tighter" 
+                      className="bg-transparent text-xl lg:text-3xl font-serif text-ivory outline-none flex-1 tracking-tighter" 
                     />
                   </div>
                 </div>
                 
                 <div className="group">
-                  <label className="text-[9px] tracking-[0.3em] text-muted-foreground uppercase font-sans block mb-3">
-                    Projected Position ({activeAsset})
+                  <label className="text-[8px] lg:text-[9px] tracking-[0.3em] text-muted-foreground uppercase font-sans block mb-2 lg:mb-3">
+                    Position ({activeAsset})
                   </label>
-                  <div className="flex items-center border-b border-white/10 pb-4">
+                  <div className="flex items-center border-b border-white/10 pb-3 lg:pb-4">
                     <input 
                       type="text" 
                       readOnly 
                       placeholder="0.00" 
-                      className="bg-transparent text-3xl font-serif text-muted-foreground outline-none flex-1 tracking-tighter" 
+                      className="bg-transparent text-xl lg:text-3xl font-serif text-muted-foreground outline-none flex-1 tracking-tighter" 
                     />
                   </div>
                 </div>
               </div>
 
-              <button className="w-full group relative overflow-hidden border border-gold/30 text-gold py-4 text-[10px] tracking-[0.3em] font-bold uppercase transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black rounded-xl">
+              <button className="w-full group relative overflow-hidden border border-gold/30 text-gold py-3 lg:py-4 text-[9px] lg:text-[10px] tracking-[0.3em] font-bold uppercase transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black rounded-xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-gold/0 via-gold/10 to-gold/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                <span className="relative">Execute Allocation</span>
+                <span className="relative">Execute</span>
               </button>
               
-              <p className="text-[9px] text-center text-muted-foreground/60 uppercase tracking-[0.2em] font-sans">
-                Order fulfillment via Heritage Liquidity Network
+              <p className="text-[8px] lg:text-[9px] text-center text-muted-foreground/60 uppercase tracking-[0.2em] font-sans">
+                Heritage Liquidity Network
               </p>
             </div>
 
-            {/* Verification Metadata */}
-            <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
+            {/* Verification Metadata - Simplified on Mobile */}
+            <div className="mt-8 lg:mt-16 pt-6 lg:pt-10 border-t border-white/10 space-y-4 lg:space-y-8">
               <div className="flex items-center gap-3">
-                <Shield className="w-4 h-4 text-gold opacity-80" />
-                <span className="text-[10px] tracking-[0.2em] text-ivory uppercase font-sans">
-                  Stewardship Credentials
+                <Shield className="w-3 h-3 lg:w-4 lg:h-4 text-gold opacity-80" />
+                <span className="text-[8px] lg:text-[10px] tracking-[0.2em] text-ivory uppercase font-sans">
+                  Credentials
                 </span>
               </div>
               
-              <div className="space-y-5">
-                <div className="flex justify-between items-center text-[9px] tracking-[0.2em] uppercase">
-                  <span className="text-muted-foreground">Appraisal Audit</span>
-                  <span className="text-gold underline cursor-pointer hover:text-ivory">GIA Certified</span>
+              <div className="space-y-3 lg:space-y-5">
+                <div className="flex justify-between items-center text-[8px] lg:text-[9px] tracking-[0.2em] uppercase">
+                  <span className="text-muted-foreground">Audit</span>
+                  <span className="text-gold underline cursor-pointer hover:text-ivory">GIA</span>
                 </div>
-                <div className="flex justify-between items-center text-[9px] tracking-[0.2em] uppercase">
-                  <span className="text-muted-foreground">Storage Facility</span>
-                  <span className="text-ivory">Geneva Free Port</span>
+                <div className="flex justify-between items-center text-[8px] lg:text-[9px] tracking-[0.2em] uppercase">
+                  <span className="text-muted-foreground">Storage</span>
+                  <span className="text-ivory">Geneva</span>
                 </div>
-                <div className="flex justify-between items-center text-[9px] tracking-[0.2em] uppercase">
-                  <span className="text-muted-foreground">Insurance Policy</span>
-                  <span className="text-emerald-500 font-bold underline">Lloyd's Secured</span>
+                <div className="flex justify-between items-center text-[8px] lg:text-[9px] tracking-[0.2em] uppercase">
+                  <span className="text-muted-foreground">Insurance</span>
+                  <span className="text-emerald-500 font-bold underline">Lloyd's</span>
                 </div>
               </div>
             </div>

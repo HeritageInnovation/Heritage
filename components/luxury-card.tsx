@@ -111,10 +111,13 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
                 <div className="relative" ref={shareMenuRef}>
                   <button
                     onClick={() => setShowShareMenu(!showShareMenu)}
-                    className="px-3 py-2 border border-gold/40 text-gold text-[9px] tracking-[0.2em] uppercase hover:bg-gold hover:text-background transition-all duration-300 font-sans flex items-center gap-1"
+                    className="relative px-4 py-2.5 bg-gradient-to-r from-gold/10 to-gold/5 border border-gold/30 text-gold text-[9px] tracking-[0.25em] uppercase font-sans font-medium rounded-lg hover:from-gold hover:to-gold/90 hover:text-black hover:border-gold hover:shadow-gold/25 hover:shadow-xl transition-all duration-500 ease-out overflow-hidden group"
                   >
-                    <Share2 className="w-3 h-3" />
-                    Share
+                    <span className="relative z-10 flex items-center gap-2">
+                      <Share2 className="w-3.5 h-3.5" />
+                      <span>Share</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-ivory/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out origin-left" />
                   </button>
                   
                   {showShareMenu && (
@@ -196,13 +199,14 @@ export function LuxuryCard({ item, priority = false, fallbackImageIndex = 0 }: L
           </div>
           <Link
             href={`/exchange/${item.tokenAddress}`}
-            className="group relative inline-flex items-center justify-center px-3 py-2 bg-black border border-gold/50 text-gold text-[10px] tracking-[0.15em] uppercase font-sans font-medium rounded-sm hover:bg-gold hover:text-black hover:border-gold hover:shadow-lg transition-all duration-500 ease-out overflow-hidden"
+            className="relative px-5 py-3 bg-gradient-to-r from-black/80 via-black/70 to-black/60 border border-gold/30 text-gold text-[10px] tracking-[0.2em] uppercase font-sans font-semibold rounded-full hover:from-gold hover:to-gold/90 hover:text-black hover:border-gold hover:shadow-gold/30 hover:shadow-2xl hover:scale-105 transition-all duration-500 ease-out overflow-hidden group"
           >
-            <span className="relative z-10 flex items-center gap-1.5">
+            <span className="relative z-10 flex items-center gap-2">
               <span>Enter Auction</span>
-              <ArrowUpRight className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              <ArrowUpRight className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform duration-300" />
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-gold/20 to-gold/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
+            <div className="absolute inset-0 bg-gradient-to-r from-ivory/30 via-ivory/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out origin-left" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Link>
         </div>
       </div>
